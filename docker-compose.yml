@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  frontend:
+    image: ${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${COMPOSE_TAG}
+    labels:
+      caddy.address: ${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE}.${DOMAIN}
+      caddy.targetport: 80
+      caddy.proxy.transparent: ""
+      caddy.log: "stdout"
+    expose:
+      - 80
+
+networks:
+  default:
+    external:
+      name: caddy

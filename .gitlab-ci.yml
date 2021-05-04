@@ -1,0 +1,131 @@
+image:
+  name: node:alpine
+
+stages:
+  - lint
+  - test
+  - node-build
+  - build
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .env
+    - node_modules/
+
+before_script:
+  - echo "DOMAIN=${DOMAIN}" > ./.env
+
+lint:
+  stage: lint
+  script:
+    - yarn
+    - yarn lint
+  only:
+    - merge_request
+    - dev
+
+test:
+  stage: test
+  image: gitlab.beilich.de:4567/docker-utilities/node-chrome-ci
+  script:
+    - yarn
+    - yarn test
+  only:
+    - never
+
+node-build:
+  stage: node-build
+  script:
+    - yarn
+    - sed -i "/\"API_URL\"/ s|\"\(:\) \".*\"|\"\1 \"${API_URL}\"|" public/config/config.json
+    - yarn build --prod
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - build/
+  only:
+    - merge_request
+    - dev
+
+.build: &build
+  image: docker
+  stage: build
+  script:
+    - docker stack rm ${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE}
+    - docker rmi ${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${COMPOSE_TAG} || true
+    - docker build -t ${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${COMPOSE_TAG} .
+
+build:
+  variables:
+    COMPOSE_TAG: dev
+  <<: *build
+  only:
+    - dev
+
+build_pr:
+  variables:
+    COMPOSE_TAG: pr-${CI_MERGE_REQUEST_IID}
+  <<: *build
+  only:
+    - merge_request
+
+.deploy:
+  image: docker/compose:1.25.0-rc4
+  stage: deploy
+  script:
+    - docker stack deploy --compose-file docker-compose.yml ${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE}
+
+.stop:
+  image: docker/compose:1.25.0-rc4
+  stage: deploy
+  script:
+    - docker stack rm ${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE} || true
+    - while [ $(docker ps -qaf "name=${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE}" | wc -c) -ne 0 ]; do sleep 1; done
+    - docker rmi ${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${COMPOSE_TAG}
+  when: manual
+
+deploy_pr:
+  extends: .deploy
+  variables:
+    COMPOSE_TAG: pr-${CI_MERGE_REQUEST_IID}
+  environment:
+    name: pr/${CI_MERGE_REQUEST_IID}
+    url: "https://${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE}.${DOMAIN}"
+    on_stop: stop_pr
+  only:
+    - merge_request
+
+stop_pr:
+  extends: .stop
+  variables:
+    COMPOSE_TAG: pr-${CI_MERGE_REQUEST_IID}
+    GIT_STRATEGY: none
+  environment:
+    name: pr/${CI_MERGE_REQUEST_IID}
+    action: stop
+  only:
+    - merge_request
+
+deploy_staging:
+  extends: .deploy
+  variables:
+    COMPOSE_TAG: dev
+  environment:
+    name: develop
+    url: "https://${COMPOSE_TAG}-${CI_PROJECT_NAME}-${CI_PROJECT_NAMESPACE}.${DOMAIN}"
+    on_stop: stop_staging
+  only:
+    - dev
+
+stop_staging:
+  extends: .stop
+  variables:
+    COMPOSE_TAG: dev
+    GIT_STRATEGY: none
+  environment:
+    name: develop
+    action: stop
+  only:
+    - manual
