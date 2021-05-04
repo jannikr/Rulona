@@ -1,16 +1,16 @@
-import React from 'react';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import './App.css';
-import LandingPage from './LandingPage/LandingPage';
+import React from "react";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import "./App.css";
+import LandingPage from "./LandingPage/LandingPage";
 
-const App = () => {
+const App: React.FC = (): JSX.Element => {
   return (
     <Router>
       <Switch>
-        <Route exact path='/' component={LandingPage} />
+        <Route exact path="/" component={LandingPage} />
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
