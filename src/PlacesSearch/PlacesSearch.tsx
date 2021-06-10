@@ -26,9 +26,11 @@ const PlacesSearch: React.FC<Props> = (props) => {
       <SearchField search={search} />
       <h4 className={styles.heading}>Beispiel-Orte</h4>
       <Divider />
-      {places.map((place) => (
-        <PlaceContainer key={place.id} place={place} />
-      ))}
+      {places
+        .filter((place) => place.example)
+        .map((place) => (
+          <PlaceContainer key={place.id} place={place} />
+        ))}
     </Container>
   );
 };
