@@ -1,5 +1,5 @@
 import { Container, Divider } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import SearchField from "../SearchField/SearchField";
 import { fetchPlaces } from "../store/actions";
@@ -12,25 +12,42 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const PlacesSearch: React.FC<Props> = (props) => {
   const { fetchPlaces, places } = props;
+  const [shownPlaces, setShownPlaces] = useState(
+    places.filter((place) => place.example)
+  );
+  const [showHeading, setShowHeading] = useState(true);
 
   useEffect(() => {
     fetchPlaces();
   }, [fetchPlaces]);
 
-  const search = (): void => {
-    //TODO
+  const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    console.log(e.target.value);
+    if (e.target.value === "") {
+      setShownPlaces(places.filter((place) => place.example));
+      setShowHeading(true);
+    } else {
+      setShownPlaces(
+        places.filter(
+          (place) =>
+            place.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            place.id.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+      setShowHeading(false);
+    }
   };
 
   return (
     <Container>
       <SearchField search={search} />
-      <h4 className={styles.heading}>Beispiel-Orte</h4>
+      {showHeading === true && (
+        <h4 className={styles.heading}>Beispiel-Orte</h4>
+      )}
       <Divider />
-      {places
-        .filter((place) => place.example)
-        .map((place) => (
-          <PlaceContainer key={place.id} place={place} />
-        ))}
+      {shownPlaces.map((place) => (
+        <PlaceContainer key={place.id} place={place} />
+      ))}
     </Container>
   );
 };
