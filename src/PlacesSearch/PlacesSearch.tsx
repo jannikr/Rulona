@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import SearchField from "../SearchField/SearchField";
 import { fetchPlaces } from "../store/actions";
 import { AppDispatch, AppState, SetPlacesAction } from "../store/types";
+import { Place } from "../types";
 import PlaceContainer from "./PlaceContainer";
 import styles from "./PlacesSearch.module.css";
 
@@ -12,14 +13,16 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 const PlacesSearch: React.FC<Props> = (props) => {
   const { fetchPlaces, places } = props;
-  const [shownPlaces, setShownPlaces] = useState(
-    places.filter((place) => place.example)
-  );
+  const [shownPlaces, setShownPlaces] = useState<Place[]>([]);
   const [showHeading, setShowHeading] = useState(true);
 
   useEffect(() => {
     fetchPlaces();
   }, [fetchPlaces]);
+
+  useEffect(() => {
+    setShownPlaces(places.filter((place) => place.example));
+  }, [places]);
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
     console.log(e.target.value);
@@ -41,9 +44,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
   return (
     <Container>
       <SearchField search={search} />
-      {showHeading === true && (
-        <h4 className={styles.heading}>Beispiel-Orte</h4>
-      )}
+      {showHeading && <h4 className={styles.heading}>Beispiel-Orte</h4>}
       <Divider />
       {shownPlaces.map((place) => (
         <PlaceContainer key={place.id} place={place} />
