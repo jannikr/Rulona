@@ -25,7 +25,6 @@ const PlacesSearch: React.FC<Props> = (props) => {
   }, [places]);
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log(e.target.value);
     if (e.target.value === "") {
       setShownPlaces(places.filter((place) => place.example));
       setShowHeading(true);

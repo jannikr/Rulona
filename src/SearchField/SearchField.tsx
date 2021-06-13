@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, OutlinedInput } from "@material-ui/core";
+import { InputAdornment, OutlinedInput } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
 import styles from "./SearchField.module.css";
@@ -17,9 +17,7 @@ const SearchField: React.FC<Props> = (props) => {
       onChange={search}
       endAdornment={
         <InputAdornment position="end">
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
+          <SearchIcon />
         </InputAdornment>
       }
     />
