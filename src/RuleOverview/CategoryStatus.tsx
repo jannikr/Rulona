@@ -10,32 +10,16 @@ const CategoryStatus: React.FC<Props> = (props) => {
   const { status } = props;
   switch (status) {
     case 0: {
-      return (
-        <>
-          <Lens fontSize="small" style={{ color: "red" }} />
-        </>
-      );
+      return <Lens fontSize="small" style={{ color: "red" }} />;
     }
     case 1: {
-      return (
-        <>
-          <Lens fontSize="small" style={{ color: "yellow" }} />
-        </>
-      );
+      return <Lens fontSize="small" style={{ color: "yellow" }} />;
     }
     case 2: {
-      return (
-        <>
-          <Lens fontSize="small" style={{ color: "green" }} />
-        </>
-      );
+      return <Lens fontSize="small" style={{ color: "green" }} />;
     }
     case -1: {
-      return (
-        <>
-          <Lens fontSize="small" color="action" />
-        </>
-      );
+      return <Lens fontSize="small" style={{ color: "gray" }} />;
     }
     default:
       return <></>;
