@@ -18,6 +18,7 @@ import {
 import { Category, Place, Rule, RulesPerCategory } from "../types";
 import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
+import AddFavourite from "../Button/AddFavourites";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -70,7 +71,12 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <h2>{selectedPlace.name}</h2>
+      <div>
+        <h2>
+          {selectedPlace.name}
+          <AddFavourite />
+        </h2>
+      </div>
       <Divider />
       <Container>
         <PlaceInfoDisplay placeInfo={placeInfo} />
