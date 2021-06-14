@@ -4,6 +4,7 @@ export const initialState: AppState = {
   places: [],
   categories: [],
   rules: [],
+  favouritePlaces: [],
 };
 
 const reducer = (
@@ -25,6 +26,12 @@ const reducer = (
     }
     case ActionType.SetPlaceInfo: {
       return { ...state, placeInfo: action.info };
+    }
+    case ActionType.AddFavouritePlace: {
+      return {
+        ...state,
+        favouritePlaces: [...state.favouritePlaces, action.place],
+      };
     }
     default:
       return state;
