@@ -9,6 +9,8 @@ import {
   SetRulesAction,
   SetCategoriesAction,
   AddFavouritePlaceAction,
+  SetFavouritePlacesAction,
+  AppState,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -90,4 +92,20 @@ export const addFavouritePlace = (place: Place): AddFavouritePlaceAction => {
     JSON.stringify([...favPlaces, place.id])
   );
   return { type: ActionType.AddFavouritePlace, place };
+};
+
+export const setFavouritePlaces = () => {
+  return (
+    dispatch: AppDispatch,
+    getState: () => AppState
+  ): SetFavouritePlacesAction => {
+    const places = getState().places;
+    const favPlacesIds = JSON.parse(
+      localStorage.getItem("favouritePlaces") || "[]"
+    );
+    const favouritePlaces = places.filter(
+      (item) => favPlacesIds.indexOf(item.id) !== -1
+    );
+    return dispatch({ type: ActionType.SetFavouritePlaces, favouritePlaces });
+  };
 };

@@ -10,6 +10,7 @@ export enum ActionType {
   SetRules = "SetRules",
   SetPlaceInfo = "SetPlaceInfo",
   AddFavouritePlace = "AddFavouritePlace",
+  SetFavouritePlaces = "SetFavouritePlaces",
 }
 
 export interface AppState {
@@ -51,10 +52,16 @@ export interface AddFavouritePlaceAction {
   place: Place;
 }
 
+export interface SetFavouritePlacesAction {
+  type: ActionType.SetFavouritePlaces;
+  favouritePlaces: Place[];
+}
+
 export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
   | SelectPlaceAction
   | SetRulesAction
   | SetPlaceInfoAction
-  | AddFavouritePlaceAction;
+  | AddFavouritePlaceAction
+  | SetFavouritePlacesAction;

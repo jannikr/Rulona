@@ -33,6 +33,9 @@ const reducer = (
         favouritePlaces: [...state.favouritePlaces, action.place],
       };
     }
+    case ActionType.SetFavouritePlaces: {
+      return { ...state, favouritePlaces: action.favouritePlaces };
+    }
     default:
       return state;
   }
