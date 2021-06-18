@@ -22,6 +22,7 @@ const AddFavourite: React.FC<Props> = (props) => {
     deleteFavouritePlace,
     favouritePlaces,
   } = props;
+
   if (!selectedPlace) return <></>;
   console.log(favouritePlaces);
 
