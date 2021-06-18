@@ -8,6 +8,10 @@ import {
   SetPlaceInfoAction,
   SetRulesAction,
   SetCategoriesAction,
+  AddFavouritePlaceAction,
+  DeleteFavouritePlaceAction,
+  SetFavouritePlacesAction,
+  AppState,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -45,6 +49,15 @@ export const setRules = (rules: Rule[]): SetRulesAction => {
   };
 };
 
+export const setFavouritePlaces = (
+  favouritePlaces: Place[]
+): SetFavouritePlacesAction => {
+  return {
+    type: ActionType.SetFavouritePlaces,
+    favouritePlaces,
+  };
+};
+
 export const fetchPlaces = () => {
   return async (dispatch: AppDispatch): Promise<SetPlacesAction> => {
     const { API_URL } = dynamicConstants;
@@ -79,5 +92,47 @@ export const fetchRules = (place: Place) => {
     const response = await fetch(`${API_URL}/places/${place.id}/rules`);
     response.status === 200 && (rules = await response.json());
     return dispatch(setRules(rules));
+  };
+};
+
+export const addFavouritePlace = (place: Place): AddFavouritePlaceAction => {
+  const favPlacesSet = new Set(
+    JSON.parse(localStorage.getItem("favouritePlaces") || "[]")
+  );
+  favPlacesSet.add(place.id);
+  localStorage.setItem(
+    "favouritePlaces",
+    JSON.stringify([...Array.from(favPlacesSet)])
+  );
+  return { type: ActionType.AddFavouritePlace, place };
+};
+
+export const deleteFavouritePlace = (
+  place: Place
+): DeleteFavouritePlaceAction => {
+  const favPlacesSet = new Set(
+    JSON.parse(localStorage.getItem("favouritePlaces") || "[]")
+  );
+  favPlacesSet.delete(place.id);
+  localStorage.setItem(
+    "favouritePlaces",
+    JSON.stringify([...Array.from(favPlacesSet)])
+  );
+  return { type: ActionType.DeleteFavouritePlace, place };
+};
+
+export const fetchFavouritePlaces = () => {
+  return (
+    dispatch: AppDispatch,
+    getState: () => AppState
+  ): SetFavouritePlacesAction => {
+    const places = getState().places;
+    const favPlacesIds = JSON.parse(
+      localStorage.getItem("favouritePlaces") || "[]"
+    );
+    const favouritePlaces = places.filter(
+      (item) => favPlacesIds.indexOf(item.id) !== -1
+    );
+    return dispatch(setFavouritePlaces(favouritePlaces));
   };
 };

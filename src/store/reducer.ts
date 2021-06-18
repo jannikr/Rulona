@@ -4,6 +4,7 @@ export const initialState: AppState = {
   places: [],
   categories: [],
   rules: [],
+  favouritePlaces: [],
 };
 
 const reducer = (
@@ -25,6 +26,26 @@ const reducer = (
     }
     case ActionType.SetPlaceInfo: {
       return { ...state, placeInfo: action.info };
+    }
+    case ActionType.AddFavouritePlace: {
+      const idAlreadyExists =
+        state.favouritePlaces.indexOf(action.place) !== -1;
+      if (idAlreadyExists) return state;
+      return {
+        ...state,
+        favouritePlaces: [...state.favouritePlaces, action.place],
+      };
+    }
+    case ActionType.DeleteFavouritePlace: {
+      return {
+        ...state,
+        favouritePlaces: state.favouritePlaces.filter(function (place) {
+          return place.id !== action.place.id;
+        }),
+      };
+    }
+    case ActionType.SetFavouritePlaces: {
+      return { ...state, favouritePlaces: action.favouritePlaces };
     }
     default:
       return state;

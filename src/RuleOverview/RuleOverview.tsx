@@ -1,4 +1,4 @@
-import { Container, Divider } from "@material-ui/core";
+import { Container, Divider, Toolbar, Typography } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -18,6 +18,8 @@ import {
 import { Category, Place, Rule, RulesPerCategory } from "../types";
 import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
+import FavouritePlace from "../Button/FavouritePlace";
+import styles from "./RuleOverview.module.css";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -70,7 +72,12 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <h2>{selectedPlace.name}</h2>
+      <Toolbar>
+        <Typography className={styles.rulename}>
+          {selectedPlace.name}
+        </Typography>
+        <FavouritePlace />
+      </Toolbar>
       <Divider />
       <Container>
         <PlaceInfoDisplay placeInfo={placeInfo} />

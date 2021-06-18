@@ -2,8 +2,13 @@ import { Container, Divider } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import SearchField from "../SearchField/SearchField";
-import { fetchPlaces } from "../store/actions";
-import { AppDispatch, AppState, SetPlacesAction } from "../store/types";
+import { fetchFavouritePlaces, fetchPlaces } from "../store/actions";
+import {
+  AppDispatch,
+  AppState,
+  SetFavouritePlacesAction,
+  SetPlacesAction,
+} from "../store/types";
 import { Place } from "../types";
 import PlaceContainer from "./PlaceContainer";
 import styles from "./PlacesSearch.module.css";
@@ -12,7 +17,7 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const PlacesSearch: React.FC<Props> = (props) => {
-  const { fetchPlaces, places } = props;
+  const { fetchPlaces, places, fetchFavouritePlaces } = props;
   const [shownPlaces, setShownPlaces] = useState<Place[]>([]);
   const [showHeading, setShowHeading] = useState(true);
 
@@ -21,8 +26,8 @@ const PlacesSearch: React.FC<Props> = (props) => {
   }, [fetchPlaces]);
 
   useEffect(() => {
-    setShownPlaces(places.filter((place) => place.example));
-  }, [places]);
+    fetchFavouritePlaces();
+  }, [places, fetchFavouritePlaces]);
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.value === "") {
@@ -61,6 +66,8 @@ const mapStateToProps = (state: AppState) => {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchPlaces: (): Promise<SetPlacesAction> => dispatch(fetchPlaces()),
+  fetchFavouritePlaces: (): SetFavouritePlacesAction =>
+    dispatch(fetchFavouritePlaces()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlacesSearch);
