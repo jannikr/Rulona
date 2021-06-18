@@ -88,10 +88,12 @@ export const fetchRules = (place: Place) => {
 
 export const addFavouritePlace = (place: Place): AddFavouritePlaceAction => {
   const favPlaces = JSON.parse(localStorage.getItem("favouritePlaces") || "[]");
-  localStorage.setItem(
-    "favouritePlaces",
-    JSON.stringify([...favPlaces, place.id])
-  );
+  if (!favPlaces.includes(place.id)) {
+    localStorage.setItem(
+      "favouritePlaces",
+      JSON.stringify([...favPlaces, place.id])
+    );
+  }
   return { type: ActionType.AddFavouritePlace, place };
 };
 

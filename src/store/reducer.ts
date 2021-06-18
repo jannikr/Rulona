@@ -28,6 +28,13 @@ const reducer = (
       return { ...state, placeInfo: action.info };
     }
     case ActionType.AddFavouritePlace: {
+      const idAlreadyExists =
+        state.favouritePlaces.indexOf(action.place) !== -1;
+      if (idAlreadyExists) {
+        return {
+          ...state,
+        };
+      }
       return {
         ...state,
         favouritePlaces: [...state.favouritePlaces, action.place],
