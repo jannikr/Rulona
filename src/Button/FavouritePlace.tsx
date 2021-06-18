@@ -15,7 +15,7 @@ import { addFavouritePlace, deleteFavouritePlace } from "../store/actions";
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
-const AddFavourite: React.FC<Props> = (props) => {
+const FavouritePlace: React.FC<Props> = (props) => {
   const {
     selectedPlace,
     addFavouritePlace,
@@ -24,7 +24,6 @@ const AddFavourite: React.FC<Props> = (props) => {
   } = props;
 
   if (!selectedPlace) return <></>;
-  console.log(favouritePlaces);
 
   if (favouritePlaces.includes(selectedPlace)) {
     return (
@@ -67,4 +66,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
     dispatch(deleteFavouritePlace(place)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFavourite);
+export default connect(mapStateToProps, mapDispatchToProps)(FavouritePlace);

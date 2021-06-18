@@ -2,7 +2,7 @@ import { Container, Divider } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import SearchField from "../SearchField/SearchField";
-import { fetchPlaces, setFavouritePlaces } from "../store/actions";
+import { fetchFavouritePlaces, fetchPlaces } from "../store/actions";
 import {
   AppDispatch,
   AppState,
@@ -16,15 +16,15 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const PlacesSearch: React.FC<Props> = (props) => {
-  const { fetchPlaces, places, setFavouritePlaces } = props;
+  const { fetchPlaces, places, fetchFavouritePlaces } = props;
 
   useEffect(() => {
     fetchPlaces();
   }, [fetchPlaces]);
 
   useEffect(() => {
-    setFavouritePlaces();
-  }, [places, setFavouritePlaces]);
+    fetchFavouritePlaces();
+  }, [places, fetchFavouritePlaces]);
 
   const search = (): void => {
     //TODO
@@ -53,8 +53,8 @@ const mapStateToProps = (state: AppState) => {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchPlaces: (): Promise<SetPlacesAction> => dispatch(fetchPlaces()),
-  setFavouritePlaces: (): SetFavouritePlacesAction =>
-    dispatch(setFavouritePlaces()),
+  fetchFavouritePlaces: (): SetFavouritePlacesAction =>
+    dispatch(fetchFavouritePlaces()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlacesSearch);

@@ -18,7 +18,7 @@ import {
 import { Category, Place, Rule, RulesPerCategory } from "../types";
 import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
-import AddFavourite from "../Button/AddFavourites";
+import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -76,7 +76,7 @@ const RuleOverview: React.FC<Props> = (props) => {
         <Typography className={styles.rulename}>
           {selectedPlace.name}
         </Typography>
-        <AddFavourite />
+        <FavouritePlace />
       </Toolbar>
       <Divider />
       <Container>

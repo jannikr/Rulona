@@ -49,6 +49,15 @@ export const setRules = (rules: Rule[]): SetRulesAction => {
   };
 };
 
+export const setFavouritePlaces = (
+  favouritePlaces: Place[]
+): SetFavouritePlacesAction => {
+  return {
+    type: ActionType.SetFavouritePlaces,
+    favouritePlaces,
+  };
+};
+
 export const fetchPlaces = () => {
   return async (dispatch: AppDispatch): Promise<SetPlacesAction> => {
     const { API_URL } = dynamicConstants;
@@ -87,28 +96,32 @@ export const fetchRules = (place: Place) => {
 };
 
 export const addFavouritePlace = (place: Place): AddFavouritePlaceAction => {
-  const favPlaces = JSON.parse(localStorage.getItem("favouritePlaces") || "[]");
-  if (!favPlaces.includes(place.id)) {
-    localStorage.setItem(
-      "favouritePlaces",
-      JSON.stringify([...favPlaces, place.id])
-    );
-  }
+  const favPlacesSet = new Set(
+    JSON.parse(localStorage.getItem("favouritePlaces") || "[]")
+  );
+  favPlacesSet.add(place.id);
+  localStorage.setItem(
+    "favouritePlaces",
+    JSON.stringify([...Array.from(favPlacesSet)])
+  );
   return { type: ActionType.AddFavouritePlace, place };
 };
 
 export const deleteFavouritePlace = (
   place: Place
 ): DeleteFavouritePlaceAction => {
-  const favPlaces = JSON.parse(localStorage.getItem("favouritePlaces") || "[]");
+  const favPlacesSet = new Set(
+    JSON.parse(localStorage.getItem("favouritePlaces") || "[]")
+  );
+  favPlacesSet.delete(place.id);
   localStorage.setItem(
     "favouritePlaces",
-    JSON.stringify(favPlaces.filter((id: string) => id !== place.id))
+    JSON.stringify([...Array.from(favPlacesSet)])
   );
   return { type: ActionType.DeleteFavouritePlace, place };
 };
 
-export const setFavouritePlaces = () => {
+export const fetchFavouritePlaces = () => {
   return (
     dispatch: AppDispatch,
     getState: () => AppState
@@ -120,6 +133,6 @@ export const setFavouritePlaces = () => {
     const favouritePlaces = places.filter(
       (item) => favPlacesIds.indexOf(item.id) !== -1
     );
-    return dispatch({ type: ActionType.SetFavouritePlaces, favouritePlaces });
+    return dispatch(setFavouritePlaces(favouritePlaces));
   };
 };
