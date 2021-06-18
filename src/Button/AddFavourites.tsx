@@ -3,15 +3,25 @@ import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import Bookmark from "@material-ui/icons/Bookmark";
 import IconButton from "@material-ui/core/IconButton";
 import { Place } from "../types";
-import { AddFavouritePlaceAction, AppDispatch, AppState } from "../store/types";
+import {
+  AddFavouritePlaceAction,
+  DeleteFavouritePlaceAction,
+  AppDispatch,
+  AppState,
+} from "../store/types";
 import { connect } from "react-redux";
-import { addFavouritePlace } from "../store/actions";
+import { addFavouritePlace, deleteFavouritePlace } from "../store/actions";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const AddFavourite: React.FC<Props> = (props) => {
-  const { selectedPlace, addFavouritePlace, favouritePlaces } = props;
+  const {
+    selectedPlace,
+    addFavouritePlace,
+    deleteFavouritePlace,
+    favouritePlaces,
+  } = props;
   if (!selectedPlace) return <></>;
   console.log(favouritePlaces);
 
@@ -20,7 +30,7 @@ const AddFavourite: React.FC<Props> = (props) => {
       <>
         <IconButton
           onClick={(): void => {
-            addFavouritePlace(selectedPlace);
+            deleteFavouritePlace(selectedPlace);
           }}
         >
           <Bookmark />
@@ -52,6 +62,8 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   addFavouritePlace: (place: Place): AddFavouritePlaceAction =>
     dispatch(addFavouritePlace(place)),
+  deleteFavouritePlace: (place: Place): DeleteFavouritePlaceAction =>
+    dispatch(deleteFavouritePlace(place)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddFavourite);

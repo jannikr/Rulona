@@ -33,6 +33,14 @@ const reducer = (
         favouritePlaces: [...state.favouritePlaces, action.place],
       };
     }
+    case ActionType.DeleteFavouritePlace: {
+      return {
+        ...state,
+        favouritePlaces: state.favouritePlaces.filter(function (place) {
+          return place.id !== action.place.id;
+        }),
+      };
+    }
     case ActionType.SetFavouritePlaces: {
       return { ...state, favouritePlaces: action.favouritePlaces };
     }
