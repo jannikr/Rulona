@@ -26,6 +26,10 @@ const PlacesSearch: React.FC<Props> = (props) => {
   }, [fetchPlaces]);
 
   useEffect(() => {
+    setShownPlaces(places.filter((place) => place.example));
+  }, [places]);
+
+  useEffect(() => {
     fetchFavouritePlaces();
   }, [places, fetchFavouritePlaces]);
 
