@@ -36,3 +36,10 @@ export interface Rule {
 }
 
 export type RulesPerCategory = [Category, Rule[]][];
+
+export enum SidebarHeading {
+  LastSearch = "Letze Suchen",
+  ExamplePlaces = "Beispiel-Orte",
+  FavouritePlaces = "Meine Orte",
+  SearchResults = "Suchergebnisse",
+}

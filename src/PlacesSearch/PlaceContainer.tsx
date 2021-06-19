@@ -6,15 +6,17 @@ import { Place } from "../types";
 import PlaceTrend from "./PlaceTrend";
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
+  onClick?: (place: Place) => void;
   place: Place;
 };
 
 const PlaceContainer: React.FC<Props> = (props) => {
-  const { place, selectPlace } = props;
+  const { place, selectPlace, onClick } = props;
 
   return (
     <div
       onClick={(): void => {
+        onClick && onClick(place);
         selectPlace(place);
       }}
     >
