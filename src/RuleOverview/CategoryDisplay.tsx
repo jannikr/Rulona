@@ -9,6 +9,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import CategoryStatus from "./CategoryStatus";
+import FavouriteCategory from "../Button/FavouriteCategory";
 
 interface Props {
   category: Category;
@@ -33,6 +34,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <CategoryStatus status={findLowestStatus()} />
         {category.name}
+        <FavouriteCategory selectedCategory={category} />
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
