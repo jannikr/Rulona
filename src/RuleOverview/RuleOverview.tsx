@@ -116,7 +116,7 @@ const RuleOverview: React.FC<Props> = (props) => {
         {rules.length === 0 && (
           <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
         )}
-        {favouriteCategories.length && (
+        {rules.length !== 0 && favouriteCategories.length !== 0 && (
           <h4 className={styles.heading}>Meine Kategorien</h4>
         )}
         {rulesPerFavouriteCategory.map(([category, rules]) => (
@@ -126,7 +126,7 @@ const RuleOverview: React.FC<Props> = (props) => {
             rules={rules}
           />
         ))}
-        <h4>Kategorien</h4>
+        {rules.length !== 0 && <h4 className={styles.heading}> Kategorien</h4>}
         {rulesPerCategory.map(([category, rules]) => (
           <CategoryDisplay
             key={category.id}
