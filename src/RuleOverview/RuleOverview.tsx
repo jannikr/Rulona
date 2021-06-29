@@ -7,6 +7,7 @@ import {
   fetchCategories,
   setRules,
   setPlaceInfo,
+  fetchFavouriteCategories,
 } from "../store/actions";
 import {
   AppDispatch,
@@ -14,6 +15,7 @@ import {
   SetCategoriesAction,
   SetPlaceInfoAction,
   SetRulesAction,
+  SetFavouriteCategoriesAction,
 } from "../store/types";
 import { Category, Place, Rule, RulesPerCategory } from "../types";
 import CategoryDisplay from "./CategoryDisplay";
@@ -33,12 +35,32 @@ const RuleOverview: React.FC<Props> = (props) => {
     fetchRules,
     fetchPlaceInfo,
     fetchCategories,
+    favouriteCategories,
+    fetchFavouriteCategories,
     reset,
   } = props;
 
   const [rulesPerCategory, setRulesPerCategory] = useState<RulesPerCategory>(
     []
   );
+
+  const [
+    rulesPerFavouriteCategory,
+    setRulesPerFavouriteCategory,
+  ] = useState<RulesPerCategory>([]);
+
+  const mapRulesToFavouriteCategory = useCallback((): RulesPerCategory => {
+    const rulesPerCategory = new Map<Category, Rule[]>();
+    for (const rule of rules) {
+      const category = favouriteCategories.find(
+        (category) => category.id === rule.categoryId
+      );
+      if (!category) continue;
+      rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
+      rulesPerCategory.get(category)?.push(rule);
+    }
+    return Array.from(rulesPerCategory);
+  }, [rules, favouriteCategories]);
 
   const mapRulesToCategory = useCallback((): RulesPerCategory => {
     const rulesPerCategory = new Map<Category, Rule[]>();
@@ -47,11 +69,13 @@ const RuleOverview: React.FC<Props> = (props) => {
       const category =
         categories.find((category) => category.id === rule.categoryId) ||
         uncategorized;
-      rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
-      rulesPerCategory.get(category)?.push(rule);
+      if (!favouriteCategories.includes(category)) {
+        rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
+        rulesPerCategory.get(category)?.push(rule);
+      }
     }
     return Array.from(rulesPerCategory);
-  }, [rules, categories]);
+  }, [rules, categories, favouriteCategories]);
 
   useEffect(() => {
     reset();
@@ -67,6 +91,14 @@ const RuleOverview: React.FC<Props> = (props) => {
   useEffect(() => {
     setRulesPerCategory(mapRulesToCategory());
   }, [categories, rules, mapRulesToCategory]);
+
+  useEffect(() => {
+    fetchFavouriteCategories();
+  }, [categories, fetchFavouriteCategories]);
+
+  useEffect(() => {
+    setRulesPerFavouriteCategory(mapRulesToFavouriteCategory());
+  }, [favouriteCategories, rules, mapRulesToFavouriteCategory]);
 
   if (!selectedPlace) return <></>;
 
@@ -84,6 +116,17 @@ const RuleOverview: React.FC<Props> = (props) => {
         {rules.length === 0 && (
           <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
         )}
+        {favouriteCategories.length && (
+          <h4 className={styles.heading}>Meine Kategorien</h4>
+        )}
+        {rulesPerFavouriteCategory.map(([category, rules]) => (
+          <CategoryDisplay
+            key={category.id}
+            category={category}
+            rules={rules}
+          />
+        ))}
+        <h4>Kategorien</h4>
         {rulesPerCategory.map(([category, rules]) => (
           <CategoryDisplay
             key={category.id}
@@ -98,8 +141,14 @@ const RuleOverview: React.FC<Props> = (props) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapStateToProps = (state: AppState) => {
-  const { rules, categories, selectedPlace, placeInfo } = state;
-  return { rules, categories, selectedPlace, placeInfo };
+  const {
+    rules,
+    categories,
+    favouriteCategories,
+    selectedPlace,
+    placeInfo,
+  } = state;
+  return { rules, categories, favouriteCategories, selectedPlace, placeInfo };
 };
 //
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -114,6 +163,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
     dispatch(fetchPlaceInfo(place)),
   fetchCategories: (): Promise<SetCategoriesAction> =>
     dispatch(fetchCategories()),
+  fetchFavouriteCategories: (): SetFavouriteCategoriesAction =>
+    dispatch(fetchFavouriteCategories()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RuleOverview);
