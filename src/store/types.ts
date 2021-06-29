@@ -12,6 +12,9 @@ export enum ActionType {
   AddFavouritePlace = "AddFavouritePlace",
   DeleteFavouritePlace = "DeleteFavouritePlace",
   SetFavouritePlaces = "SetFavouritePlaces",
+  AddFavouriteCategory = "AddFavouriteCategory",
+  DeleteFavouriteCategory = "DeleteFavouriteCategory",
+  SetFavouriteCategories = "SetFavouriteCategories",
 }
 
 export interface AppState {
@@ -21,6 +24,7 @@ export interface AppState {
   rules: Rule[];
   placeInfo?: PlaceInfo;
   favouritePlaces: Place[];
+  favouriteCategories: Category[];
 }
 
 export interface SetPlacesAction {
@@ -63,6 +67,21 @@ export interface SetFavouritePlacesAction {
   favouritePlaces: Place[];
 }
 
+export interface AddFavouriteCategoryAction {
+  type: ActionType.AddFavouriteCategory;
+  category: Category;
+}
+
+export interface DeleteFavouriteCategoryAction {
+  type: ActionType.DeleteFavouriteCategory;
+  category: Category;
+}
+
+export interface SetFavouriteCategoriesAction {
+  type: ActionType.SetFavouriteCategories;
+  favouriteCategories: Category[];
+}
+
 export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
@@ -71,4 +90,7 @@ export type AppAction =
   | SetPlaceInfoAction
   | AddFavouritePlaceAction
   | DeleteFavouritePlaceAction
-  | SetFavouritePlacesAction;
+  | SetFavouritePlacesAction
+  | AddFavouriteCategoryAction
+  | DeleteFavouriteCategoryAction
+  | SetFavouriteCategoriesAction;
