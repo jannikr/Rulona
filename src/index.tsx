@@ -10,17 +10,19 @@ import reportWebVitals from "./reportWebVitals";
 
 const theme = createMuiTheme({
   palette: {
-    primary: '#0A524D',
-  }
+    primary: {
+      main: "#0A524D",
+    },
+  },
 });
 
 loadDynamicConstants().then(() => {
   ReactDOM.render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
-      <Provider store={store()}>
-        <App />
-      </Provider>
+        <Provider store={store()}>
+          <App />
+        </Provider>
       </ThemeProvider>
     </React.StrictMode>,
     document.getElementById("root")
