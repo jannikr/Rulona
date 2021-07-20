@@ -2,6 +2,7 @@ import React from "react";
 import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import Bookmark from "@material-ui/icons/Bookmark";
 import IconButton from "@material-ui/core/IconButton";
+import { grey } from "@material-ui/core/colors";
 import { Place } from "../types";
 import {
   AddFavouritePlaceAction,
@@ -29,6 +30,7 @@ const FavouritePlace: React.FC<Props> = (props) => {
     return (
       <>
         <IconButton
+          style={{ color: grey[400] }}
           onClick={(): void => {
             deleteFavouritePlace(selectedPlace);
           }}
@@ -41,6 +43,7 @@ const FavouritePlace: React.FC<Props> = (props) => {
     return (
       <>
         <IconButton
+          style={{ color: grey[400] }}
           onClick={(): void => {
             addFavouritePlace(selectedPlace);
           }}

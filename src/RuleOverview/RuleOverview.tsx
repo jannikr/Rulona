@@ -72,7 +72,7 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <Toolbar>
+      <Toolbar variant="dense" className={styles.toolbar}>
         <Typography className={styles.rulename}>
           {selectedPlace.name}
         </Typography>

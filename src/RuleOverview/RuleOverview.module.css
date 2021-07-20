@@ -1,3 +1,9 @@
 .rulename {
     flex-grow: 1;
+    font-weight: 500 !important;
+}
+
+.toolbar {
+    background-color: #0A524D;
+    color: white;
 }
