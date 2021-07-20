@@ -1,4 +1,5 @@
 import React from "react";
+import { Divider } from "@material-ui/core";
 import { connect } from "react-redux";
 import { selectPlace } from "../store/actions";
 import { AppDispatch, SelectPlaceAction } from "../store/types";
@@ -14,16 +15,23 @@ const PlaceContainer: React.FC<Props> = (props) => {
   const { place, selectPlace } = props;
 
   return (
-    <div
-      className={styles.eventStyles}
-      onClick={(): void => {
-        selectPlace(place);
-      }}
-    >
-      <span>{place.name}</span>
-      <span>
-        <PlaceTrend trend={place.trend} />
-      </span>
+    <div>
+      <div
+        className={styles.lineSpacing}
+        onClick={(): void => {
+          selectPlace(place);
+        }}
+      >
+        <span
+          style={{
+            verticalAlign: "middle",
+          }}
+        >
+          <PlaceTrend trend={place.trend} />
+        </span>
+        <span className={styles.eventStyles}>{place.name}</span>
+      </div>
+      <Divider />
     </div>
   );
 };

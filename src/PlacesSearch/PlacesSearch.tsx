@@ -1,4 +1,4 @@
-import { Container, Divider } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import SearchField from "../SearchField/SearchField";
@@ -53,7 +53,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
     <Container>
       <SearchField search={search} />
       {showHeading && <h4 className={styles.heading}>Beispiel-Orte</h4>}
-      <Divider />
+
       {shownPlaces.map((place) => (
         <PlaceContainer key={place.id} place={place} />
       ))}

@@ -1,6 +1,7 @@
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
+import { CallMade, CallReceived } from "@material-ui/icons";
 import React from "react";
 import { Place } from "../types";
+import styles from "./PlaceContainer.module.css";
 
 interface Props {
   trend: Place["trend"];
@@ -14,10 +15,10 @@ const PlaceTrend: React.FC<Props> = (props) => {
       return <></>;
     }
     case 1: {
-      return <ArrowUpward />;
+      return <CallMade className={styles.arrowUp} />;
     }
     case -1: {
-      return <ArrowDownward />;
+      return <CallReceived className={styles.arrowDown} />;
     }
     default:
       return <></>;
