@@ -4,6 +4,7 @@ import { selectPlace } from "../store/actions";
 import { AppDispatch, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import PlaceTrend from "./PlaceTrend";
+import styles from "./PlaceContainer.module.css";
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
   place: Place;
@@ -14,6 +15,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
 
   return (
     <div
+      className={styles.eventStyles}
       onClick={(): void => {
         selectPlace(place);
       }}
