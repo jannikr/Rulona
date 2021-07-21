@@ -12,6 +12,8 @@ export enum ActionType {
   AddFavouritePlace = "AddFavouritePlace",
   DeleteFavouritePlace = "DeleteFavouritePlace",
   SetFavouritePlaces = "SetFavouritePlaces",
+  AddLastSearchedPlace = "AddLastSearchedPlace",
+  SetLastSearchedPlaces = "SetLastSearchedPlaces",
 }
 
 export interface AppState {
@@ -21,6 +23,7 @@ export interface AppState {
   rules: Rule[];
   placeInfo?: PlaceInfo;
   favouritePlaces: Place[];
+  lastSearchedPlaces: Place[];
 }
 
 export interface SetPlacesAction {
@@ -63,6 +66,16 @@ export interface SetFavouritePlacesAction {
   favouritePlaces: Place[];
 }
 
+export interface AddLastSearchedPlaceAction {
+  type: ActionType.AddLastSearchedPlace;
+  place: Place;
+}
+
+export interface SetLastSearchedPlacesAction {
+  type: ActionType.SetLastSearchedPlaces;
+  searches: Place[];
+}
+
 export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
@@ -71,4 +84,6 @@ export type AppAction =
   | SetPlaceInfoAction
   | AddFavouritePlaceAction
   | DeleteFavouritePlaceAction
-  | SetFavouritePlacesAction;
+  | SetFavouritePlacesAction
+  | AddLastSearchedPlaceAction
+  | SetLastSearchedPlacesAction;

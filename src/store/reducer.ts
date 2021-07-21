@@ -5,6 +5,7 @@ export const initialState: AppState = {
   categories: [],
   rules: [],
   favouritePlaces: [],
+  lastSearchedPlaces: [],
 };
 
 const reducer = (
@@ -46,6 +47,19 @@ const reducer = (
     }
     case ActionType.SetFavouritePlaces: {
       return { ...state, favouritePlaces: action.favouritePlaces };
+    }
+    case ActionType.AddLastSearchedPlace: {
+      const previousPlaces = state.lastSearchedPlaces.filter(
+        (place) => place !== action.place
+      );
+      const lastSearchedPlaces = [action.place, ...previousPlaces];
+      return {
+        ...state,
+        lastSearchedPlaces,
+      };
+    }
+    case ActionType.SetLastSearchedPlaces: {
+      return { ...state, lastSearchedPlaces: action.searches };
     }
     default:
       return state;
