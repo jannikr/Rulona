@@ -1,9 +1,15 @@
 .rulename {
-    flex-grow: 1;
-    font-weight: 500 !important;
+  flex-grow: 1;
+  font-weight: 500 !important;
 }
 
 .toolbar {
-    background-color: #0A524D;
-    color: white;
+  background-color: #0a524d;
+  color: white;
+}
+
+.headline {
+  font-size: small;
+  margin-top: 15%;
+  margin-bottom: 5%;
 }
