@@ -20,7 +20,7 @@ const CategoryStatus: React.FC<Props> = (props) => {
     case 1: {
       return (
         <Lens
-          style={{ color: "yellow", marginRight: "0.8rem", fontSize: "1rem" }}
+          style={{ color: "#F0BB00", marginRight: "0.8rem", fontSize: "1rem" }}
         />
       );
     }
