@@ -73,12 +73,14 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <Toolbar variant="dense" className={styles.toolbar}>
-        <Typography className={styles.rulename}>
-          {selectedPlace.name}
-        </Typography>
-        <FavouritePlace />
-      </Toolbar>
+      <Box boxShadow={3}>
+        <Toolbar variant="dense" className={styles.toolbar}>
+          <Typography className={styles.rulename}>
+            {selectedPlace.name}
+          </Typography>
+          <FavouritePlace />
+        </Toolbar>
+      </Box>
       <Divider />
       <Box mt={5}>
         <Container maxWidth="sm">

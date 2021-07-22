@@ -8,7 +8,16 @@ interface Props {
 
 const RuleDisplay: React.FC<Props> = (props) => {
   const { rule } = props;
-  return <ReactMarkdown children={rule.text} />;
+  return (
+    <div>
+      <ReactMarkdown children={rule.text} />
+      <h2>
+        Zuletzt aktualisiert &nbsp;
+        {rule.timestamp.slice(6, 9)}.{rule.timestamp.slice(4, 6)}.
+        {rule.timestamp.slice(0, 4)}
+      </h2>
+    </div>
+  );
 };
 
 export default RuleDisplay;

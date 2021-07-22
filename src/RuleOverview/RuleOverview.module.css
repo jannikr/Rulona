@@ -9,7 +9,8 @@
 }
 
 .headline {
-  font-size: small;
   margin-top: 15%;
   margin-bottom: 5%;
+  text-align: left;
+  color: black;
 }

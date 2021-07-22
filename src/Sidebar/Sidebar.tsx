@@ -3,6 +3,7 @@ import React, { HTMLProps } from "react";
 import PlacesSearch from "../PlacesSearch/PlacesSearch";
 import RouteSearch from "../RouteSearch/RouteSearch";
 import styles from "./Sidebar.module.css";
+import Box from "@material-ui/core/Box";
 
 interface TabPanelProps extends HTMLProps<HTMLDivElement> {
   index: number;
@@ -28,27 +29,31 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <div className={styles.tabHeader}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          variant="fullWidth"
-        >
-          <Tab label="Orte" />
-          <Tab label="Route" />
-        </Tabs>
+        <Box boxShadow={3}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            classes={{
+              indicator: styles.indicator,
+            }}
+          >
+            <Tab label="Orte" />
+            <Tab label="Route" />
+          </Tabs>
+        </Box>
       </div>
-      <div className={styles.tabContent}>
-        <TabPanel value={value} index={0}>
+      <div>
+        <TabPanel value={value} index={0} className={styles.tabContent}>
           <PlacesSearch />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={1} className={styles.tabContent}>
           <RouteSearch />
         </TabPanel>
       </div>
-    </div>
+    </>
   );
 };
 
