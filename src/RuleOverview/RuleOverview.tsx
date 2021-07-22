@@ -1,4 +1,10 @@
-import { Container, Divider, Toolbar, Typography } from "@material-ui/core";
+import {
+  Container,
+  Divider,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -22,6 +28,7 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
+import { Clear, Edit } from "@material-ui/icons";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -48,6 +55,8 @@ const RuleOverview: React.FC<Props> = (props) => {
     rulesPerFavouriteCategory,
     setRulesPerFavouriteCategory,
   ] = useState<RulesPerCategory>([]);
+
+  const [showFavouriteCategory, setShowFavouriteCategory] = useState(false);
 
   const mapRulesToFavouriteCategory = useCallback((): RulesPerCategory => {
     const rulesPerCategory = new Map<Category, Rule[]>();
@@ -76,6 +85,14 @@ const RuleOverview: React.FC<Props> = (props) => {
     }
     return Array.from(rulesPerCategory);
   }, [rules, categories, favouriteCategories]);
+
+  const showFavouriteCategorySwitch = (): void => {
+    if (!showFavouriteCategory) {
+      setShowFavouriteCategory(true);
+    } else {
+      setShowFavouriteCategory(false);
+    }
+  };
 
   useEffect(() => {
     reset();
@@ -116,14 +133,26 @@ const RuleOverview: React.FC<Props> = (props) => {
         {rules.length === 0 && (
           <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
         )}
-        {rules.length !== 0 && favouriteCategories.length !== 0 && (
-          <h4 className={styles.heading}>Meine Kategorien</h4>
-        )}
+        <div className={styles.row}>
+          {rules.length !== 0 && (
+            <h4 className={styles.heading}>Meine Kategorien</h4>
+          )}
+          {rules.length !== 0 && (
+            <IconButton
+              onClick={(): void => {
+                showFavouriteCategorySwitch();
+              }}
+            >
+              {showFavouriteCategory ? <Clear /> : <Edit />}
+            </IconButton>
+          )}
+        </div>
         {rulesPerFavouriteCategory.map(([category, rules]) => (
           <CategoryDisplay
             key={category.id}
             category={category}
             rules={rules}
+            toggleFavourite={showFavouriteCategory}
           />
         ))}
         {rules.length !== 0 && <h4 className={styles.heading}> Kategorien</h4>}
@@ -132,6 +161,7 @@ const RuleOverview: React.FC<Props> = (props) => {
             key={category.id}
             category={category}
             rules={rules}
+            toggleFavourite={showFavouriteCategory}
           />
         ))}
       </Container>
