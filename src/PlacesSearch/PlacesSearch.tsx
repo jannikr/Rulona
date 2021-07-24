@@ -54,7 +54,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
     if (showHeading !== false) {
       setInitialPlaces();
     }
-  }, [favouritePlaces, setInitialPlaces]);
+  }, [favouritePlaces, showHeading, setInitialPlaces]);
 
   useEffect(() => {
     setExamplePlaces(places.filter((place) => place.example));
