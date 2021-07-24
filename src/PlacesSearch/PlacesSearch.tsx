@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, Divider } from "@material-ui/core";
 import React, { useEffect, useState, useCallback } from "react";
 import { connect } from "react-redux";
 import SearchField from "../SearchField/SearchField";
