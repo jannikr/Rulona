@@ -90,6 +90,18 @@ const RuleOverview: React.FC<Props> = (props) => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
 
+  const toCategoryDisplay = useCallback(
+    ([category, rules]: [Category, Rule[]]): JSX.Element => (
+      <CategoryDisplay
+        key={category.id}
+        category={category}
+        rules={rules}
+        toggleFavourite={showFavouriteCategory}
+      />
+    ),
+    [showFavouriteCategory]
+  );
+
   useEffect(() => {
     reset();
     if (!selectedPlace) return;
@@ -137,23 +149,9 @@ const RuleOverview: React.FC<Props> = (props) => {
                 {showFavouriteCategory ? <Clear /> : <Edit />}
               </IconButton>
             </div>
-            {rulesPerFavouriteCategory.map(([category, rules]) => (
-              <CategoryDisplay
-                key={category.id}
-                category={category}
-                rules={rules}
-                toggleFavourite={showFavouriteCategory}
-              />
-            ))}
+            {rulesPerFavouriteCategory.map(toCategoryDisplay)}
             <h4 className={styles.heading}> Kategorien</h4>
-            {rulesPerCategory.map(([category, rules]) => (
-              <CategoryDisplay
-                key={category.id}
-                category={category}
-                rules={rules}
-                toggleFavourite={showFavouriteCategory}
-              />
-            ))}
+            {rulesPerCategory.map(toCategoryDisplay)}
           </div>
         )}
       </Container>
