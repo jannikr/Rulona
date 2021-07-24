@@ -75,7 +75,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
             place.id.toLowerCase().includes(e.target.value.toLowerCase())
         )
       );
-      setShowHeading(false);
+      setShowHeading(true);
     }
   };
 
