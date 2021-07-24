@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import FavouritePlaceOverview from "../Button/FavouritePlaceOverview";
 import { selectPlace } from "../store/actions";
 import { AppDispatch, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
@@ -14,13 +15,16 @@ const PlaceContainer: React.FC<Props> = (props) => {
   const { place, selectPlace, onClick } = props;
 
   return (
-    <div
-      onClick={(): void => {
-        onClick && onClick(place);
-        selectPlace(place);
-      }}
-    >
-      <span>{place.name}</span>
+    <div>
+      <span
+        onClick={(): void => {
+          onClick && onClick(place);
+          selectPlace(place);
+        }}
+      >
+        {place.name}
+      </span>
+      <FavouritePlaceOverview clickedPlace={place} />
       <span>
         <PlaceTrend trend={place.trend} />
       </span>
