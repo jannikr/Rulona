@@ -1,9 +1,9 @@
 .timestamp {
-    font-size: small;
-    text-align: right;
-    color: gray;
+  font-size: small;
+  text-align: right;
+  color: gray;
 }
 
-.links *{
-    color: black;
+.content * {
+  color: black;
 }

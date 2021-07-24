@@ -1,4 +1,5 @@
 import { Lens } from "@material-ui/icons";
+import classnames from "classnames";
 import React from "react";
 import { RuleStatus } from "../types";
 import styles from "./CategoryStatus.module.css";
@@ -9,37 +10,28 @@ interface Props {
 
 const CategoryStatus: React.FC<Props> = (props) => {
   const { status } = props;
+  let color = "";
   switch (status) {
     case 0: {
-      return (
-        <Lens
-          className={styles.redLens + " " + styles.spacing}
-          fontSize="small"
-        />
-      );
+      color = styles.redLens;
+      break;
     }
     case 1: {
-      return <Lens className={styles.yellowLens + " " + styles.spacing} />;
+      color = styles.yellowLens;
+      break;
     }
     case 2: {
-      return (
-        <Lens
-          className={styles.greenLens + " " + styles.spacing}
-          fontSize="small"
-        />
-      );
+      color = styles.greenLens;
+      break;
     }
     case -1: {
-      return (
-        <Lens
-          className={styles.grayLens + " " + styles.spacing}
-          fontSize="small"
-        />
-      );
+      color = styles.grayLens;
+      break;
     }
-    default:
-      return <></>;
   }
+  return (
+    <Lens className={classnames(styles.spacing, color)} fontSize="small" />
+  );
 };
 
 export default CategoryStatus;

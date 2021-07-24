@@ -11,7 +11,7 @@ const RuleDisplay: React.FC<Props> = (props) => {
   const { rule } = props;
   return (
     <div>
-      <ReactMarkdown className={styles.links} children={rule.text} />
+      <ReactMarkdown className={styles.content} children={rule.text} />
       <h2 className={styles.timestamp}>
         Zuletzt aktualisiert &nbsp;
         {rule.timestamp.slice(6, 9)}.{rule.timestamp.slice(4, 6)}.
