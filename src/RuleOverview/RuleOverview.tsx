@@ -29,6 +29,7 @@ import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
 import { Clear, Edit } from "@material-ui/icons";
+import SearchField from "../SearchField/SearchField";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -56,7 +57,18 @@ const RuleOverview: React.FC<Props> = (props) => {
     setRulesPerFavouriteCategory,
   ] = useState<RulesPerCategory>([]);
 
+  const [
+    rulesPerFilteredCategory,
+    setRulesPerFilteredCategory,
+  ] = useState<RulesPerCategory>([]);
+
+  const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+
+  const [filteredRules, setFilteredRules] = useState<Rule[]>([]);
+
   const [showFavouriteCategory, setShowFavouriteCategory] = useState(false);
+
+  const [showCategories, setShowCategories] = useState(true);
 
   const mapRulesToFavouriteCategory = useCallback((): RulesPerCategory => {
     const rulesPerCategory = new Map<Category, Rule[]>();
@@ -86,6 +98,23 @@ const RuleOverview: React.FC<Props> = (props) => {
     return Array.from(rulesPerCategory);
   }, [rules, categories, favouriteCategories]);
 
+  const mapRulesToFilteredCategory = useCallback((): RulesPerCategory => {
+    const rulesPerCategory = new Map<Category, Rule[]>();
+    for (const category of filteredCategories) {
+      rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
+    }
+    for (const rule of filteredRules) {
+      const category = categories.find(
+        (category) => category.id === rule.categoryId
+      );
+      if (!category) continue;
+      rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
+      rulesPerCategory.get(category)?.push(rule);
+    }
+    console.log(Array.from(rulesPerCategory));
+    return Array.from(rulesPerCategory);
+  }, [filteredRules, categories, filteredCategories]);
+
   const showFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
@@ -101,6 +130,26 @@ const RuleOverview: React.FC<Props> = (props) => {
     ),
     [showFavouriteCategory]
   );
+
+  const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.value === "") {
+      setFilteredCategories([]);
+      setFilteredRules([]);
+      setShowCategories(true);
+    } else {
+      setFilteredCategories(
+        categories.filter((category) =>
+          category.name.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+      setFilteredRules(
+        rules.filter((rule) =>
+          rule.text.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+      setShowCategories(false);
+    }
+  };
 
   useEffect(() => {
     reset();
@@ -124,6 +173,10 @@ const RuleOverview: React.FC<Props> = (props) => {
   useEffect(() => {
     setRulesPerFavouriteCategory(mapRulesToFavouriteCategory());
   }, [favouriteCategories, rules, mapRulesToFavouriteCategory]);
+
+  useEffect(() => {
+    setRulesPerFilteredCategory(mapRulesToFilteredCategory());
+  }, [filteredCategories, filteredRules, mapRulesToFilteredCategory]);
 
   if (!selectedPlace) return <></>;
 
