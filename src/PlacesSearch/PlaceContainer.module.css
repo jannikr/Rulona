@@ -1,21 +1,8 @@
-.eventStyles {
+.placeInfo {
   vertical-align: middle;
 }
 
-.arrowUp {
-  margin-right: 10px;
-  color: #B00020;
-  ;
-}
-
-.arrowDown {
-    margin-right: 10px;
-    color: #00A907;
-    transform: scaleX(-1);
-    ;
-  }
-
 .lineSpacing {
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 1em;
+    margin-top: 1em;
 }

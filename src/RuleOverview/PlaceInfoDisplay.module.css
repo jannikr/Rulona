@@ -1,14 +1,7 @@
-.number{
-    float:right;
+.number {
+  float: right;
 }
 
-a {
-    color: black;
-}
-
-h2 {
-    font-size: small;
-    text-align: right;
-    color: #000000;
-    opacity: 60%;
+.website > a {
+  color: black;
 }

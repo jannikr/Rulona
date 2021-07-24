@@ -1,6 +1,7 @@
 import { Lens } from "@material-ui/icons";
 import React from "react";
 import { RuleStatus } from "../types";
+import styles from "./CategoryStatus.module.css";
 
 interface Props {
   status: RuleStatus;
@@ -12,31 +13,27 @@ const CategoryStatus: React.FC<Props> = (props) => {
     case 0: {
       return (
         <Lens
+          className={styles.redLens + " " + styles.spacing}
           fontSize="small"
-          style={{ color: "#B00020", marginRight: "0.8rem", fontSize: "1rem" }}
         />
       );
     }
     case 1: {
-      return (
-        <Lens
-          style={{ color: "#F0BB00", marginRight: "0.8rem", fontSize: "1rem" }}
-        />
-      );
+      return <Lens className={styles.yellowLens + " " + styles.spacing} />;
     }
     case 2: {
       return (
         <Lens
+          className={styles.greenLens + " " + styles.spacing}
           fontSize="small"
-          style={{ color: "#00A907", marginRight: "0.8rem", fontSize: "1rem" }}
         />
       );
     }
     case -1: {
       return (
         <Lens
+          className={styles.grayLens + " " + styles.spacing}
           fontSize="small"
-          style={{ color: "gray", marginRight: "0.8rem", fontSize: "1rem" }}
         />
       );
     }

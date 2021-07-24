@@ -36,6 +36,7 @@ const Sidebar: React.FC = () => {
             value={value}
             onChange={handleChange}
             variant="fullWidth"
+            indicatorColor="secondary"
             classes={{
               indicator: styles.indicator,
             }}

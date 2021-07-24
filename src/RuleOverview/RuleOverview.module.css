@@ -1,6 +1,5 @@
 .rulename {
   flex-grow: 1;
-  font-weight: 500 !important;
 }
 
 .toolbar {
@@ -13,4 +12,5 @@
   margin-bottom: 5%;
   text-align: left;
   color: black;
+  font-size: medium;
 }

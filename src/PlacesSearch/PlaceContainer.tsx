@@ -22,14 +22,10 @@ const PlaceContainer: React.FC<Props> = (props) => {
           selectPlace(place);
         }}
       >
-        <span
-          style={{
-            verticalAlign: "middle",
-          }}
-        >
+        <span className={styles.placeInfo}>
           <PlaceTrend trend={place.trend} />
         </span>
-        <span className={styles.eventStyles}>{place.name}</span>
+        <span className={styles.placeInfo}>{place.name}</span>
       </div>
       <Divider />
     </div>

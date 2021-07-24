@@ -19,7 +19,9 @@ const PlaceInfoDisplay: React.FC<Props> = (props) => {
       <Box mt={3}>
         <p>
           {`Die offiziellen Regeln für ${placeInfo.name} lassen sich `}
-          <a href={placeInfo.website}>hier</a>
+          <a className={styles.website} href={placeInfo.website}>
+            hier
+          </a>
           {` einsehen.`}
         </p>
       </Box>
