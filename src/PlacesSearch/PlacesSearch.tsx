@@ -51,7 +51,6 @@ const PlacesSearch: React.FC<Props> = (props) => {
   }, [fetchPlaces]);
 
   useEffect(() => {
-    console.log(showHeading);
     if (showHeading !== false) {
       setInitialPlaces();
     }

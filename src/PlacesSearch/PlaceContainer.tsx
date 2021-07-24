@@ -5,6 +5,7 @@ import { selectPlace } from "../store/actions";
 import { AppDispatch, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import PlaceTrend from "./PlaceTrend";
+import styles from "./PlacesSearch.module.css";
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
   onClick?: (place: Place) => void;
@@ -15,7 +16,10 @@ const PlaceContainer: React.FC<Props> = (props) => {
   const { place, selectPlace, onClick } = props;
 
   return (
-    <div>
+    <div className={styles.row}>
+      <span>
+        <PlaceTrend trend={place.trend} />
+      </span>
       <span
         onClick={(): void => {
           onClick && onClick(place);
@@ -24,9 +28,8 @@ const PlaceContainer: React.FC<Props> = (props) => {
       >
         {place.name}
       </span>
-      <FavouritePlaceOverview clickedPlace={place} />
-      <span>
-        <PlaceTrend trend={place.trend} />
+      <span className={styles.favoriteButton}>
+        <FavouritePlaceOverview clickedPlace={place} />
       </span>
     </div>
   );
