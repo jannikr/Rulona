@@ -12,6 +12,7 @@ import {
   DeleteFavouritePlaceAction,
   SetFavouritePlacesAction,
   AppState,
+  SetLastSearchedPlacesAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -56,6 +57,12 @@ export const setFavouritePlaces = (
     type: ActionType.SetFavouritePlaces,
     favouritePlaces,
   };
+};
+
+export const setLastSearchedPlaces = (
+  searches: Place[]
+): SetLastSearchedPlacesAction => {
+  return { type: ActionType.SetLastSearchedPlaces, searches };
 };
 
 export const fetchPlaces = () => {
@@ -134,5 +141,36 @@ export const fetchFavouritePlaces = () => {
       (item) => favPlacesIds.indexOf(item.id) !== -1
     );
     return dispatch(setFavouritePlaces(favouritePlaces));
+  };
+};
+
+export const addLastSearchedPlace = (place: Place) => {
+  return (dispatch: AppDispatch, getState: () => AppState): void => {
+    dispatch({
+      type: ActionType.AddLastSearchedPlace,
+      place,
+    });
+    const searches = getState()
+      .lastSearchedPlaces.map((place) => place.id)
+      .slice(0, 10);
+    localStorage.setItem("lastSearchedPlaces", JSON.stringify(searches));
+  };
+};
+
+export const fetchLastSearchedPlaces = () => {
+  return (
+    dispatch: AppDispatch,
+    getState: () => AppState
+  ): SetLastSearchedPlacesAction => {
+    const places = getState().places;
+    const searchIds: string[] = JSON.parse(
+      localStorage.getItem("lastSearchedPlaces") || "[]"
+    );
+    const searches: Place[] = searchIds.reduce<Place[]>((result, id) => {
+      const place = places.find((place) => place.id === id);
+      if (place) result.push(place);
+      return result;
+    }, []);
+    return dispatch(setLastSearchedPlaces(searches));
   };
 };

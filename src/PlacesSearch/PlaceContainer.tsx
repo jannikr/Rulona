@@ -8,17 +8,19 @@ import PlaceTrend from "./PlaceTrend";
 import styles from "./PlaceContainer.module.css";
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
+  onClick?: (place: Place) => void;
   place: Place;
 };
 
 const PlaceContainer: React.FC<Props> = (props) => {
-  const { place, selectPlace } = props;
+  const { place, selectPlace, onClick } = props;
 
   return (
     <div>
       <div
         className={styles.lineSpacing}
         onClick={(): void => {
+          onClick && onClick(place);
           selectPlace(place);
         }}
       >
