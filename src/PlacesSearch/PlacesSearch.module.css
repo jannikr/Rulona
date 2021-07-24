@@ -1,12 +1,3 @@
 .heading {
   font-weight: bold;
 }
-
-.row {
-  display: flex;
-  align-items: center;
-}
-
-.favoriteButton {
-  margin-left: auto;
-}
