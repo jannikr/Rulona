@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import FavouritePlaceOverview from "../Button/FavouritePlaceOverview";
 import { selectPlace } from "../store/actions";
 import { AppDispatch, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import PlaceTrend from "./PlaceTrend";
 import styles from "./PlacesSearch.module.css";
+import FavouritePlace from "../Button/FavouritePlace";
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
   onClick?: (place: Place) => void;
@@ -29,7 +29,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
         {place.name}
       </span>
       <span className={styles.favoriteButton}>
-        <FavouritePlaceOverview clickedPlace={place} />
+        <FavouritePlace place={place} />
       </span>
     </div>
   );
