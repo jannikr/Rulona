@@ -87,11 +87,7 @@ const RuleOverview: React.FC<Props> = (props) => {
   }, [rules, categories, favouriteCategories]);
 
   const showFavouriteCategorySwitch = (): void => {
-    if (!showFavouriteCategory) {
-      setShowFavouriteCategory(true);
-    } else {
-      setShowFavouriteCategory(false);
-    }
+    setShowFavouriteCategory(!showFavouriteCategory);
   };
 
   useEffect(() => {
@@ -133,37 +129,33 @@ const RuleOverview: React.FC<Props> = (props) => {
         {rules.length === 0 && (
           <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
         )}
-        <div className={styles.row}>
-          {rules.length !== 0 && (
-            <h4 className={styles.heading}>Meine Kategorien</h4>
-          )}
-          {rules.length !== 0 && (
-            <IconButton
-              onClick={(): void => {
-                showFavouriteCategorySwitch();
-              }}
-            >
-              {showFavouriteCategory ? <Clear /> : <Edit />}
-            </IconButton>
-          )}
-        </div>
-        {rulesPerFavouriteCategory.map(([category, rules]) => (
-          <CategoryDisplay
-            key={category.id}
-            category={category}
-            rules={rules}
-            toggleFavourite={showFavouriteCategory}
-          />
-        ))}
-        {rules.length !== 0 && <h4 className={styles.heading}> Kategorien</h4>}
-        {rulesPerCategory.map(([category, rules]) => (
-          <CategoryDisplay
-            key={category.id}
-            category={category}
-            rules={rules}
-            toggleFavourite={showFavouriteCategory}
-          />
-        ))}
+        {rules.length !== 0 && (
+          <div>
+            <div className={styles.row}>
+              <h4 className={styles.heading}>Meine Kategorien</h4>
+              <IconButton onClick={showFavouriteCategorySwitch}>
+                {showFavouriteCategory ? <Clear /> : <Edit />}
+              </IconButton>
+            </div>
+            {rulesPerFavouriteCategory.map(([category, rules]) => (
+              <CategoryDisplay
+                key={category.id}
+                category={category}
+                rules={rules}
+                toggleFavourite={showFavouriteCategory}
+              />
+            ))}
+            <h4 className={styles.heading}> Kategorien</h4>
+            {rulesPerCategory.map(([category, rules]) => (
+              <CategoryDisplay
+                key={category.id}
+                category={category}
+                rules={rules}
+                toggleFavourite={showFavouriteCategory}
+              />
+            ))}
+          </div>
+        )}
       </Container>
     </div>
   );
