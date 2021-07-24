@@ -32,15 +32,7 @@ const Sidebar: React.FC = () => {
     <>
       <div className={styles.tabHeader}>
         <Box boxShadow={3}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="fullWidth"
-            indicatorColor="secondary"
-            classes={{
-              indicator: styles.indicator,
-            }}
-          >
+          <Tabs value={value} onChange={handleChange} variant="fullWidth">
             <Tab label="Orte" />
             <Tab label="Route" />
           </Tabs>
