@@ -5,4 +5,13 @@
 .lineSpacing {
     margin-bottom: 1em;
     margin-top: 1em;
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  flex-grow: 1;
+  cursor: pointer;
 }

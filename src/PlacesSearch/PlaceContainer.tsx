@@ -6,6 +6,7 @@ import { AppDispatch, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import PlaceTrend from "./PlaceTrend";
 import styles from "./PlaceContainer.module.css";
+import FavouritePlace from "../Button/FavouritePlace";
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
   onClick?: (place: Place) => void;
@@ -28,6 +29,9 @@ const PlaceContainer: React.FC<Props> = (props) => {
           <PlaceTrend trend={place.trend} />
         </span>
         <span className={styles.placeInfo}>{place.name}</span>
+        <span>
+          <FavouritePlace place={place} />
+        </span>
       </div>
       <Divider />
     </div>

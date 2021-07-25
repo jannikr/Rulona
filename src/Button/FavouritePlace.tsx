@@ -1,8 +1,6 @@
 import React from "react";
 import BookmarkBorder from "@material-ui/icons/BookmarkBorder";
 import Bookmark from "@material-ui/icons/Bookmark";
-import IconButton from "@material-ui/core/IconButton";
-import { grey } from "@material-ui/core/colors";
 import { Place } from "../types";
 import {
   AddFavouritePlaceAction,
@@ -12,53 +10,37 @@ import {
 } from "../store/types";
 import { connect } from "react-redux";
 import { addFavouritePlace, deleteFavouritePlace } from "../store/actions";
+import Favourite from "./Favourite";
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps>;
+  ReturnType<typeof mapDispatchToProps> & {
+    place: Place;
+  };
 
 const FavouritePlace: React.FC<Props> = (props) => {
   const {
-    selectedPlace,
+    place,
     addFavouritePlace,
     deleteFavouritePlace,
     favouritePlaces,
   } = props;
 
-  if (!selectedPlace) return <></>;
-
-  if (favouritePlaces.includes(selectedPlace)) {
-    return (
-      <>
-        <IconButton
-          style={{ color: grey[400] }}
-          onClick={(): void => {
-            deleteFavouritePlace(selectedPlace);
-          }}
-        >
-          <Bookmark />
-        </IconButton>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <IconButton
-          style={{ color: grey[400] }}
-          onClick={(): void => {
-            addFavouritePlace(selectedPlace);
-          }}
-        >
-          <BookmarkBorder />
-        </IconButton>
-      </>
-    );
-  }
+  return (
+    <Favourite
+      element={place}
+      favourites={favouritePlaces}
+      addFavourite={addFavouritePlace}
+      deleteFavourite={deleteFavouritePlace}
+      addIcon={<BookmarkBorder />}
+      deleteIcon={<Bookmark />}
+    />
+  );
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapStateToProps = (state: AppState) => {
-  const { selectedPlace, favouritePlaces } = state;
-  return { selectedPlace, favouritePlaces };
+  const { favouritePlaces } = state;
+  return { favouritePlaces };
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

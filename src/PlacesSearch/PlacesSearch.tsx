@@ -38,13 +38,15 @@ const PlacesSearch: React.FC<Props> = (props) => {
   const [heading, setHeading] = useState(SidebarHeading.ExamplePlaces);
 
   const setInitialPlaces = useCallback((): void => {
+    if (heading === SidebarHeading.SearchResults) return;
+    if (heading === SidebarHeading.LastSearch) return;
     if (favouritePlaces.length > 0) {
       setHeading(SidebarHeading.FavouritePlaces);
     } else {
       setHeading(SidebarHeading.ExamplePlaces);
     }
     setShowHeading(true);
-  }, [favouritePlaces]);
+  }, [heading, favouritePlaces]);
 
   useEffect(() => {
     fetchPlaces();
@@ -73,7 +75,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
             place.id.toLowerCase().includes(e.target.value.toLowerCase())
         )
       );
-      setShowHeading(false);
+      setShowHeading(true);
     }
   };
 
@@ -86,7 +88,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
 
   const unfocusSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
     if (e.target.value === "") {
-      setInitialPlaces();
+      setHeading(SidebarHeading.ExamplePlaces);
     }
   };
 
