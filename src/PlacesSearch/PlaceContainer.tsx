@@ -29,7 +29,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
           <PlaceTrend trend={place.trend} />
         </span>
         <span className={styles.placeInfo}>{place.name}</span>
-        <span>
+        <span className={styles.icon}>
           <FavouritePlace place={place} />
         </span>
       </div>
