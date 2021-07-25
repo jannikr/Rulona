@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  flex-grow: 1;
+  cursor: pointer;
+}
