@@ -78,7 +78,9 @@ const RuleOverview: React.FC<Props> = (props) => {
           <Typography className={styles.rulename}>
             {selectedPlace.name}
           </Typography>
-          <FavouritePlace place={selectedPlace} />
+          <div className={styles.icon}>
+            <FavouritePlace place={selectedPlace} />
+          </div>
         </Toolbar>
       </Box>
       <Divider />

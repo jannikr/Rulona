@@ -14,3 +14,7 @@
   color: black;
   font-size: medium;
 }
+
+.icon * {
+  color: lightgray;
+}
