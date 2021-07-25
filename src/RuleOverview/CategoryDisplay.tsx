@@ -37,7 +37,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <div className={styles.row}>
           <CategoryStatus status={findLowestStatus()} />
           {category.name}
-          {toggleFavourite && <FavouriteCategory selectedCategory={category} />}
+          {toggleFavourite && <FavouriteCategory category={category} />}
         </div>
       </AccordionSummary>
       <AccordionDetails>

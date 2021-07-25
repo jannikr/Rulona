@@ -1,7 +1,6 @@
 import React from "react";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
-import IconButton from "@material-ui/core/IconButton";
 import { Category } from "../types";
 import {
   AddFavouriteCategoryAction,
@@ -14,45 +13,31 @@ import {
   addFavouriteCategory,
   deleteFavouriteCategory,
 } from "../store/actions";
+import Favourite from "./Favourite";
 
 type Props = ReturnType<typeof mapStateToProps> &
-  ReturnType<typeof mapDispatchToProps> & { selectedCategory: Category };
+  ReturnType<typeof mapDispatchToProps> & {
+    category: Category;
+  };
 
 const FavouriteCategory: React.FC<Props> = (props) => {
   const {
-    selectedCategory,
+    category,
     addFavouriteCategory,
     deleteFavouriteCategory,
     favouriteCategories,
   } = props;
 
-  if (!selectedCategory) return <></>;
-
-  if (favouriteCategories.includes(selectedCategory)) {
-    return (
-      <>
-        <IconButton
-          onClick={(): void => {
-            deleteFavouriteCategory(selectedCategory);
-          }}
-        >
-          <Favorite />
-        </IconButton>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <IconButton
-          onClick={(): void => {
-            addFavouriteCategory(selectedCategory);
-          }}
-        >
-          <FavoriteBorder />
-        </IconButton>
-      </>
-    );
-  }
+  return (
+    <Favourite
+      element={category}
+      favourites={favouriteCategories}
+      addFavourite={addFavouriteCategory}
+      deleteFavourite={deleteFavouriteCategory}
+      addIcon={<FavoriteBorder />}
+      deleteIcon={<Favorite />}
+    />
+  );
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
