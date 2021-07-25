@@ -1,9 +1,14 @@
-.row {
-  display: flex;
-  align-items: center;
+.placeInfo {
+  vertical-align: middle;
+  cursor: pointer;
 }
 
-.name {
-  flex-grow: 1;
-  cursor: pointer;
+.lineSpacing {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.icon {
+  float: right;
+  margin-top: -10px;
 }

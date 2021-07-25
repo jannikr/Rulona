@@ -1,5 +1,7 @@
 import React from "react";
 import { PlaceInfo } from "../types";
+import styles from "./PlaceInfoDisplay.module.css";
+import Box from "@material-ui/core/Box";
 
 interface Props {
   placeInfo?: PlaceInfo;
@@ -10,12 +12,19 @@ const PlaceInfoDisplay: React.FC<Props> = (props) => {
   if (!placeInfo) return <></>;
   return (
     <>
-      <p>Inzidenz: {placeInfo.incidence}</p>
       <p>
-        {`Die offiziellen Regeln für ${placeInfo.name} lassen sich `}
-        <a href={placeInfo.website}>hier</a>
-        {` einsehen.`}
+        7-Tage-Inzidenz:{" "}
+        <span className={styles.number}>{placeInfo.incidence}</span>
       </p>
+      <Box mt={3}>
+        <p>
+          {`Die offiziellen Regeln für ${placeInfo.name} lassen sich `}
+          <a className={styles.website} href={placeInfo.website}>
+            hier
+          </a>
+          {` einsehen.`}
+        </p>
+      </Box>
     </>
   );
 };

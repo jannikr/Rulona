@@ -20,6 +20,7 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
+import Box from "@material-ui/core/Box";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -72,26 +73,37 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <Toolbar>
-        <Typography className={styles.rulename}>
-          {selectedPlace.name}
-        </Typography>
-        <FavouritePlace place={selectedPlace} />
-      </Toolbar>
+      <Box boxShadow={3}>
+        <Toolbar variant="dense" className={styles.toolbar}>
+          <Typography className={styles.rulename}>
+            {selectedPlace.name}
+          </Typography>
+          <div className={styles.icon}>
+            <FavouritePlace place={selectedPlace} />
+          </div>
+        </Toolbar>
+      </Box>
       <Divider />
-      <Container>
-        <PlaceInfoDisplay placeInfo={placeInfo} />
-        {rules.length === 0 && (
-          <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
-        )}
-        {rulesPerCategory.map(([category, rules]) => (
-          <CategoryDisplay
-            key={category.id}
-            category={category}
-            rules={rules}
-          />
-        ))}
-      </Container>
+      <Box mt={5}>
+        <Container maxWidth="sm">
+          <PlaceInfoDisplay placeInfo={placeInfo} />
+          {rules.length === 0 && (
+            <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
+          )}
+          {rules.length !== 0 && (
+            <h2 className={styles.headline}>
+              Alle Regeln für {selectedPlace.name}
+            </h2>
+          )}
+          {rulesPerCategory.map(([category, rules]) => (
+            <CategoryDisplay
+              key={category.id}
+              category={category}
+              rules={rules}
+            />
+          ))}
+        </Container>
+      </Box>
     </div>
   );
 };

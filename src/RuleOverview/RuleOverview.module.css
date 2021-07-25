@@ -1,3 +1,20 @@
 .rulename {
-    flex-grow: 1;
+  flex-grow: 1;
+}
+
+.toolbar {
+  background-color: #0a524d;
+  color: white;
+}
+
+.headline {
+  margin-top: 15%;
+  margin-bottom: 5%;
+  text-align: left;
+  color: black;
+  font-size: medium;
+}
+
+.icon * {
+  color: lightgray;
 }

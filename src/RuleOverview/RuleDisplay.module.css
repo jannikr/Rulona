@@ -1,0 +1,9 @@
+.timestamp {
+  font-size: small;
+  text-align: right;
+  color: gray;
+}
+
+.content * {
+  color: black;
+}
