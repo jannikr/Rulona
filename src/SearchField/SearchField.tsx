@@ -4,17 +4,21 @@ import React from "react";
 import styles from "./SearchField.module.css";
 
 interface Props {
-  search: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const SearchField: React.FC<Props> = (props) => {
-  const { search } = props;
+  const { onChange, onFocus, onBlur } = props;
 
   return (
     <OutlinedInput
       className={styles.searchInput}
       placeholder="Suche"
-      onChange={search}
+      onChange={onChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
       endAdornment={
         <InputAdornment position="end">
           <SearchIcon />
