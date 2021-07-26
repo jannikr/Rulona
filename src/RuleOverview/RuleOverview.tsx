@@ -195,14 +195,7 @@ const RuleOverview: React.FC<Props> = (props) => {
           <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
         )}
         <SearchField onChange={search} />
-        {rulesPerFilteredCategory.map(([category, rules]) => (
-          <CategoryDisplay
-            key={category.id}
-            category={category}
-            rules={rules}
-            toggleFavourite={showFavouriteCategory}
-          />
-        ))}
+        {rulesPerFilteredCategory.map(toCategoryDisplay)}
         {showCategories && rules.length !== 0 && (
           <div>
             <div className={styles.row}>
