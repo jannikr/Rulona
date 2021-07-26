@@ -11,15 +11,18 @@ import Typography from "@material-ui/core/Typography";
 import CategoryStatus from "./CategoryStatus";
 import FavouriteCategory from "../Button/FavouriteCategory";
 import styles from "./RuleOverview.module.css";
+import Highlighter from "./Higlighter";
 
 interface Props {
   category: Category;
   rules: Rule[];
   toggleFavourite: boolean;
+  searchWord: string;
 }
 
 const CategoryDisplay: React.FC<Props> = (props) => {
-  const { category, rules, toggleFavourite } = props;
+  const { category, rules, toggleFavourite, searchWord } = props;
+
   const findLowestStatus = useCallback((): RuleStatus => {
     let lowest: RuleStatus = RuleStatus.Unknown;
     for (const rule of rules) {
@@ -36,14 +39,14 @@ const CategoryDisplay: React.FC<Props> = (props) => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <div className={styles.row}>
           <CategoryStatus status={findLowestStatus()} />
-          {category.name}
+          <Highlighter text={category.name} searchWord={searchWord} />
           {toggleFavourite && <FavouriteCategory category={category} />}
         </div>
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
           {rules.map((rule) => (
-            <RuleDisplay key={rule.id} rule={rule} />
+            <RuleDisplay key={rule.id} rule={rule} searchWord={searchWord} />
           ))}
         </Typography>
       </AccordionDetails>

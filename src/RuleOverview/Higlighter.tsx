@@ -1,6 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
-import { Rule } from "../types";
+import styles from "./RuleOverview.module.css";
 
 interface Props {
   text: string;
@@ -9,7 +8,29 @@ interface Props {
 
 const Highlighter: React.FC<Props> = (props) => {
   const { text, searchWord } = props;
-  return <span></span>;
+
+  const regex = new RegExp(`(${searchWord})`, "gi");
+  const parts = text.split(regex);
+
+  if (!searchWord.trim()) {
+    return <span>{text}</span>;
+  }
+
+  return (
+    <span>
+      {parts
+        .filter((part) => part)
+        .map((part, i) =>
+          regex.test(part) ? (
+            <span key={i} className={styles.highlight}>
+              {part}
+            </span>
+          ) : (
+            <span key={i}>{part}</span>
+          )
+        )}
+    </span>
+  );
 };
 
 export default Highlighter;

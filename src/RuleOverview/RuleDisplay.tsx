@@ -4,6 +4,7 @@ import { Rule } from "../types";
 
 interface Props {
   rule: Rule;
+  searchWord?: string;
 }
 
 const RuleDisplay: React.FC<Props> = (props) => {

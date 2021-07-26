@@ -52,6 +52,8 @@ const RuleOverview: React.FC<Props> = (props) => {
     []
   );
 
+  const [searchWord, setSearchWord] = useState<string>("");
+
   const [
     rulesPerFavouriteCategory,
     setRulesPerFavouriteCategory,
@@ -111,25 +113,12 @@ const RuleOverview: React.FC<Props> = (props) => {
       rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
       rulesPerCategory.get(category)?.push(rule);
     }
-    console.log(Array.from(rulesPerCategory));
     return Array.from(rulesPerCategory);
   }, [filteredRules, categories, filteredCategories]);
 
   const showFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
-
-  const toCategoryDisplay = useCallback(
-    ([category, rules]: [Category, Rule[]]): JSX.Element => (
-      <CategoryDisplay
-        key={category.id}
-        category={category}
-        rules={rules}
-        toggleFavourite={showFavouriteCategory}
-      />
-    ),
-    [showFavouriteCategory]
-  );
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.value === "") {
@@ -149,7 +138,21 @@ const RuleOverview: React.FC<Props> = (props) => {
       );
       setShowCategories(false);
     }
+    setSearchWord(e.target.value);
   };
+
+  const toCategoryDisplay = useCallback(
+    ([category, rules]: [Category, Rule[]]): JSX.Element => (
+      <CategoryDisplay
+        key={category.id}
+        category={category}
+        rules={rules}
+        toggleFavourite={showFavouriteCategory}
+        searchWord={searchWord}
+      />
+    ),
+    [showFavouriteCategory, searchWord]
+  );
 
   useEffect(() => {
     reset();
@@ -178,6 +181,10 @@ const RuleOverview: React.FC<Props> = (props) => {
     setRulesPerFilteredCategory(mapRulesToFilteredCategory());
   }, [filteredCategories, filteredRules, mapRulesToFilteredCategory]);
 
+  useEffect(() => {
+    setSearchWord(searchWord);
+  }, [searchWord]);
+
   if (!selectedPlace) return <></>;
 
   return (
@@ -194,19 +201,24 @@ const RuleOverview: React.FC<Props> = (props) => {
         {rules.length === 0 && (
           <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
         )}
-        <SearchField onChange={search} />
-        {rulesPerFilteredCategory.map(toCategoryDisplay)}
-        {showCategories && rules.length !== 0 && (
+        {rules.length !== 0 && (
           <div>
-            <div className={styles.row}>
-              <h4 className={styles.heading}>Meine Kategorien</h4>
-              <IconButton onClick={showFavouriteCategorySwitch}>
-                {showFavouriteCategory ? <Clear /> : <Edit />}
-              </IconButton>
-            </div>
-            {rulesPerFavouriteCategory.map(toCategoryDisplay)}
-            <h4 className={styles.heading}> Kategorien</h4>
-            {rulesPerCategory.map(toCategoryDisplay)}
+            <SearchField onChange={search} />
+            {showCategories ? (
+              <div>
+                <div className={styles.row}>
+                  <h4 className={styles.heading}>Meine Kategorien</h4>
+                  <IconButton onClick={showFavouriteCategorySwitch}>
+                    {showFavouriteCategory ? <Clear /> : <Edit />}
+                  </IconButton>
+                </div>
+                {rulesPerFavouriteCategory.map(toCategoryDisplay)}
+                <h4 className={styles.heading}> Kategorien</h4>
+                {rulesPerCategory.map(toCategoryDisplay)}
+              </div>
+            ) : (
+              <div>{rulesPerFilteredCategory.map(toCategoryDisplay)}</div>
+            )}
           </div>
         )}
       </Container>
