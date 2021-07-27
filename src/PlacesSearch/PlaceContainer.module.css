@@ -1,14 +1,20 @@
 .placeInfo {
   vertical-align: middle;
-  cursor: pointer;
+  margin-top: 0.3em;
 }
 
 .lineSpacing {
-    margin-bottom: 1em;
-    margin-top: 1em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
 }
 
 .icon {
   float: right;
-  margin-top: -10px;
+}
+
+.name {
+  flex-grow: 1;
+  cursor: pointer;
 }
