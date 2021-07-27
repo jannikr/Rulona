@@ -9,17 +9,15 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import CategoryStatus from "./CategoryStatus";
-import FavouriteCategory from "../Button/FavouriteCategory";
 import styles from "./RuleOverview.module.css";
 
 interface Props {
   category: Category;
   rules: Rule[];
-  toggleFavourite: boolean;
 }
 
 const CategoryDisplay: React.FC<Props> = (props) => {
-  const { category, rules, toggleFavourite } = props;
+  const { category, rules } = props;
   const findLowestStatus = useCallback((): RuleStatus => {
     let lowest: RuleStatus = RuleStatus.Unknown;
     for (const rule of rules) {
@@ -37,7 +35,6 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <div className={styles.row}>
           <CategoryStatus status={findLowestStatus()} />
           {category.name}
-          {toggleFavourite && <FavouriteCategory category={category} />}
         </div>
       </AccordionSummary>
       <AccordionDetails>
