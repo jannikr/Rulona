@@ -4,15 +4,29 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import "./index.css";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#0A524D",
+    },
+    secondary: {
+      main: "#FFF",
+    },
+  },
+});
 
 loadDynamicConstants().then(() => {
   ReactDOM.render(
     <React.StrictMode>
-      <Provider store={store()}>
-        <App />
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <Provider store={store()}>
+          <App />
+        </Provider>
+      </ThemeProvider>
     </React.StrictMode>,
     document.getElementById("root")
   );
