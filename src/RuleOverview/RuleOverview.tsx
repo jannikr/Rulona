@@ -97,11 +97,13 @@ const RuleOverview: React.FC<Props> = (props) => {
     const uncategorized: Category = { id: -1, name: "Ohne Kategorie" };
     for (const rule of rules) {
       const category =
-        getNonFavouriteCategories().find(
+        sortCategories(categories).find(
           (category) => category.id === rule.categoryId
         ) || uncategorized;
-      rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
-      rulesPerCategory.get(category)?.push(rule);
+      if (!favouriteCategories.includes(category)) {
+        rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
+        rulesPerCategory.get(category)?.push(rule);
+      }
     }
     return Array.from(rulesPerCategory);
   }, [rules, categories, favouriteCategories, getNonFavouriteCategories]);
