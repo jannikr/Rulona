@@ -18,13 +18,13 @@
 }
 
 .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .headlinerow {
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 5%;
   display: flex;
   align-items: center;

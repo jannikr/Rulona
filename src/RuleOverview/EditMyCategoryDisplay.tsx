@@ -2,7 +2,7 @@ import { Divider } from "@material-ui/core";
 import React from "react";
 import FavouriteCategory from "../Button/FavouriteCategory";
 import { Category } from "../types";
-import styles from "./RuleOverview.module.css";
+import styles from "./EditMyCategoryDisplay.module.css";
 
 interface Props {
   category: Category;
