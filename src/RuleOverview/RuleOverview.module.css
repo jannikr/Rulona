@@ -18,3 +18,22 @@
 .icon * {
   color: lightgray;
 }
+
+@media screen and (min-width: 959px) {
+  .backArrow {
+    display: none !important;
+  }
+}
+
+.backArrow * {
+  color: white;
+}
+
+.button:after{
+  background-color: rgba(214, 214, 214, 0.603);
+  
+}
+
+.button {
+  padding-left: 0px !important;
+}

@@ -1,4 +1,10 @@
-import { Container, Divider, Toolbar, Typography } from "@material-ui/core";
+import {
+  Container,
+  Divider,
+  Toolbar,
+  Typography,
+  IconButton,
+} from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -21,6 +27,7 @@ import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
 import Box from "@material-ui/core/Box";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -75,6 +82,11 @@ const RuleOverview: React.FC<Props> = (props) => {
     <div>
       <Box boxShadow={3}>
         <Toolbar variant="dense" className={styles.toolbar}>
+          <div className={styles.backArrow}>
+            <IconButton className={styles.button}>
+              <ArrowBackIosIcon fontSize="small" />
+            </IconButton>
+          </div>
           <Typography className={styles.rulename}>
             {selectedPlace.name}
           </Typography>
