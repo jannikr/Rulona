@@ -8,8 +8,6 @@
 }
 
 .headline {
-  margin-top: 15%;
-  margin-bottom: 5%;
   text-align: left;
   color: black;
   font-size: medium;
@@ -23,4 +21,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.headlinerow {
+  margin-top: 15%;
+  margin-bottom: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

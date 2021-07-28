@@ -173,7 +173,7 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
           {rules.length !== 0 && (
             <div>
-              <div className={styles.row}>
+              <div className={styles.headlinerow}>
                 <h2 className={styles.headline}>Meine Kategorien</h2>
                 <IconButton onClick={showFavouriteCategorySwitch}>
                   {showFavouriteCategory ? <Clear /> : <Edit />}
@@ -184,9 +184,11 @@ const RuleOverview: React.FC<Props> = (props) => {
                   {sortRulesPerCategory(rulesPerFavouriteCategory).map(
                     toCategoryDisplay
                   )}
-                  <h2 className={styles.headline}>
-                    Alle Regeln für {selectedPlace.name}
-                  </h2>
+                  <div className={styles.headlinerow}>
+                    <h2 className={styles.headline}>
+                      Alle Regeln für {selectedPlace.name}
+                    </h2>
+                  </div>
                   {sortRulesPerCategory(rulesPerCategory).map(
                     toCategoryDisplay
                   )}
@@ -195,7 +197,9 @@ const RuleOverview: React.FC<Props> = (props) => {
               {showFavouriteCategory && (
                 <div>
                   {favouriteCategories.map(toEditMyCategoryDisplay)}
-                  <h2 className={styles.headline}> Kategorien</h2>
+                  <div className={styles.headlinerow}>
+                    <h2 className={styles.headline}>Alle Kategorien</h2>
+                  </div>
                   {getNonFavouriteCategories().map(toEditMyCategoryDisplay)}
                 </div>
               )}
