@@ -17,7 +17,7 @@ const PlaceInfoDisplay: React.FC<Props> = (props) => {
         <span className={styles.trend}>
           <PlaceTrend trend={placeInfo.trend} />
         </span>
-        <span className={styles.name}>7-Tage-Inzidenz: </span>
+        <span className={styles.label}>7-Tage-Inzidenz: </span>
         <span className={styles.number}>{placeInfo.incidence}</span>
       </div>
       <Box mt={3}>

@@ -29,8 +29,9 @@ import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
 import { Clear, Edit } from "@material-ui/icons";
-import EditMyCategoryDisplay from "./EditMyCategoryDisplay";
+import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
+import classnames from "classnames";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -60,30 +61,17 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   const [showFavouriteCategory, setShowFavouriteCategory] = useState(false);
 
-  const sortCategories = (categories: Category[]): Category[] => {
-    return categories.sort((a, b) => a.name.localeCompare(b.name));
-  };
-
-  const sortRulesPerCategory = (
-    rulesPerCategory: RulesPerCategory
-  ): RulesPerCategory => {
-    return rulesPerCategory.sort((a, b) => a[0].name.localeCompare(b[0].name));
-  };
-
   const getNonFavouriteCategories = useCallback((): Category[] => {
-    const nonFavouriteCategories: Category[] = [];
-    for (const category of categories) {
-      if (!favouriteCategories.includes(category)) {
-        nonFavouriteCategories.push(category);
-      }
-    }
-    return sortCategories(nonFavouriteCategories);
+    const nonFavouriteCategories = categories.filter(
+      (category) => !favouriteCategories.includes(category)
+    );
+    return nonFavouriteCategories;
   }, [categories, favouriteCategories]);
 
   const mapRulesToFavouriteCategory = useCallback((): RulesPerCategory => {
     const rulesPerCategory = new Map<Category, Rule[]>();
     for (const rule of rules) {
-      const category = sortCategories(favouriteCategories).find(
+      const category = favouriteCategories.find(
         (category) => category.id === rule.categoryId
       );
       if (!category) continue;
@@ -98,9 +86,8 @@ const RuleOverview: React.FC<Props> = (props) => {
     const uncategorized: Category = { id: -1, name: "Ohne Kategorie" };
     for (const rule of rules) {
       const category =
-        sortCategories(categories).find(
-          (category) => category.id === rule.categoryId
-        ) || uncategorized;
+        categories.find((category) => category.id === rule.categoryId) ||
+        uncategorized;
       if (!favouriteCategories.includes(category)) {
         rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
         rulesPerCategory.get(category)?.push(rule);
@@ -120,9 +107,9 @@ const RuleOverview: React.FC<Props> = (props) => {
     []
   );
 
-  const toEditMyCategoryDisplay = useCallback(
+  const toFavouriteCategoriesEditor = useCallback(
     (category: Category): JSX.Element => (
-      <EditMyCategoryDisplay key={category.id} category={category} />
+      <FavouriteCategoriesEditor key={category.id} category={category} />
     ),
     []
   );
@@ -173,7 +160,7 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
           {rules.length !== 0 && (
             <div>
-              <div className={styles.headlinerow}>
+              <div className={classnames(styles.row, styles.headlinemargin)}>
                 <h2 className={styles.headline}>Meine Kategorien</h2>
                 <IconButton onClick={showFavouriteCategorySwitch}>
                   {showFavouriteCategory ? <Clear /> : <Edit />}
@@ -181,26 +168,34 @@ const RuleOverview: React.FC<Props> = (props) => {
               </div>
               {!showFavouriteCategory && (
                 <div>
-                  {sortRulesPerCategory(rulesPerFavouriteCategory).map(
-                    toCategoryDisplay
-                  )}
-                  <div className={styles.headlinerow}>
+                  {rulesPerFavouriteCategory
+                    .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                    .map(toCategoryDisplay)}
+                  <div
+                    className={classnames(styles.row, styles.headlinemargin)}
+                  >
                     <h2 className={styles.headline}>
                       Alle Regeln für {selectedPlace.name}
                     </h2>
                   </div>
-                  {sortRulesPerCategory(rulesPerCategory).map(
-                    toCategoryDisplay
-                  )}
+                  {rulesPerCategory
+                    .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                    .map(toCategoryDisplay)}
                 </div>
               )}
               {showFavouriteCategory && (
                 <div>
-                  {favouriteCategories.map(toEditMyCategoryDisplay)}
-                  <div className={styles.headlinerow}>
+                  {favouriteCategories
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(toFavouriteCategoriesEditor)}
+                  <div
+                    className={classnames(styles.row, styles.headlinemargin)}
+                  >
                     <h2 className={styles.headline}>Alle Kategorien</h2>
                   </div>
-                  {getNonFavouriteCategories().map(toEditMyCategoryDisplay)}
+                  {getNonFavouriteCategories()
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(toFavouriteCategoriesEditor)}
                 </div>
               )}
             </div>

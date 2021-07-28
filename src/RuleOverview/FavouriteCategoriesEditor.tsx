@@ -2,13 +2,13 @@ import { Divider } from "@material-ui/core";
 import React from "react";
 import FavouriteCategory from "../Button/FavouriteCategory";
 import { Category } from "../types";
-import styles from "./EditMyCategoryDisplay.module.css";
+import styles from "./FavouriteCategoriesEditor.module.css";
 
 interface Props {
   category: Category;
 }
 
-const CategoryDisplay: React.FC<Props> = (props) => {
+const FavouriteCategoriesEditor: React.FC<Props> = (props) => {
   const { category } = props;
 
   return (
@@ -22,4 +22,4 @@ const CategoryDisplay: React.FC<Props> = (props) => {
   );
 };
 
-export default CategoryDisplay;
+export default FavouriteCategoriesEditor;
