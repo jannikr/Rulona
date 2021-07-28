@@ -165,38 +165,6 @@ const RuleOverview: React.FC<Props> = (props) => {
         </Toolbar>
       </Box>
       <Divider />
-      <Container>
-        <PlaceInfoDisplay placeInfo={placeInfo} />
-        {rules.length === 0 && (
-          <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
-        )}
-        {rules.length !== 0 && (
-          <div>
-            <div className={styles.row}>
-              <h4 className={styles.heading}>Meine Kategorien</h4>
-              <IconButton onClick={showFavouriteCategorySwitch}>
-                {showFavouriteCategory ? <Clear /> : <Edit />}
-              </IconButton>
-            </div>
-            {!showFavouriteCategory && (
-              <div>
-                {sortRulesPerCategory(rulesPerFavouriteCategory).map(
-                  toCategoryDisplay
-                )}
-                <h4 className={styles.heading}> Kategorien</h4>
-                {sortRulesPerCategory(rulesPerCategory).map(toCategoryDisplay)}
-              </div>
-            )}
-            {showFavouriteCategory && (
-              <div>
-                {favouriteCategories.map(toEditMyCategoryDisplay)}
-                <h4 className={styles.heading}> Kategorien</h4>
-                {getNonFavouriteCategories().map(toEditMyCategoryDisplay)}
-              </div>
-            )}
-          </div>
-        )}
-      </Container>
       <Box mt={5}>
         <Container maxWidth="sm">
           <PlaceInfoDisplay placeInfo={placeInfo} />
@@ -204,17 +172,35 @@ const RuleOverview: React.FC<Props> = (props) => {
             <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
           )}
           {rules.length !== 0 && (
-            <h2 className={styles.headline}>
-              Alle Regeln für {selectedPlace.name}
-            </h2>
+            <div>
+              <div className={styles.row}>
+                <h2 className={styles.headline}>Meine Kategorien</h2>
+                <IconButton onClick={showFavouriteCategorySwitch}>
+                  {showFavouriteCategory ? <Clear /> : <Edit />}
+                </IconButton>
+              </div>
+              {!showFavouriteCategory && (
+                <div>
+                  {sortRulesPerCategory(rulesPerFavouriteCategory).map(
+                    toCategoryDisplay
+                  )}
+                  <h2 className={styles.headline}>
+                    Alle Regeln für {selectedPlace.name}
+                  </h2>
+                  {sortRulesPerCategory(rulesPerCategory).map(
+                    toCategoryDisplay
+                  )}
+                </div>
+              )}
+              {showFavouriteCategory && (
+                <div>
+                  {favouriteCategories.map(toEditMyCategoryDisplay)}
+                  <h2 className={styles.headline}> Kategorien</h2>
+                  {getNonFavouriteCategories().map(toEditMyCategoryDisplay)}
+                </div>
+              )}
+            </div>
           )}
-          {rulesPerCategory.map(([category, rules]) => (
-            <CategoryDisplay
-              key={category.id}
-              category={category}
-              rules={rules}
-            />
-          ))}
         </Container>
       </Box>
     </div>
