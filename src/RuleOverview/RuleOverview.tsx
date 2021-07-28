@@ -107,7 +107,7 @@ const RuleOverview: React.FC<Props> = (props) => {
       }
     }
     return Array.from(rulesPerCategory);
-  }, [rules, categories, favouriteCategories, getNonFavouriteCategories]);
+  }, [rules, categories, favouriteCategories]);
 
   const showFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
@@ -117,14 +117,14 @@ const RuleOverview: React.FC<Props> = (props) => {
     ([category, rules]: [Category, Rule[]]): JSX.Element => (
       <CategoryDisplay key={category.id} category={category} rules={rules} />
     ),
-    [showFavouriteCategory]
+    []
   );
 
   const toEditMyCategoryDisplay = useCallback(
     (category: Category): JSX.Element => (
       <EditMyCategoryDisplay key={category.id} category={category} />
     ),
-    [showFavouriteCategory]
+    []
   );
 
   useEffect(() => {
