@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
           </Tabs>
         </Box>
       </div>
-      <div>
+      <div className={styles.panelSize}>
         <TabPanel value={value} index={0} className={styles.tabContent}>
           <PlacesSearch />
         </TabPanel>

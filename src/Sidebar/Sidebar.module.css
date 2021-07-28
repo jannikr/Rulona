@@ -5,7 +5,10 @@
 
 .tabContent {
   background: #FAFAFA;
-  height: 100vh;
+}
+
+.panelSize {
+  height: 100vh !important;
 }
 
 .indicator {
