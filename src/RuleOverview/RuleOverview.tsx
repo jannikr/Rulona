@@ -28,7 +28,7 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
-import { Clear, Edit } from "@material-ui/icons";
+import { Clear, Edit, Search } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import classnames from "classnames";
@@ -72,6 +72,8 @@ const RuleOverview: React.FC<Props> = (props) => {
   const [filteredRules, setFilteredRules] = useState<Rule[]>([]);
 
   const [showFavouriteCategory, setShowFavouriteCategory] = useState(false);
+
+  const [showSearch, setShowSearch] = useState(false);
 
   const getNonFavouriteCategories = useCallback((): Category[] => {
     const nonFavouriteCategories = categories.filter(
@@ -128,6 +130,15 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   const showFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
+  };
+
+  const showSearchSwitch = (): void => {
+    if (showSearch) {
+      setFilteredCategories([]);
+      setFilteredRules([]);
+      setShowCategories(true);
+    }
+    setShowSearch(!showSearch);
   };
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -211,6 +222,11 @@ const RuleOverview: React.FC<Props> = (props) => {
             {selectedPlace.name}
           </Typography>
           <div className={styles.icon}>
+            <IconButton onClick={showSearchSwitch}>
+              {showSearch ? <Clear /> : <Search />}
+            </IconButton>
+          </div>
+          <div className={styles.icon}>
             <FavouritePlace place={selectedPlace} />
           </div>
         </Toolbar>
@@ -224,7 +240,7 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
           {rules.length !== 0 && (
             <>
-              <SearchField onChange={search} />
+              {showSearch && <SearchField onChange={search} />}
               {showCategories ? (
                 <>
                   <div
