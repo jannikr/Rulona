@@ -1,0 +1,16 @@
+.arrowUp {
+  margin-right: 10px;
+  color: #b00020;
+}
+
+.arrowDown {
+  margin-right: 10px;
+  color: #00a907;
+  transform: scaleX(-1);
+}
+
+.arrowNeutral {
+  margin-right: 10px;
+  transform: rotate(45deg);
+  color: gray;
+}

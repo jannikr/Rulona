@@ -1,7 +1,13 @@
 .tabHeader {
-  background: #FFF;
+  background: #0A524D;
+  color: white;
 }
 
 .tabContent {
   background: #FAFAFA;
 }
+
+.indicator {
+  background: white !important;
+}
+

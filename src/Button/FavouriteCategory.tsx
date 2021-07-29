@@ -1,6 +1,4 @@
 import React from "react";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import Favorite from "@material-ui/icons/Favorite";
 import { Category } from "../types";
 import {
   AddFavouriteCategoryAction,
@@ -14,6 +12,7 @@ import {
   deleteFavouriteCategory,
 } from "../store/actions";
 import Favourite from "./Favourite";
+import { Add, Remove } from "@material-ui/icons";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
@@ -34,8 +33,8 @@ const FavouriteCategory: React.FC<Props> = (props) => {
       favourites={favouriteCategories}
       addFavourite={addFavouriteCategory}
       deleteFavourite={deleteFavouriteCategory}
-      addIcon={<FavoriteBorder />}
-      deleteIcon={<Favorite />}
+      addIcon={<Add />}
+      deleteIcon={<Remove />}
     />
   );
 };

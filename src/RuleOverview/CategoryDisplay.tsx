@@ -1,15 +1,13 @@
 import React, { useCallback } from "react";
 import { Category, Rule, RuleStatus } from "../types";
 import RuleDisplay from "./RuleDisplay";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import CategoryStatus from "./CategoryStatus";
-import FavouriteCategory from "../Button/FavouriteCategory";
+import { withStyles } from "@material-ui/core/styles";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import styles from "./RuleOverview.module.css";
 import Highlighter from "./Higlighter";
 
@@ -19,6 +17,47 @@ interface Props {
   toggleFavourite: boolean;
   searchWord: string;
 }
+
+const Accordion = withStyles({
+  root: {
+    borderBottom: "1px solid rgba(0, 0, 0, .125)",
+    boxShadow: "none",
+    "&:not(:last-child)": {
+      borderBottom: 0,
+    },
+    "&:before": {
+      display: "none",
+    },
+    "&$expanded": {
+      margin: "auto",
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
+
+const AccordionSummary = withStyles({
+  root: {
+    borderBottom: "1px solid rgba(0, 0, 0, .125)",
+    padding: 0,
+    minHeight: 56,
+    "&$expanded": {
+      minHeight: 56,
+    },
+  },
+  content: {
+    "&$expanded": {
+      margin: "12px 0",
+    },
+  },
+  expanded: {},
+})(MuiAccordionSummary);
+
+const AccordionDetails = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+    backgroundColor: "rgba(0, 0, 0, .03)",
+  },
+}))(MuiAccordionDetails);
 
 const CategoryDisplay: React.FC<Props> = (props) => {
   const { category, rules, toggleFavourite, searchWord } = props;

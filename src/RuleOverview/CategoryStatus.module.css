@@ -1,0 +1,21 @@
+.redLens {
+  color: #b00020;
+}
+
+.yellowLens {
+  color: #f0bb00;
+}
+
+.greenLens {
+  color: #00a907;
+}
+
+.grayLens {
+  color: gray;
+}
+
+.spacing {
+  margin-right: 0.8rem;
+  font-size: 1rem;
+  margin-top: 0.1rem;
+}
