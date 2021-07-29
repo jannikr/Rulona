@@ -37,6 +37,32 @@ const PlacesSearch: React.FC<Props> = (props) => {
   const [showHeading, setShowHeading] = useState(true);
   const [heading, setHeading] = useState(SidebarHeading.ExamplePlaces);
 
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+
+  const getLocation = (): void => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLat(position.coords.latitude);
+        setLng(position.coords.longitude);
+      });
+      fetch(
+        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+          lat +
+          "," +
+          lng +
+          "&key=" +
+          "keyhere"
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(
+            "ADDRESS GEOCODE is BACK!! => " + JSON.stringify(responseJson)
+          );
+        });
+    }
+  };
+
   const setInitialPlaces = useCallback((): void => {
     if (heading === SidebarHeading.SearchResults) return;
     if (heading === SidebarHeading.LastSearch) return;
@@ -145,6 +171,9 @@ const PlacesSearch: React.FC<Props> = (props) => {
         onFocus={focusSearch}
         onBlur={unfocusSearch}
       />
+      <button onClick={getLocation}>Get Location</button>
+      {console.log(lat)}
+      {console.log(lng)}
       {showHeading && <h4 className={styles.heading}>{heading}</h4>}
       <Divider />
       {shownPlaces()}
