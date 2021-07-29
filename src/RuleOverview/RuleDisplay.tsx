@@ -12,10 +12,14 @@ interface Props {
 }
 
 const RuleDisplay: React.FC<Props> = (props) => {
-  const { rule } = props;
+  const { rule, searchWord } = props;
+
+  const components = <Highlighter text={rule.text} searchWord={searchWord} />;
+  const test = ReactDOMServer.renderToStaticMarkup(components);
+
   return (
     <div>
-      <ReactMarkdown className={styles.content} children={rule.text} />
+      <ReactMarkdown className={styles.content} rehypePlugins={[rehypeRaw]} children={test} />;
       <h2 className={styles.timestamp}>
         Zuletzt aktualisiert &nbsp;
         {rule.timestamp.slice(6, 9)}.{rule.timestamp.slice(4, 6)}.
@@ -23,12 +27,6 @@ const RuleDisplay: React.FC<Props> = (props) => {
       </h2>
     </div>
   );
-  const { rule, searchWord } = props;
-
-  const components = <Highlighter text={rule.text} searchWord={searchWord} />;
-  const test = ReactDOMServer.renderToStaticMarkup(components);
-
-  return <ReactMarkdown rehypePlugins={[rehypeRaw]} children={test} />;
 };
 
 export default RuleDisplay;

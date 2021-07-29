@@ -79,7 +79,6 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <div className={styles.row}>
           <CategoryStatus status={findLowestStatus()} />
           <Highlighter text={category.name} searchWord={searchWord} />
-          {toggleFavourite && <FavouriteCategory category={category} />}
         </div>
       </AccordionSummary>
       <AccordionDetails>
