@@ -14,7 +14,6 @@ import Highlighter from "./Higlighter";
 interface Props {
   category: Category;
   rules: Rule[];
-  toggleFavourite: boolean;
   searchWord: string;
 }
 
@@ -60,7 +59,7 @@ const AccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const CategoryDisplay: React.FC<Props> = (props) => {
-  const { category, rules, toggleFavourite, searchWord } = props;
+  const { category, rules, searchWord } = props;
 
   const findLowestStatus = useCallback((): RuleStatus => {
     let lowest: RuleStatus = RuleStatus.Unknown;

@@ -157,11 +157,10 @@ const RuleOverview: React.FC<Props> = (props) => {
         key={category.id}
         category={category}
         rules={rules}
-        toggleFavourite={showFavouriteCategory}
         searchWord={searchWord}
       />
     ),
-    [showFavouriteCategory, searchWord]
+    [searchWord]
   );
 
   const toFavouriteCategoriesEditor = useCallback(
@@ -224,46 +223,65 @@ const RuleOverview: React.FC<Props> = (props) => {
             <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
           )}
           {rules.length !== 0 && (
-            <div>
-              <div className={classnames(styles.row, styles.headlinemargin)}>
-                <h2 className={styles.headline}>Meine Kategorien</h2>
-                <IconButton onClick={showFavouriteCategorySwitch}>
-                  {showFavouriteCategory ? <Clear /> : <Edit />}
-                </IconButton>
-              </div>
-              {!showFavouriteCategory && (
-                <div>
-                  {rulesPerFavouriteCategory
-                    .sort((a, b) => a[0].name.localeCompare(b[0].name))
-                    .map(toCategoryDisplay)}
+            <>
+              <SearchField onChange={search} />
+              {showCategories ? (
+                <>
                   <div
                     className={classnames(styles.row, styles.headlinemargin)}
                   >
-                    <h2 className={styles.headline}>
-                      Alle Regeln für {selectedPlace.name}
-                    </h2>
+                    <h2 className={styles.headline}>Meine Kategorien</h2>
+                    <IconButton onClick={showFavouriteCategorySwitch}>
+                      {showFavouriteCategory ? <Clear /> : <Edit />}
+                    </IconButton>
                   </div>
-                  {rulesPerCategory
+                  {!showFavouriteCategory && (
+                    <div>
+                      {rulesPerFavouriteCategory
+                        .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                        .map(toCategoryDisplay)}
+                      <div
+                        className={classnames(
+                          styles.row,
+                          styles.headlinemargin
+                        )}
+                      >
+                        <h2 className={styles.headline}>
+                          Alle Regeln für {selectedPlace.name}
+                        </h2>
+                      </div>
+                      {rulesPerCategory
+                        .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                        .map(toCategoryDisplay)}
+                    </div>
+                  )}
+                  {showFavouriteCategory && (
+                    <div>
+                      {favouriteCategories
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map(toFavouriteCategoriesEditor)}
+                      <div
+                        className={classnames(
+                          styles.row,
+                          styles.headlinemargin
+                        )}
+                      >
+                        <h2 className={styles.headline}>Alle Kategorien</h2>
+                      </div>
+                      {getNonFavouriteCategories()
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map(toFavouriteCategoriesEditor)}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {rulesPerFilteredCategory
                     .sort((a, b) => a[0].name.localeCompare(b[0].name))
                     .map(toCategoryDisplay)}
-                </div>
+                </>
               )}
-              {showFavouriteCategory && (
-                <div>
-                  {favouriteCategories
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map(toFavouriteCategoriesEditor)}
-                  <div
-                    className={classnames(styles.row, styles.headlinemargin)}
-                  >
-                    <h2 className={styles.headline}>Alle Kategorien</h2>
-                  </div>
-                  {getNonFavouriteCategories()
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map(toFavouriteCategoriesEditor)}
-                </div>
-              )}
-            </div>
+            </>
           )}
         </Container>
       </Box>

@@ -19,7 +19,11 @@ const RuleDisplay: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <ReactMarkdown className={styles.content} rehypePlugins={[rehypeRaw]} children={test} />;
+      <ReactMarkdown
+        className={styles.content}
+        rehypePlugins={[rehypeRaw]}
+        children={test}
+      />
       <h2 className={styles.timestamp}>
         Zuletzt aktualisiert &nbsp;
         {rule.timestamp.slice(6, 9)}.{rule.timestamp.slice(4, 6)}.
