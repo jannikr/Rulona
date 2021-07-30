@@ -13,12 +13,19 @@ import {
   SetFavouritePlacesAction,
   AppState,
   SetLastSearchedPlacesAction,
+  DeletePlaceAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
   return {
     type: ActionType.SelectPlace,
     place,
+  };
+};
+
+export const deletePlace = (): DeletePlaceAction => {
+  return {
+    type: ActionType.DeletePlace,
   };
 };
 

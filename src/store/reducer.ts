@@ -22,6 +22,9 @@ const reducer = (
     case ActionType.SelectPlace: {
       return { ...state, selectedPlace: action.place };
     }
+    case ActionType.DeletePlace: {
+      return { ...state, selectedPlace: (state.selectedPlace = undefined) };
+    }
     case ActionType.SetRules: {
       return { ...state, rules: action.rules };
     }
