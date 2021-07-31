@@ -8,6 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
+import styles from "./RuleOverview.module.css";
 
 interface Props {
   category: Category;
@@ -71,8 +72,10 @@ const CategoryDisplay: React.FC<Props> = (props) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <CategoryStatus status={findLowestStatus()} />
-        {category.name}
+        <div className={styles.row}>
+          <CategoryStatus status={findLowestStatus()} />
+          {category.name}
+        </div>
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
