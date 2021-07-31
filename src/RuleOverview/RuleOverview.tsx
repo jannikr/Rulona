@@ -96,7 +96,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     return Array.from(rulesPerCategory);
   }, [rules, categories, favouriteCategories]);
 
-  const showFavouriteCategorySwitch = (): void => {
+  const toggleFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
 
@@ -162,7 +162,7 @@ const RuleOverview: React.FC<Props> = (props) => {
             <div>
               <div className={classnames(styles.row, styles.headlinemargin)}>
                 <h2 className={styles.headline}>Meine Kategorien</h2>
-                <IconButton onClick={showFavouriteCategorySwitch}>
+                <IconButton onClick={toggleFavouriteCategorySwitch}>
                   {showFavouriteCategory ? <Clear /> : <Edit />}
                 </IconButton>
               </div>
