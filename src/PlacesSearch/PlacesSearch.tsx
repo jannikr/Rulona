@@ -1,16 +1,19 @@
 import { Container, Divider } from "@material-ui/core";
 import React, { useEffect, useState, useCallback } from "react";
 import { connect } from "react-redux";
+import CurrentLocation from "../Button/CurrentLocation";
 import SearchField from "../SearchField/SearchField";
 import {
   addLastSearchedPlace,
   fetchFavouritePlaces,
   fetchLastSearchedPlaces,
   fetchPlaces,
+  selectPlace,
 } from "../store/actions";
 import {
   AppDispatch,
   AppState,
+  SelectPlaceAction,
   SetFavouritePlacesAction,
   SetLastSearchedPlacesAction,
   SetPlacesAction,
@@ -36,32 +39,6 @@ const PlacesSearch: React.FC<Props> = (props) => {
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const [showHeading, setShowHeading] = useState(true);
   const [heading, setHeading] = useState(SidebarHeading.ExamplePlaces);
-
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
-
-  const getLocation = (): void => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLat(position.coords.latitude);
-        setLng(position.coords.longitude);
-      });
-      fetch(
-        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-          lat +
-          "," +
-          lng +
-          "&key=" +
-          "keyhere"
-      )
-        .then((response) => response.json())
-        .then((responseJson) => {
-          console.log(
-            "ADDRESS GEOCODE is BACK!! => " + JSON.stringify(responseJson)
-          );
-        });
-    }
-  };
 
   const setInitialPlaces = useCallback((): void => {
     if (heading === SidebarHeading.SearchResults) return;
@@ -171,9 +148,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
         onFocus={focusSearch}
         onBlur={unfocusSearch}
       />
-      <button onClick={getLocation}>Get Location</button>
-      {console.log(lat)}
-      {console.log(lng)}
+      <CurrentLocation places={places} />
       {showHeading && <h4 className={styles.heading}>{heading}</h4>}
       <Divider />
       {shownPlaces()}
@@ -196,6 +171,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
     dispatch(fetchLastSearchedPlaces()),
   addLastSearchedPlace: (place: Place): void =>
     dispatch(addLastSearchedPlace(place)),
+  selectPlace: (place: Place): SelectPlaceAction =>
+    dispatch(selectPlace(place)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlacesSearch);
