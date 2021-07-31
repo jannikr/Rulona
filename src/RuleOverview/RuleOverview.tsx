@@ -114,6 +114,17 @@ const RuleOverview: React.FC<Props> = (props) => {
     []
   );
 
+  const byName = useCallback(
+    (a: Category, b: Category): number => a.name.localeCompare(b.name),
+    []
+  );
+
+  const byCategoryName = useCallback(
+    (a: [Category, Rule[]], b: [Category, Rule[]]): number =>
+      a[0].name.localeCompare(b[0].name),
+    []
+  );
+
   useEffect(() => {
     reset();
     if (!selectedPlace) return;
@@ -169,7 +180,7 @@ const RuleOverview: React.FC<Props> = (props) => {
               {!showFavouriteCategory && (
                 <div>
                   {rulesPerFavouriteCategory
-                    .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                    .sort(byCategoryName)
                     .map(toCategoryDisplay)}
                   <div
                     className={classnames(styles.row, styles.headlinemargin)}
@@ -178,15 +189,13 @@ const RuleOverview: React.FC<Props> = (props) => {
                       Alle Regeln für {selectedPlace.name}
                     </h2>
                   </div>
-                  {rulesPerCategory
-                    .sort((a, b) => a[0].name.localeCompare(b[0].name))
-                    .map(toCategoryDisplay)}
+                  {rulesPerCategory.sort(byCategoryName).map(toCategoryDisplay)}
                 </div>
               )}
               {showFavouriteCategory && (
                 <div>
                   {favouriteCategories
-                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .sort(byName)
                     .map(toFavouriteCategoriesEditor)}
                   <div
                     className={classnames(styles.row, styles.headlinemargin)}
@@ -194,7 +203,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                     <h2 className={styles.headline}>Alle Kategorien</h2>
                   </div>
                   {getNonFavouriteCategories()
-                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .sort(byName)
                     .map(toFavouriteCategoriesEditor)}
                 </div>
               )}
