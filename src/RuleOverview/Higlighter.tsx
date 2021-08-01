@@ -9,7 +9,7 @@ interface Props {
 const Highlighter: React.FC<Props> = (props) => {
   const { text, searchWord } = props;
 
-  const regex = new RegExp(`(${searchWord})`, "gi");
+  const regex = new RegExp(`(${searchWord})` + "(?![^\\(\\)]*\\))", "gi");
   const parts = text.split(regex);
 
   if (!searchWord.trim()) {
