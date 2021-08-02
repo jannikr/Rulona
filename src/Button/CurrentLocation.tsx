@@ -1,5 +1,5 @@
 import { MyLocation } from "@material-ui/icons";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { connect } from "react-redux";
 import { selectPlace } from "../store/actions";
 import { AppDispatch, SelectPlaceAction } from "../store/types";
@@ -13,41 +13,24 @@ type Props = ReturnType<typeof mapDispatchToProps> & {
 const CurrentLocation: React.FC<Props> = (props) => {
   const { places, selectPlace } = props;
 
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
-  const [district, setDistrict] = useState("");
-
-  const getLocation = useCallback((): void => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLat(position.coords.latitude);
-        setLng(position.coords.longitude);
-        console.log(lat, lng);
-      },
-      (error) => {
-        console.error("Error Code = " + error.code + " - " + error.message);
+  const getLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+      );
+      const json = await response.json();
+      console.log(json);
+      const district = json.address.state;
+      for (const place of places) {
+        if (place.name === district) {
+          selectPlace(place);
+          break;
+        }
       }
-    );
-    fetch(
-      "https://nominatim.openstreetmap.org/reverse?lat=" +
-        lat +
-        "&lon=" +
-        lng +
-        "&format=json"
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setDistrict(responseJson.address.state);
-        console.log(district);
-      });
-    for (const place of places) {
-      if (place.name === district) {
-        console.log("Matched");
-        console.log(place);
-        selectPlace(place);
-      }
-    }
-  }, [lat, lng, district, places, selectPlace]);
+    });
+  }, [places, selectPlace]);
 
   return (
     <div className={styles.lineSpacing} onClick={getLocation}>
