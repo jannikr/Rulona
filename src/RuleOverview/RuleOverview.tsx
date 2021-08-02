@@ -13,7 +13,7 @@ import {
   fetchCategories,
   setRules,
   setPlaceInfo,
-  deletePlace,
+  deselectPlace,
 } from "../store/actions";
 import {
   AppDispatch,
@@ -40,7 +40,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     selectedPlace,
     placeInfo,
     fetchRules,
-    deletePlace,
+    deselectPlace,
     fetchPlaceInfo,
     fetchCategories,
     reset,
@@ -88,7 +88,7 @@ const RuleOverview: React.FC<Props> = (props) => {
             <IconButton
               className={styles.button}
               onClick={(): void => {
-                deletePlace();
+                deselectPlace();
               }}
             >
               <ArrowBackIosIcon fontSize="small" />
@@ -139,8 +139,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
     dispatch(setRules([]));
     dispatch(setPlaceInfo());
   },
-  deletePlace: (): void => {
-    dispatch(deletePlace());
+  deselectPlace: (): void => {
+    dispatch(deselectPlace());
   },
   fetchRules: (place: Place): Promise<SetRulesAction> =>
     dispatch(fetchRules(place)),

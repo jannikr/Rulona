@@ -13,7 +13,7 @@ import {
   SetFavouritePlacesAction,
   AppState,
   SetLastSearchedPlacesAction,
-  DeletePlaceAction,
+  DeselectPlaceAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -23,9 +23,9 @@ export const selectPlace = (place: Place): SelectPlaceAction => {
   };
 };
 
-export const deletePlace = (): DeletePlaceAction => {
+export const deselectPlace = (): DeselectPlaceAction => {
   return {
-    type: ActionType.DeletePlace,
+    type: ActionType.DeselectPlace,
   };
 };
 

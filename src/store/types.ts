@@ -7,7 +7,7 @@ export enum ActionType {
   SetPlaces = "SetPlaces",
   SetCategories = "SetCategories",
   SelectPlace = "SelectPlace",
-  DeletePlace = "DeletePlace",
+  DeselectPlace = "DeletePlace",
   SetRules = "SetRules",
   SetPlaceInfo = "SetPlaceInfo",
   AddFavouritePlace = "AddFavouritePlace",
@@ -42,8 +42,8 @@ export interface SelectPlaceAction {
   place: Place;
 }
 
-export interface DeletePlaceAction {
-  type: ActionType.DeletePlace;
+export interface DeselectPlaceAction {
+  type: ActionType.DeselectPlace;
   place?: Place;
 }
 
@@ -86,7 +86,7 @@ export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
   | SelectPlaceAction
-  | DeletePlaceAction
+  | DeselectPlaceAction
   | SetRulesAction
   | SetPlaceInfoAction
   | AddFavouritePlaceAction
