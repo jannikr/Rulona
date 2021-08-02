@@ -21,32 +21,28 @@ const LandingPage: React.FC<Props> = (props) => {
 
   if (!selectedPlace)
     return (
-      <div className={styles.flex}>
-        <Grid container spacing={0}>
-          <Grid className={styles.sidebar} item xs={12} md={3}>
-            <Sidebar />
-          </Grid>
-          <Hidden smDown>
-            <Grid item xs={9}>
-              <RuleOverview />
-            </Grid>
-          </Hidden>
+      <Grid container spacing={0} className={styles.container}>
+        <Grid className={styles.sidebar} item xs={12} md={3}>
+          <Sidebar />
         </Grid>
-      </div>
-    );
-  return (
-    <div className={styles.flex}>
-      <Grid container spacing={0}>
         <Hidden smDown>
-          <Grid className={styles.sidebar} item xs={12} md={3}>
-            <Sidebar />
+          <Grid item md={9}>
+            <RuleOverview />
           </Grid>
         </Hidden>
-        <Grid item xs={12} md={9}>
-          <RuleOverview />
-        </Grid>
       </Grid>
-    </div>
+    );
+  return (
+    <Grid container spacing={0} className={styles.container}>
+      <Hidden smDown>
+        <Grid className={styles.sidebar} item xs={12} md={3}>
+          <Sidebar />
+        </Grid>
+      </Hidden>
+      <Grid item xs={12} md={9}>
+        <RuleOverview />
+      </Grid>
+    </Grid>
   );
 };
 

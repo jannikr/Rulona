@@ -1,9 +1,7 @@
-.sidebar {
-    height: 100%;
-    background: rgba(0, 0, 0, .03);
+.container {
+  height: 100vh;
 }
 
-.flex {
-    display: flex;
-    height: 100%;
+.sidebar {
+  background: rgba(0, 0, 0, .03);
 }

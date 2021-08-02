@@ -8,8 +8,6 @@
 }
 
 .headline {
-  margin-top: 15%;
-  margin-bottom: 5%;
   text-align: left;
   color: black;
   font-size: medium;
@@ -17,6 +15,17 @@
 
 .icon * {
   color: lightgray;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headlinemargin {
+  margin-top: 10%;
+  margin-bottom: 5%;
 }
 
 @media screen and (min-width: 959px) {
@@ -31,7 +40,7 @@
 
 .button:after{
   background-color: rgba(214, 214, 214, 0.603);
-  
+
 }
 
 .button {

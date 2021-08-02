@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { Divider } from "@material-ui/core";
 import { connect } from "react-redux";
 import { selectPlace } from "../store/actions";
@@ -16,6 +16,10 @@ type Props = ReturnType<typeof mapDispatchToProps> & {
 const PlaceContainer: React.FC<Props> = (props) => {
   const { place, selectPlace, onClick } = props;
 
+  const onMouseDown = (e: MouseEvent): void => {
+    e.preventDefault();
+  };
+
   return (
     <div>
       <div className={styles.lineSpacing}>
@@ -24,6 +28,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
         </span>
         <span
           className={styles.name}
+          onMouseDown={onMouseDown}
           onClick={(): void => {
             onClick && onClick(place);
             selectPlace(place);

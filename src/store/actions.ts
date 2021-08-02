@@ -11,6 +11,9 @@ import {
   AddFavouritePlaceAction,
   DeleteFavouritePlaceAction,
   SetFavouritePlacesAction,
+  AddFavouriteCategoryAction,
+  DeleteFavouriteCategoryAction,
+  SetFavouriteCategoriesAction,
   AppState,
   SetLastSearchedPlacesAction,
   DeselectPlaceAction,
@@ -179,5 +182,58 @@ export const fetchLastSearchedPlaces = () => {
       return result;
     }, []);
     return dispatch(setLastSearchedPlaces(searches));
+  };
+};
+
+export const setFavouriteCategories = (
+  favouriteCategories: Category[]
+): SetFavouriteCategoriesAction => {
+  return {
+    type: ActionType.SetFavouriteCategories,
+    favouriteCategories,
+  };
+};
+
+export const addFavouriteCategory = (
+  category: Category
+): AddFavouriteCategoryAction => {
+  const favCategoriesSet = new Set(
+    JSON.parse(localStorage.getItem("favouriteCategories") || "[]")
+  );
+  favCategoriesSet.add(category.id);
+  localStorage.setItem(
+    "favouriteCategories",
+    JSON.stringify([...Array.from(favCategoriesSet)])
+  );
+  return { type: ActionType.AddFavouriteCategory, category };
+};
+
+export const deleteFavouriteCategory = (
+  category: Category
+): DeleteFavouriteCategoryAction => {
+  const favCategoriesSet = new Set(
+    JSON.parse(localStorage.getItem("favouriteCategories") || "[]")
+  );
+  favCategoriesSet.delete(category.id);
+  localStorage.setItem(
+    "favouriteCategories",
+    JSON.stringify([...Array.from(favCategoriesSet)])
+  );
+  return { type: ActionType.DeleteFavouriteCategory, category };
+};
+
+export const fetchFavouriteCategories = () => {
+  return (
+    dispatch: AppDispatch,
+    getState: () => AppState
+  ): SetFavouriteCategoriesAction => {
+    const categories = getState().categories;
+    const favCategoriesIds = JSON.parse(
+      localStorage.getItem("favouriteCategories") || "[]"
+    );
+    const favouriteCategories = categories.filter(
+      (item) => favCategoriesIds.indexOf(item.id) !== -1
+    );
+    return dispatch(setFavouriteCategories(favouriteCategories));
   };
 };

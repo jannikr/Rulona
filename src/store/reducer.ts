@@ -6,6 +6,7 @@ export const initialState: AppState = {
   rules: [],
   favouritePlaces: [],
   lastSearchedPlaces: [],
+  favouriteCategories: [],
 };
 
 const reducer = (
@@ -64,6 +65,32 @@ const reducer = (
     case ActionType.SetLastSearchedPlaces: {
       return { ...state, lastSearchedPlaces: action.searches };
     }
+
+    case ActionType.SetFavouriteCategories: {
+      return { ...state, favouriteCategories: action.favouriteCategories };
+    }
+
+    case ActionType.AddFavouriteCategory: {
+      const idAlreadyExists =
+        state.favouriteCategories.indexOf(action.category) !== -1;
+      if (idAlreadyExists) return state;
+      return {
+        ...state,
+        favouriteCategories: [...state.favouriteCategories, action.category],
+      };
+    }
+
+    case ActionType.DeleteFavouriteCategory: {
+      return {
+        ...state,
+        favouriteCategories: state.favouriteCategories.filter(function (
+          category
+        ) {
+          return category.id !== action.category.id;
+        }),
+      };
+    }
+
     default:
       return state;
   }

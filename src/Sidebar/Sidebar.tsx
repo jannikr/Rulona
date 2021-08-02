@@ -38,14 +38,12 @@ const Sidebar: React.FC = () => {
           </Tabs>
         </Box>
       </div>
-      <div>
-        <TabPanel value={value} index={0} className={styles.tabContent}>
-          <PlacesSearch />
-        </TabPanel>
-        <TabPanel value={value} index={1} className={styles.tabContent}>
-          <RouteSearch />
-        </TabPanel>
-      </div>
+      <TabPanel value={value} index={0}>
+        <PlacesSearch />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <RouteSearch />
+      </TabPanel>
     </>
   );
 };
