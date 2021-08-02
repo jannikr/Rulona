@@ -13,7 +13,7 @@ const CurrentLocation: React.FC<Props> = (props) => {
 
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  const [state, setState] = useState("");
+  const [district, setDistrict] = useState("");
 
   const getLocation = useCallback((): void => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -30,16 +30,16 @@ const CurrentLocation: React.FC<Props> = (props) => {
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        setState(responseJson.address.state);
-        console.log(state);
+        setDistrict(responseJson.address.state);
+        console.log(district);
       });
     for (const place of places) {
-      if (place.name === state) {
+      if (place.name === district) {
         console.log("Matched");
         selectPlace(place);
       }
     }
-  }, [lat, lng, state, places]);
+  }, [lat, lng, district, places]);
 
   return (
     <div className={styles.lineSpacing} onClick={getLocation}>
