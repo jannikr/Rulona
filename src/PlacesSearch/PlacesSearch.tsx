@@ -18,6 +18,8 @@ import {
 import { Place, SidebarHeading } from "../types";
 import PlaceContainer from "./PlaceContainer";
 import styles from "./PlacesSearch.module.css";
+import SearchIcon from "@material-ui/icons/Search";
+import { Clear } from "@material-ui/icons";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -36,6 +38,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const [showHeading, setShowHeading] = useState(true);
   const [heading, setHeading] = useState(SidebarHeading.ExamplePlaces);
+  const [searchIcon, setSearchIcon] = useState(<SearchIcon />);
 
   const setInitialPlaces = useCallback((): void => {
     if (heading === SidebarHeading.SearchResults) return;
@@ -77,18 +80,21 @@ const PlacesSearch: React.FC<Props> = (props) => {
       );
       setShowHeading(true);
     }
+    setSearchIcon(<Clear />);
   };
 
   const focusSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
     if (e.target.value === "") {
       setHeading(SidebarHeading.LastSearch);
       setShowHeading(true);
+      setSearchIcon(<Clear />);
     }
   };
 
   const unfocusSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
     if (e.target.value === "") {
       setHeading(SidebarHeading.ExamplePlaces);
+      setSearchIcon(<SearchIcon />);
     }
   };
 
@@ -144,6 +150,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
         onChange={search}
         onFocus={focusSearch}
         onBlur={unfocusSearch}
+        icon={searchIcon}
       />
       {showHeading && <h4 className={styles.heading}>{heading}</h4>}
       <Divider />
