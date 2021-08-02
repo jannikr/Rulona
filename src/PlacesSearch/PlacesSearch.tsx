@@ -79,15 +79,25 @@ const PlacesSearch: React.FC<Props> = (props) => {
         )
       );
       setShowHeading(true);
+      setSearchIcon(
+        <div>
+          <Clear
+            className={styles.searchButton}
+            onClick={(): void => {
+              e.target.value = "";
+              setHeading(SidebarHeading.ExamplePlaces);
+            }}
+          />
+        </div>
+      );
     }
-    setSearchIcon(<Clear />);
   };
 
   const focusSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
     if (e.target.value === "") {
       setHeading(SidebarHeading.LastSearch);
       setShowHeading(true);
-      setSearchIcon(<Clear />);
+      setSearchIcon(<Clear className={styles.searchButton} />);
     }
   };
 
