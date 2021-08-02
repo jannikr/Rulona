@@ -13,48 +13,33 @@ const CurrentLocation: React.FC<Props> = (props) => {
 
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
+  const [state, setState] = useState("");
 
   const getLocation = useCallback((): void => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLat(position.coords.latitude);
-        setLng(position.coords.longitude);
-        console.log(lat, lng);
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
+      console.log(lat, lng);
+    });
+    fetch(
+      "https://nominatim.openstreetmap.org/reverse?lat=" +
+        lat +
+        "&lon=" +
+        lng +
+        "&format=json"
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setState(responseJson.address.state);
+        console.log(state);
       });
-      fetch(
-        "https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?apiKey=" +
-          "Y5-iRL7n3zZOZozpw0pvZ4WVyc-f9Sw4qrhzH5e0ZTk" +
-          "&mode=retrieveAddresses&prox=" +
-          lat +
-          "," +
-          lng
-      )
-        .then((response) => response.json())
-        .then((responseJson) => {
-          if (
-            responseJson &&
-            responseJson.Response &&
-            responseJson.Response.View &&
-            responseJson.Response.View[0] &&
-            responseJson.Response.View[0].Result &&
-            responseJson.Response.View[0].Result[0]
-          ) {
-            console.log(
-              responseJson.Response.View[0].Result[0].Location.Address
-                .PostalCode
-            );
-          }
-        });
-      const mockZip = "BRB";
-      for (const place of places) {
-        console.log(place.id);
-        if (place.id === mockZip) {
-          console.log("test");
-          selectPlace(place);
-        }
+    for (const place of places) {
+      if (place.name === state) {
+        console.log("Matched");
+        selectPlace(place);
       }
     }
-  }, [lat, lng, places]);
+  }, [lat, lng, state, places]);
 
   return (
     <div className={styles.lineSpacing} onClick={getLocation}>
