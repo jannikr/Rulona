@@ -13,22 +13,44 @@ type Props = ReturnType<typeof mapDispatchToProps> & {
 const CurrentLocation: React.FC<Props> = (props) => {
   const { places, selectPlace } = props;
 
+  const selectFromPlaces = useCallback(
+    (location: string): boolean => {
+      for (const place of places) {
+        if (place.name === location) {
+          selectPlace(place);
+          return true;
+        }
+      }
+      return false;
+    },
+    [places, selectPlace]
+  );
+
   const getLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition(async (position) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      const response = await fetch(
+      const reverseResponse = await fetch(
         `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
       );
-      const json = await response.json();
-      console.log(json);
-      const district = json.address.state;
-      for (const place of places) {
-        if (place.name === district) {
-          selectPlace(place);
+      const reverseJson = await reverseResponse.json();
+      const osmId = reverseJson.osm_id;
+      const osmType = reverseJson.osm_type[0].toUpperCase();
+      const state = reverseJson.address.state;
+      const detailsResponse = await fetch(
+        `https://nominatim.openstreetmap.org/details.php?osmtype=${osmType}&osmid=${osmId}&addressdetails=1&format=json`
+      );
+      const details = await detailsResponse.json();
+      let location = state;
+      for (const item of details.address) {
+        if (item.admin_level === 6) {
+          location = item.localname;
           break;
         }
       }
+      selectFromPlaces(location) ||
+        selectFromPlaces(state) ||
+        selectFromPlaces("Germany");
     });
   }, [places, selectPlace]);
 
