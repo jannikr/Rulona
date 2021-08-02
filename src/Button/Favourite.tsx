@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { IconButton } from "@material-ui/core";
 
 export interface Props<T> {
@@ -26,16 +26,20 @@ const Favourite = <T,>(props: Props<T>): JSX.Element => {
     icon = deleteIcon;
     onClick = deleteFavourite;
   }
+
+  const onMouseDown = (e: MouseEvent): void => {
+    e.preventDefault();
+  };
+
   return (
-    <>
-      <IconButton
-        onClick={(): void => {
-          onClick(element);
-        }}
-      >
-        {icon}
-      </IconButton>
-    </>
+    <div
+      onMouseDown={onMouseDown}
+      onClick={(): void => {
+        onClick(element);
+      }}
+    >
+      <IconButton>{icon}</IconButton>
+    </div>
   );
 };
 
