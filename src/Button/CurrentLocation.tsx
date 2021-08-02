@@ -1,5 +1,5 @@
 import { MyLocation } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { selectPlace } from "../store/actions";
 import { Place } from "../types";
 import styles from "./CurrentLocation.module.css";
@@ -14,7 +14,7 @@ const CurrentLocation: React.FC<Props> = (props) => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
 
-  const getLocation = (): void => {
+  const getLocation = useCallback((): void => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLat(position.coords.latitude);
@@ -22,18 +22,28 @@ const CurrentLocation: React.FC<Props> = (props) => {
         console.log(lat, lng);
       });
       fetch(
-        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+        "https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?apiKey=" +
+          "Y5-iRL7n3zZOZozpw0pvZ4WVyc-f9Sw4qrhzH5e0ZTk" +
+          "&mode=retrieveAddresses&prox=" +
           lat +
           "," +
-          lng +
-          "&key=" +
-          "keyhere"
+          lng
       )
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(
-            "ADDRESS GEOCODE is BACK!! => " + JSON.stringify(responseJson)
-          );
+          if (
+            responseJson &&
+            responseJson.Response &&
+            responseJson.Response.View &&
+            responseJson.Response.View[0] &&
+            responseJson.Response.View[0].Result &&
+            responseJson.Response.View[0].Result[0]
+          ) {
+            console.log(
+              responseJson.Response.View[0].Result[0].Location.Address
+                .PostalCode
+            );
+          }
         });
       const mockZip = "BRB";
       for (const place of places) {
@@ -44,7 +54,7 @@ const CurrentLocation: React.FC<Props> = (props) => {
         }
       }
     }
-  };
+  }, [lat, lng, places]);
 
   return (
     <div className={styles.lineSpacing} onClick={getLocation}>
