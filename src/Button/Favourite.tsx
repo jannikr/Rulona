@@ -32,14 +32,14 @@ const Favourite = <T,>(props: Props<T>): JSX.Element => {
   };
 
   return (
-    <div
+    <IconButton
       onMouseDown={onMouseDown}
       onClick={(): void => {
         onClick(element);
       }}
     >
-      <IconButton>{icon}</IconButton>
-    </div>
+      {icon}
+    </IconButton>
   );
 };
 
