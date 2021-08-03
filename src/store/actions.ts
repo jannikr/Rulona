@@ -16,19 +16,12 @@ import {
   SetFavouriteCategoriesAction,
   AppState,
   SetLastSearchedPlacesAction,
-  DeselectPlaceAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
   return {
     type: ActionType.SelectPlace,
     place,
-  };
-};
-
-export const deselectPlace = (): DeselectPlaceAction => {
-  return {
-    type: ActionType.DeselectPlace,
   };
 };
 

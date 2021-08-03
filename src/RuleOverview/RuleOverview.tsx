@@ -1,6 +1,7 @@
 import {
   Container,
   Divider,
+  Hidden,
   IconButton,
   Toolbar,
   Typography,
@@ -13,7 +14,6 @@ import {
   fetchCategories,
   setRules,
   setPlaceInfo,
-  deselectPlace,
   fetchFavouriteCategories,
 } from "../store/actions";
 import {
@@ -34,6 +34,7 @@ import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import classnames from "classnames";
+import { Link } from "react-router-dom";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -45,7 +46,6 @@ const RuleOverview: React.FC<Props> = (props) => {
     selectedPlace,
     placeInfo,
     fetchRules,
-    deselectPlace,
     fetchPlaceInfo,
     fetchCategories,
     favouriteCategories,
@@ -157,16 +157,11 @@ const RuleOverview: React.FC<Props> = (props) => {
     <div>
       <Box boxShadow={3}>
         <Toolbar variant="dense" className={styles.toolbar}>
-          <div className={styles.backArrow}>
-            <IconButton
-              className={styles.button}
-              onClick={(): void => {
-                deselectPlace();
-              }}
-            >
+          <Hidden mdUp>
+            <Link to="/rules" className={styles.backArrow}>
               <ArrowBackIosIcon fontSize="small" />
-            </IconButton>
-          </div>
+            </Link>
+          </Hidden>
           <Typography className={styles.rulename}>
             {selectedPlace.name}
           </Typography>
@@ -245,9 +240,6 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
   reset: (): void => {
     dispatch(setRules([]));
     dispatch(setPlaceInfo());
-  },
-  deselectPlace: (): void => {
-    dispatch(deselectPlace());
   },
   fetchRules: (place: Place): Promise<SetRulesAction> =>
     dispatch(fetchRules(place)),

@@ -16,4 +16,6 @@
 .name {
   flex-grow: 1;
   cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
