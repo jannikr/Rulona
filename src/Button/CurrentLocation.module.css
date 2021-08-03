@@ -1,0 +1,13 @@
+.lineSpacing {
+    margin-bottom: 1.5em;
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .icon {
+      margin-top: 0.4rem;
+      margin-right: 1rem;
+      color: orangered;
+  }

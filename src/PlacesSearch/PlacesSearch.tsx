@@ -1,6 +1,7 @@
 import { Container, Divider } from "@material-ui/core";
 import React, { useEffect, useState, useCallback } from "react";
 import { connect } from "react-redux";
+import CurrentLocation from "../Button/CurrentLocation";
 import SearchField from "../SearchField/SearchField";
 import {
   addLastSearchedPlace,
@@ -145,6 +146,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
         onFocus={focusSearch}
         onBlur={unfocusSearch}
       />
+      <CurrentLocation places={places} />
       {showHeading && <h4 className={styles.heading}>{heading}</h4>}
       <Divider />
       {shownPlaces()}
