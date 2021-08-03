@@ -8,12 +8,10 @@ import {
   fetchFavouritePlaces,
   fetchLastSearchedPlaces,
   fetchPlaces,
-  selectPlace,
 } from "../store/actions";
 import {
   AppDispatch,
   AppState,
-  SelectPlaceAction,
   SetFavouritePlacesAction,
   SetLastSearchedPlacesAction,
   SetPlacesAction,
@@ -171,8 +169,6 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
     dispatch(fetchLastSearchedPlaces()),
   addLastSearchedPlace: (place: Place): void =>
     dispatch(addLastSearchedPlace(place)),
-  selectPlace: (place: Place): SelectPlaceAction =>
-    dispatch(selectPlace(place)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlacesSearch);
