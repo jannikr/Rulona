@@ -13,6 +13,7 @@ import {
   fetchCategories,
   setRules,
   setPlaceInfo,
+  deselectPlace,
   fetchFavouriteCategories,
 } from "../store/actions";
 import {
@@ -31,6 +32,7 @@ import styles from "./RuleOverview.module.css";
 import { Clear, Edit } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import classnames from "classnames";
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -43,6 +45,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     selectedPlace,
     placeInfo,
     fetchRules,
+    deselectPlace,
     fetchPlaceInfo,
     fetchCategories,
     favouriteCategories,
@@ -154,6 +157,16 @@ const RuleOverview: React.FC<Props> = (props) => {
     <div>
       <Box boxShadow={3}>
         <Toolbar variant="dense" className={styles.toolbar}>
+          <div className={styles.backArrow}>
+            <IconButton
+              className={styles.button}
+              onClick={(): void => {
+                deselectPlace();
+              }}
+            >
+              <ArrowBackIosIcon fontSize="small" />
+            </IconButton>
+          </div>
           <Typography className={styles.rulename}>
             {selectedPlace.name}
           </Typography>
@@ -226,12 +239,15 @@ const mapStateToProps = (state: AppState) => {
   } = state;
   return { rules, categories, favouriteCategories, selectedPlace, placeInfo };
 };
-//
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   reset: (): void => {
     dispatch(setRules([]));
     dispatch(setPlaceInfo());
+  },
+  deselectPlace: (): void => {
+    dispatch(deselectPlace());
   },
   fetchRules: (place: Place): Promise<SetRulesAction> =>
     dispatch(fetchRules(place)),
