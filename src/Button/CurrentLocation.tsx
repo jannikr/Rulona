@@ -52,7 +52,7 @@ const CurrentLocation: React.FC<Props> = (props) => {
         selectFromPlaces(state) ||
         selectFromPlaces("Germany");
     });
-  }, [places, selectPlace]);
+  }, [selectFromPlaces]);
 
   return (
     <div className={styles.lineSpacing} onClick={getLocation}>
