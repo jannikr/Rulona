@@ -21,6 +21,7 @@ const reducer = (
       return { ...state, categories: action.categories };
     }
     case ActionType.SelectPlace: {
+      if (state.selectedPlace?.id === action.place.id) return state;
       return { ...state, selectedPlace: action.place };
     }
     case ActionType.SetRules: {
