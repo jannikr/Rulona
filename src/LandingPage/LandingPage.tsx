@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import Sidebar from "../Sidebar/Sidebar";
 import Hidden from "@material-ui/core/Hidden";
@@ -20,13 +20,16 @@ type Props = RouteComponentProps<RouteProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const LandingPage: React.FC<Props> = (props) => {
-  const { match, places, selectPlace } = props;
+  const { match, selectedPlace, places, selectPlace } = props;
   const { placeId } = match.params;
-  const selectedPlace = placeId
-    ? places.find((place) => place.id === placeId)
-    : undefined;
 
-  if (selectedPlace) selectPlace(selectedPlace);
+  useEffect(() => {
+    const place = placeId
+      ? places.find((place) => place.id === placeId)
+      : undefined;
+
+    if (place) selectPlace(place);
+  }, [placeId, places, selectPlace]);
 
   if (!selectedPlace)
     return (
@@ -57,8 +60,8 @@ const LandingPage: React.FC<Props> = (props) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapStateToProps = (state: AppState) => {
-  const { places } = state;
-  return { places };
+  const { selectedPlace, places } = state;
+  return { selectedPlace, places };
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
