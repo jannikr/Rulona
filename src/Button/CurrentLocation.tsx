@@ -1,29 +1,27 @@
 import { MyLocation } from "@material-ui/icons";
 import React, { useCallback } from "react";
 import { connect } from "react-redux";
-import { selectPlace } from "../store/actions";
-import { AppDispatch, SelectPlaceAction } from "../store/types";
-import { Place } from "../types";
+import { useHistory } from "react-router-dom";
+import { AppState } from "../store/types";
 import styles from "./CurrentLocation.module.css";
 
-type Props = ReturnType<typeof mapDispatchToProps> & {
-  places: Place[];
-};
+type Props = ReturnType<typeof mapStateToProps>;
 
 const CurrentLocation: React.FC<Props> = (props) => {
-  const { places, selectPlace } = props;
+  const { places } = props;
+  const history = useHistory();
 
   const selectFromPlaces = useCallback(
     (location: string): boolean => {
       for (const place of places) {
         if (place.name === location) {
-          selectPlace(place);
+          history.push(`/rules/${place.id}`);
           return true;
         }
       }
       return false;
     },
-    [places, selectPlace]
+    [places, history]
   );
 
   const getLocation = useCallback(() => {
@@ -65,9 +63,9 @@ const CurrentLocation: React.FC<Props> = (props) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  selectPlace: (place: Place): SelectPlaceAction =>
-    dispatch(selectPlace(place)),
-});
+const mapStateToProps = (state: AppState) => {
+  const { places } = state;
+  return { places };
+};
 
-export default connect(null, mapDispatchToProps)(CurrentLocation);
+export default connect(mapStateToProps)(CurrentLocation);

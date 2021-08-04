@@ -1,23 +1,32 @@
 import { Grid } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import Sidebar from "../Sidebar/Sidebar";
 import Hidden from "@material-ui/core/Hidden";
 import styles from "./LandingPage.module.css";
 import { connect } from "react-redux";
-import { AppState } from "../store/types";
+import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
+import { RouteComponentProps } from "react-router-dom";
+import { selectPlace } from "../store/actions";
 
-type Props = ReturnType<typeof mapStateToProps> & {
-  place: Place;
-};
+interface RouteProps {
+  placeId?: string;
+  categoryId?: string;
+}
+
+type Props = RouteComponentProps<RouteProps> &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 const LandingPage: React.FC<Props> = (props) => {
-  const { selectedPlace } = props;
+  const { match, places, selectPlace } = props;
+  const { placeId } = match.params;
+  const selectedPlace = placeId
+    ? places.find((place) => place.id === placeId)
+    : undefined;
 
-  useEffect(() => {
-    if (!selectedPlace) return;
-  }, [selectedPlace]);
+  if (selectedPlace) selectPlace(selectedPlace);
 
   if (!selectedPlace)
     return (
@@ -48,8 +57,14 @@ const LandingPage: React.FC<Props> = (props) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapStateToProps = (state: AppState) => {
-  const { selectedPlace } = state;
-  return { selectedPlace };
+  const { places } = state;
+  return { places };
 };
 
-export default connect(mapStateToProps)(LandingPage);
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  selectPlace: (place: Place): SelectPlaceAction =>
+    dispatch(selectPlace(place)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

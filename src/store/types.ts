@@ -45,12 +45,6 @@ export interface SelectPlaceAction {
   type: ActionType.SelectPlace;
   place: Place;
 }
-
-export interface DeselectPlaceAction {
-  type: ActionType.DeselectPlace;
-  place?: Place;
-}
-
 export interface SetRulesAction {
   type: ActionType.SetRules;
   rules: Rule[];
@@ -105,7 +99,6 @@ export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
   | SelectPlaceAction
-  | DeselectPlaceAction
   | SetRulesAction
   | SetPlaceInfoAction
   | AddFavouritePlaceAction
