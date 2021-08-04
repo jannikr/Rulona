@@ -1,0 +1,9 @@
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .shareButton {
+      margin-left: 0.5em;
+  }
