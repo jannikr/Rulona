@@ -146,7 +146,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
         onFocus={focusSearch}
         onBlur={unfocusSearch}
       />
-      <CurrentLocation places={places} />
+      <CurrentLocation />
       {showHeading && <h4 className={styles.heading}>{heading}</h4>}
       <Divider />
       {shownPlaces()}
