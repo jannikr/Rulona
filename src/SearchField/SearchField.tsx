@@ -48,7 +48,9 @@ const SearchField: React.FC<Props> = (props) => {
         className={classnames(styles.searchIconColor, styles.button)}
         onMouseDown={preventDefault}
         onClick={(): void => {
+          if (!inputRef.current) return;
           setValue("");
+          inputRef.current.focus();
         }}
       />,
     ],
