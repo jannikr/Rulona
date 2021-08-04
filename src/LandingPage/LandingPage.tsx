@@ -1,8 +1,7 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Hidden } from "@material-ui/core";
 import React from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import Sidebar from "../Sidebar/Sidebar";
-import Hidden from "@material-ui/core/Hidden";
 import styles from "./LandingPage.module.css";
 import { connect } from "react-redux";
 import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
@@ -28,29 +27,18 @@ const LandingPage: React.FC<Props> = (props) => {
 
   if (selectedPlace) selectPlace(selectedPlace);
 
-  if (!selectedPlace)
-    return (
-      <Grid container spacing={0} className={styles.container}>
-        <Grid className={styles.sidebar} item xs={12} md={3}>
-          <Sidebar />
-        </Grid>
-        <Hidden smDown>
-          <Grid item md={9}>
-            <RuleOverview />
-          </Grid>
-        </Hidden>
-      </Grid>
-    );
   return (
     <Grid container spacing={0} className={styles.container}>
-      <Hidden smDown>
+      <Hidden smDown={!!selectedPlace}>
         <Grid className={styles.sidebar} item xs={12} md={3}>
           <Sidebar />
         </Grid>
       </Hidden>
-      <Grid item xs={12} md={9}>
-        <RuleOverview />
-      </Grid>
+      <Hidden smDown={!selectedPlace}>
+        <Grid item xs={12} md={9}>
+          <RuleOverview />
+        </Grid>
+      </Hidden>
     </Grid>
   );
 };
