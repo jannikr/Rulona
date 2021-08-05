@@ -35,6 +35,16 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     return lowest;
   }, [rules]);
 
+  React.useLayoutEffect(() => {
+    const anchor = window.location.hash.split("#")[1];
+    if (anchor) {
+      const anchorEl = document.getElementById(anchor);
+      if (anchorEl) {
+        anchorEl.scrollIntoView();
+      }
+    }
+  }, []);
+
   return (
     <>
       <Accordion
