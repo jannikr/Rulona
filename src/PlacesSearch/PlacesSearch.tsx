@@ -142,6 +142,7 @@ const PlacesSearch: React.FC<Props> = (props) => {
   return (
     <Container>
       <SearchField
+        label="Suche"
         onChange={search}
         onFocus={focusSearch}
         onBlur={unfocusSearch}

@@ -1,4 +1,4 @@
-import { InputAdornment, OutlinedInput } from "@material-ui/core";
+import { InputAdornment, TextField } from "@material-ui/core";
 import React, { useCallback, useState, MouseEvent, useRef } from "react";
 import styles from "./SearchField.module.css";
 import SearchIcon from "@material-ui/icons/Search";
@@ -6,6 +6,7 @@ import { ArrowBackIos, Cancel } from "@material-ui/icons";
 import classnames from "classnames";
 
 interface Props {
+  label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -18,7 +19,7 @@ enum Icon {
 }
 
 const SearchField: React.FC<Props> = (props) => {
-  const { onChange, onFocus, onBlur } = props;
+  const { label, onChange, onFocus, onBlur } = props;
   const inputRef = useRef<HTMLInputElement>();
   const [showBackArrow, setShowBackArrow] = useState(false);
 
@@ -112,16 +113,20 @@ const SearchField: React.FC<Props> = (props) => {
       ) : (
         <></>
       )}
-      <OutlinedInput
+      <TextField
+        variant="outlined"
+        fullWidth
+        label={label}
+        className={styles.searchInput}
         inputRef={inputRef}
         onChange={onChangeWrapper}
         onFocus={onFocusWrapper}
         onBlur={onBlurWrapper}
-        className={styles.searchInput}
-        placeholder="Suche"
-        endAdornment={
-          <InputAdornment position="end">{icons.get(icon)}</InputAdornment>
-        }
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">{icons.get(icon)}</InputAdornment>
+          ),
+        }}
       />
     </div>
   );
