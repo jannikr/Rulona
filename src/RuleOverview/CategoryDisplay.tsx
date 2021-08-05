@@ -11,6 +11,13 @@ import {
 } from "../MaterialUIOverrides";
 import styles from "./RuleOverview.module.css";
 import { Share } from "@material-ui/icons";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+} from "@material-ui/core";
 
 interface Props {
   category: Category;
@@ -20,6 +27,7 @@ interface Props {
 const CategoryDisplay: React.FC<Props> = (props) => {
   const { category, rules } = props;
   const [showShare, setShowShare] = useState(false);
+  const [showShareDisplay, setShowShareDisplay] = useState(false);
 
   const findLowestStatus = useCallback((): RuleStatus => {
     let lowest: RuleStatus = RuleStatus.Unknown;
@@ -32,34 +40,65 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     return lowest;
   }, [rules]);
 
+  const handleClose = (): void => {
+    setShowShareDisplay(false);
+  };
+
   return (
-    <Accordion
-      onChange={(): void => {
-        setShowShare(!showShare);
-      }}
-    >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <div className={styles.row}>
-          <CategoryStatus status={findLowestStatus()} />
-          {category.name}
-          {showShare && (
-            <Share
-              className={styles.shareButton}
-              onClick={(): void => {
-                console.log(category.name);
+    <>
+      <Accordion
+        onChange={(): void => {
+          setShowShare(!showShare);
+        }}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <div className={styles.row}>
+            <CategoryStatus status={findLowestStatus()} />
+            {category.name}
+            {showShare && (
+              <IconButton
+                className={styles.shareButton}
+                onClick={(): void => {
+                  setShowShareDisplay(!showShareDisplay);
+                }}
+              >
+                <Share />
+              </IconButton>
+            )}
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            {rules.map((rule) => (
+              <RuleDisplay key={rule.id} rule={rule} />
+            ))}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <div>
+        <Dialog
+          open={showShareDisplay}
+          onClose={handleClose}
+          className={styles.dialog}
+          fullWidth={true}
+          maxWidth={"sm"}
+        >
+          <DialogTitle>Teile diese Regeln</DialogTitle>
+          <DialogContent>
+            <TextField
+              defaultValue={
+                "https://" + "derzeitigerPfad/rules/bundelsand/" + category.id
+              }
+              InputProps={{
+                readOnly: true,
               }}
+              variant="outlined"
+              className={styles.link}
             />
-          )}
-        </div>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Typography>
-          {rules.map((rule) => (
-            <RuleDisplay key={rule.id} rule={rule} />
-          ))}
-        </Typography>
-      </AccordionDetails>
-    </Accordion>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
   );
 };
 

@@ -5,5 +5,12 @@
   }
   
   .shareButton {
-      margin-left: 0.5em;
+      margin-left: 5em;
+      transform: scale(0.8);
+  }
+
+  .link {
+    display: flex;
+    background-color: #eee;
+    margin-bottom: 1.5em;
   }
