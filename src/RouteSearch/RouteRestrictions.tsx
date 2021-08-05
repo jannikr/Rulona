@@ -23,8 +23,11 @@ const RouteRestrictions: React.FC<Props> = (props) => {
         <span>Es gibt keine einschränkenden Regeln für die Strecke.</span>
       )}
       {restrictions.map((restriction) => (
-        <Accordion key={restriction.placeId}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
+        <Accordion key={restriction.placeId} className={styles.accordion}>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            className={styles.summary}
+          >
             <Warning
               className={classnames(styles.iconSpacing, styles.warning)}
             />

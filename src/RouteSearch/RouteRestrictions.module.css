@@ -10,7 +10,15 @@
   font-size: 1.5rem;
 }
 
+.accordion {
+  margin-left: -1.5em !important;
+  margin-right: -1.5em !important;
+}
+
+.summary {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
 .detail {
-  background-color: white;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: white !important;
 }
