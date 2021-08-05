@@ -11,16 +11,8 @@ import {
 } from "../MaterialUIOverrides";
 import styles from "./RuleOverview.module.css";
 import { Share } from "@material-ui/icons";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  InputAdornment,
-  Link,
-  TextField,
-} from "@material-ui/core";
-import classnames from "classnames";
+import { IconButton } from "@material-ui/core";
+import CustomDialog from "./CustomDialog";
 
 interface Props {
   category: Category;
@@ -30,7 +22,7 @@ interface Props {
 const CategoryDisplay: React.FC<Props> = (props) => {
   const { category, rules } = props;
   const [showShare, setShowShare] = useState(false);
-  const [showShareDisplay, setShowShareDisplay] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const findLowestStatus = useCallback((): RuleStatus => {
     let lowest: RuleStatus = RuleStatus.Unknown;
@@ -43,15 +35,12 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     return lowest;
   }, [rules]);
 
-  const handleClose = (): void => {
-    setShowShareDisplay(false);
-  };
-
   return (
     <>
       <Accordion
-        onChange={(): void => {
-          setShowShare(!showShare);
+        id={`category-${category.id}`}
+        onChange={(_, expanded): void => {
+          setShowShare(expanded);
         }}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -62,7 +51,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
               <IconButton
                 className={styles.shareButton}
                 onClick={(): void => {
-                  setShowShareDisplay(!showShareDisplay);
+                  setShowDialog(!showDialog);
                 }}
               >
                 <Share />
@@ -78,45 +67,11 @@ const CategoryDisplay: React.FC<Props> = (props) => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <div>
-        <Dialog
-          open={showShareDisplay}
-          onClose={handleClose}
-          className={styles.dialog}
-          fullWidth={true}
-          maxWidth={"sm"}
-        >
-          <DialogTitle>Teile diese Regeln</DialogTitle>
-          <DialogContent className={classnames(styles.row, styles.dialogRow)}>
-            <TextField
-              defaultValue={
-                "https://" + "derzeitigerPfad/rules/bundelsand/" + category.id
-              }
-              onFocus={(event): void => {
-                event.target.select();
-              }}
-              InputProps={{
-                readOnly: true,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Link
-                      className={styles.copyButton}
-                      onClick={(): void => {
-                        navigator.clipboard.writeText("pfad" + category.id);
-                      }}
-                    >
-                      Kopieren
-                    </Link>
-                  </InputAdornment>
-                ),
-              }}
-              variant="outlined"
-              fullWidth={true}
-              className={styles.linkField}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
+      <CustomDialog
+        link={`${window.location.href.split("#")[0]}#category-${category.id}`}
+        open={showDialog}
+        onClose={(): void => setShowDialog(false)}
+      ></CustomDialog>
     </>
   );
 };

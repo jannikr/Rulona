@@ -1,0 +1,15 @@
+.linkField {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+.dialogRow {
+    margin-bottom: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.copyButton {
+    margin-left: 1em;
+    cursor: pointer;
+}
