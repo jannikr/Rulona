@@ -16,6 +16,7 @@ cache:
 
 before_script:
   - echo "DOMAIN=${DOMAIN}" > ./.env
+  - echo "REACT_APP_MAPS_API_KEY=${MAPS_API_KEY}" > ./.env
 
 lint:
   stage: lint
