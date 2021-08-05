@@ -1,0 +1,16 @@
+.iconSpacing {
+  margin-left: 1em;
+  margin-right: 0.8rem;
+  font-size: 1rem;
+  margin-top: 0.1rem;
+}
+
+.warning {
+  color: #B00020;
+  font-size: 1.5rem;
+}
+
+.detail {
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
