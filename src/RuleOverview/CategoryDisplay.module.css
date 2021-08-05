@@ -2,15 +2,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
+}
   
-  .shareButton {
-      margin-left: 5em;
-      transform: scale(0.8);
-  }
+.shareButton {
+    margin-left: 0.2em;
+    transform: scale(0.9);
+}
 
-  .link {
-    display: flex;
-    background-color: #eee;
+.linkField {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+.dialogRow {
     margin-bottom: 1.5em;
-  }
+}
+
+.copyButton {
+    margin-left: 1em;
+    cursor: pointer;
+}

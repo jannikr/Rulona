@@ -16,8 +16,11 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  InputAdornment,
+  Link,
   TextField,
 } from "@material-ui/core";
+import classnames from "classnames";
 
 interface Props {
   category: Category;
@@ -84,16 +87,32 @@ const CategoryDisplay: React.FC<Props> = (props) => {
           maxWidth={"sm"}
         >
           <DialogTitle>Teile diese Regeln</DialogTitle>
-          <DialogContent>
+          <DialogContent className={classnames(styles.row, styles.dialogRow)}>
             <TextField
               defaultValue={
                 "https://" + "derzeitigerPfad/rules/bundelsand/" + category.id
               }
+              onFocus={(event): void => {
+                event.target.select();
+              }}
               InputProps={{
                 readOnly: true,
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Link
+                      className={styles.copyButton}
+                      onClick={(): void => {
+                        navigator.clipboard.writeText("pfad" + category.id);
+                      }}
+                    >
+                      Kopieren
+                    </Link>
+                  </InputAdornment>
+                ),
               }}
               variant="outlined"
-              className={styles.link}
+              fullWidth={true}
+              className={styles.linkField}
             />
           </DialogContent>
         </Dialog>
