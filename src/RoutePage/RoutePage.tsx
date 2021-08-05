@@ -27,10 +27,7 @@ const RoutePage: React.FC = () => {
             mapContainerStyle={containerStyle}
             center={germanyCenter}
             zoom={7}
-          >
-            {/* Child components, such as markers, info windows, etc. */}
-            <></>
-          </GoogleMap>
+          />
         </LoadScript>
       </Grid>
     </Grid>
