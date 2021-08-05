@@ -37,6 +37,11 @@ export interface Rule {
 
 export type RulesPerCategory = [Category, Rule[]][];
 
+export interface RestrictedPlace {
+  placeId: string;
+  denyingRules: Rule[];
+}
+
 export enum SidebarHeading {
   LastSearch = "Letze Suchen",
   ExamplePlaces = "Beispiel-Orte",

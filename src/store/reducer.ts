@@ -7,6 +7,7 @@ export const initialState: AppState = {
   favouritePlaces: [],
   lastSearchedPlaces: [],
   favouriteCategories: [],
+  restrictions: [],
 };
 
 const reducer = (
@@ -86,6 +87,13 @@ const reducer = (
         ) {
           return category.id !== action.category.id;
         }),
+      };
+    }
+
+    case ActionType.SetRestrictions: {
+      return {
+        ...state,
+        restrictions: action.restrictions,
       };
     }
 
