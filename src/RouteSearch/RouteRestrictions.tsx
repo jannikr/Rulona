@@ -11,6 +11,7 @@ import {
 } from "../MaterialUIOverrides";
 import classnames from "classnames";
 import styles from "./RouteRestrictions.module.css";
+import Info from "../Info/Info";
 
 type Props = ReturnType<typeof mapStateToProps>;
 
@@ -20,7 +21,7 @@ const RouteRestrictions: React.FC<Props> = (props) => {
     <>
       <h4>Regeln der Landkreise</h4>
       {restrictions.length === 0 && (
-        <span>Es gibt keine einschränkenden Regeln für die Strecke.</span>
+        <Info text="Es gibt keine einschränkenden Regeln für die gewählte Route." />
       )}
       {restrictions.map((restriction) => (
         <Accordion key={restriction.placeId} className={styles.accordion}>

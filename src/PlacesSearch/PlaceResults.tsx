@@ -18,6 +18,7 @@ import {
 import { Place, SidebarHeading } from "../types";
 import PlaceContainer from "./PlaceContainer";
 import styles from "./PlaceResults.module.css";
+import Info from "../Info/Info";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
@@ -113,7 +114,7 @@ const PlaceResults: React.FC<Props> = (props) => {
         <PlaceContainer key={place.id} place={place} onClick={onClickWrapper} />
       ))}
       {results.length === 0 && isSearchHeading() ? (
-        <span>Keine Ergebnisse gefunden.</span>
+        <Info text="Keine Ergebnisse gefunden." />
       ) : (
         <></>
       )}
