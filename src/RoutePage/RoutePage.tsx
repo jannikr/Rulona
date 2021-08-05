@@ -11,9 +11,9 @@ const RoutePage: React.FC = () => {
     height: "100%",
   };
 
-  const center = {
-    lat: 51,
-    lng: 9,
+  const germanyCenter = {
+    lat: 51.1657,
+    lng: 10.4515,
   };
 
   return (
@@ -25,7 +25,7 @@ const RoutePage: React.FC = () => {
         <LoadScript googleMapsApiKey={MAPS_API_KEY || ""}>
           <GoogleMap
             mapContainerStyle={containerStyle}
-            center={center}
+            center={germanyCenter}
             zoom={7}
           >
             {/* Child components, such as markers, info windows, etc. */}
