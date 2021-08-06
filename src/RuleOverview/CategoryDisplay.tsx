@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Category, Rule, RuleStatus } from "../types";
 import RuleDisplay from "./RuleDisplay";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -13,6 +13,7 @@ import styles from "./RuleOverview.module.css";
 import { Share } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import CustomDialog from "./CustomDialog";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   category: Category;
@@ -23,6 +24,8 @@ const CategoryDisplay: React.FC<Props> = (props) => {
   const { category, rules } = props;
   const [showShare, setShowShare] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [expand, setExpand] = useState(false);
+  const location = useLocation();
 
   const findLowestStatus = useCallback((): RuleStatus => {
     let lowest: RuleStatus = RuleStatus.Unknown;
@@ -35,15 +38,17 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     return lowest;
   }, [rules]);
 
-  useLayoutEffect(() => {
-    const anchor = window.location.hash.split("#")[1];
-    if (anchor) {
-      const anchorEl = document.getElementById(anchor);
+  useEffect(() => {
+    const anchorId = location.hash.split("#category-")[1];
+    if (anchorId === `${category.id}`) {
+      const anchorEl = document.getElementById("category-" + anchorId);
       if (anchorEl) {
+        setExpand(true);
+        setShowShare(true);
         anchorEl.scrollIntoView();
       }
     }
-  }, []);
+  }, [category, location]);
 
   return (
     <>
@@ -51,7 +56,9 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         id={`category-${category.id}`}
         onChange={(_, expanded): void => {
           setShowShare(expanded);
+          setExpand(!expand);
         }}
+        expanded={expand}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className={styles.row}>
