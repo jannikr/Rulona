@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Category, Rule, RuleStatus } from "../types";
 import RuleDisplay from "./RuleDisplay";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -35,7 +35,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     return lowest;
   }, [rules]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const anchor = window.location.hash.split("#")[1];
     if (anchor) {
       const anchorEl = document.getElementById(anchor);
@@ -60,7 +60,8 @@ const CategoryDisplay: React.FC<Props> = (props) => {
             {showShare && (
               <IconButton
                 className={styles.shareButton}
-                onClick={(): void => {
+                onClick={(e): void => {
+                  e.stopPropagation();
                   setShowDialog(!showDialog);
                 }}
               >

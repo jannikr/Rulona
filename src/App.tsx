@@ -16,11 +16,7 @@ const App: React.FC = (): JSX.Element => {
         <Redirect exact from="/" to="/rules" />
         <Route
           exact
-          path={[
-            "/rules",
-            "/rules/:placeId",
-            "/rules/:placeId/category/:categoryId",
-          ]}
+          path={["/rules", "/rules/:placeId"]}
           component={LandingPage}
         />
         <Route
