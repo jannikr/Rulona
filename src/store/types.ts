@@ -45,7 +45,7 @@ export interface SetCategoriesAction {
 
 export interface SelectPlaceAction {
   type: ActionType.SelectPlace;
-  place: Place;
+  place: Place | undefined;
 }
 export interface SetRulesAction {
   type: ActionType.SetRules;

@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import { RouteComponentProps } from "react-router-dom";
-import { selectPlace } from "../store/actions";
+import { deselectPlace, selectPlace } from "../store/actions";
 
 interface RouteProps {
   placeId?: string;
@@ -19,7 +19,7 @@ type Props = RouteComponentProps<RouteProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const LandingPage: React.FC<Props> = (props) => {
-  const { match, selectedPlace, places, selectPlace } = props;
+  const { match, selectedPlace, places, selectPlace, deselectPlace } = props;
   const { placeId } = match.params;
 
   useEffect(() => {
@@ -27,8 +27,9 @@ const LandingPage: React.FC<Props> = (props) => {
       ? places.find((place) => place.id === placeId)
       : undefined;
 
+    if (!place) deselectPlace();
     if (place) selectPlace(place);
-  }, [placeId, places, selectPlace]);
+  }, [placeId, places, selectPlace, deselectPlace]);
 
   return (
     <Grid container spacing={0} className={styles.container}>
@@ -56,6 +57,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   selectPlace: (place: Place): SelectPlaceAction =>
     dispatch(selectPlace(place)),
+  deselectPlace: (): SelectPlaceAction => dispatch(deselectPlace()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

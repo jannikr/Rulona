@@ -26,6 +26,11 @@ export const selectPlace = (place: Place): SelectPlaceAction => {
   };
 };
 
+export const deselectPlace = (): SelectPlaceAction => ({
+  type: ActionType.SelectPlace,
+  place: undefined,
+});
+
 export const setPlaces = (places: Place[]): SetPlacesAction => {
   return {
     type: ActionType.SetPlaces,
