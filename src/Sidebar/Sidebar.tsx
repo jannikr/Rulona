@@ -15,7 +15,7 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
   const { children, index, value } = props;
 
   return (
-    <div role="tabpanel" hidden={value !== index}>
+    <div role="tabpanel" hidden={value !== index} className={styles.content}>
       {value === index && children}
     </div>
   );
@@ -35,7 +35,7 @@ const Sidebar: React.FC<RouteComponentProps> = (props) => {
   };
 
   return (
-    <>
+    <div className={styles.sidebar}>
       <div className={styles.tabHeader}>
         <Box boxShadow={3}>
           <Tabs value={value} onChange={handleChange} variant="fullWidth">
@@ -50,7 +50,7 @@ const Sidebar: React.FC<RouteComponentProps> = (props) => {
       <TabPanel value={value} index={1}>
         <RouteSearch />
       </TabPanel>
-    </>
+    </div>
   );
 };
 
