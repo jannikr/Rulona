@@ -154,7 +154,7 @@ const RuleOverview: React.FC<Props> = (props) => {
   if (!selectedPlace) return <></>;
 
   return (
-    <div>
+    <div className={styles.container}>
       <Box boxShadow={3}>
         <Toolbar variant="dense" className={styles.toolbar}>
           <Hidden mdUp>
@@ -171,7 +171,7 @@ const RuleOverview: React.FC<Props> = (props) => {
         </Toolbar>
       </Box>
       <Divider />
-      <Box mt={5}>
+      <Box mt={5} className={styles.content}>
         <Container maxWidth="sm">
           <PlaceInfoDisplay placeInfo={placeInfo} />
           {rules.length === 0 && (
