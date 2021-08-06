@@ -1,5 +1,5 @@
 import { ThunkDispatch } from "redux-thunk";
-import { Category, Place, PlaceInfo, Rule } from "../types";
+import { Category, Place, PlaceInfo, RestrictedPlace, Rule } from "../types";
 
 export type AppDispatch = ThunkDispatch<AppState, void, AppAction>;
 
@@ -18,6 +18,7 @@ export enum ActionType {
   AddFavouriteCategory = "AddFavouriteCategory",
   DeleteFavouriteCategory = "DeleteFavouriteCategory",
   SetFavouriteCategories = "SetFavouriteCategories",
+  SetRestrictions = "SetRestrictions",
 }
 
 export interface AppState {
@@ -29,6 +30,7 @@ export interface AppState {
   favouritePlaces: Place[];
   lastSearchedPlaces: Place[];
   favouriteCategories: Category[];
+  restrictions: RestrictedPlace[];
 }
 
 export interface SetPlacesAction {
@@ -95,6 +97,11 @@ export interface SetFavouriteCategoriesAction {
   favouriteCategories: Category[];
 }
 
+export interface SetRestrictionsAction {
+  type: ActionType.SetRestrictions;
+  restrictions: RestrictedPlace[];
+}
+
 export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
@@ -108,4 +115,5 @@ export type AppAction =
   | SetLastSearchedPlacesAction
   | AddFavouriteCategoryAction
   | DeleteFavouriteCategoryAction
-  | SetFavouriteCategoriesAction;
+  | SetFavouriteCategoriesAction
+  | SetRestrictionsAction;

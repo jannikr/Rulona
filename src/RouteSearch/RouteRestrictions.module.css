@@ -1,0 +1,24 @@
+.iconSpacing {
+  margin-left: 1em;
+  margin-right: 0.8rem;
+  font-size: 1rem;
+  margin-top: 0.1rem;
+}
+
+.warning {
+  color: #B00020;
+  font-size: 1.5rem;
+}
+
+.accordion {
+  margin-left: -1.5em !important;
+  margin-right: -1.5em !important;
+}
+
+.summary {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.detail {
+  background-color: white !important;
+}

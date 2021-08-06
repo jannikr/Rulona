@@ -1,5 +1,5 @@
 import { dynamicConstants } from "../constants";
-import { Category, Place, PlaceInfo, Rule } from "../types";
+import { Category, Place, PlaceInfo, RestrictedPlace, Rule } from "../types";
 import {
   ActionType,
   AppDispatch,
@@ -16,6 +16,7 @@ import {
   SetFavouriteCategoriesAction,
   AppState,
   SetLastSearchedPlacesAction,
+  SetRestrictionsAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -228,5 +229,51 @@ export const fetchFavouriteCategories = () => {
       (item) => favCategoriesIds.indexOf(item.id) !== -1
     );
     return dispatch(setFavouriteCategories(favouriteCategories));
+  };
+};
+
+export const setRestrictions = (
+  restrictions: RestrictedPlace[]
+): SetRestrictionsAction => ({
+  type: ActionType.SetRestrictions,
+  restrictions,
+});
+
+export const resetRestrictions = (): SetRestrictionsAction => ({
+  type: ActionType.SetRestrictions,
+  restrictions: [],
+});
+
+export const fetchRestrictions = (start: Place, destination: Place) => {
+  return async (dispatch: AppDispatch): Promise<SetRestrictionsAction> => {
+    //TODO: actually fetch Restrictions
+    const restrictions: RestrictedPlace[] = [
+      {
+        placeId: start.id,
+        denyingRules: [
+          {
+            id: 1,
+            categoryId: 0,
+            status: 0,
+            text:
+              "sample rule 1 askjdhaskjdhkjasdhajsd hlasdhlashd asldhasldhasld asdlhas dlashdlash dlaskdh asld asldas dhlas dlasdh asldhas ldhasdlas hdlasdh lasd hlasd halsdh lasdh alsdhas ldkhasl dkhas ldhas dl",
+            timestamp: Date.now().toString(),
+          },
+        ],
+      },
+      {
+        placeId: destination.id,
+        denyingRules: [
+          {
+            id: 2,
+            categoryId: 0,
+            status: 0,
+            text: "sample rule 2",
+            timestamp: Date.now().toString(),
+          },
+        ],
+      },
+    ];
+    return dispatch(setRestrictions(restrictions));
   };
 };

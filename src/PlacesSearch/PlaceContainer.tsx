@@ -4,7 +4,6 @@ import { Place } from "../types";
 import PlaceTrend from "./PlaceTrend";
 import styles from "./PlaceContainer.module.css";
 import FavouritePlace from "../Button/FavouritePlace";
-import { Link } from "react-router-dom";
 
 interface Props {
   onClick?: (place: Place) => void;
@@ -24,16 +23,15 @@ const PlaceContainer: React.FC<Props> = (props) => {
         <span className={styles.placeInfo}>
           <PlaceTrend trend={place.trend} />
         </span>
-        <Link
+        <span
           className={styles.name}
           onMouseDown={onMouseDown}
           onClick={(): void => {
             onClick && onClick(place);
           }}
-          to={`/rules/${place.id}`}
         >
           {place.name}
-        </Link>
+        </span>
         <span className={styles.icon}>
           <FavouritePlace place={place} />
         </span>
