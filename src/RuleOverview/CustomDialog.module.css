@@ -11,5 +11,7 @@
 
 .copyButton {
     margin-left: 1em;
-    cursor: pointer;
+    min-width: 10em;
+    height: 100%;
+    color: #fff;
 }

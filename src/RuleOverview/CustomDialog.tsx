@@ -1,12 +1,12 @@
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogProps,
   DialogTitle,
-  InputAdornment,
-  Link,
   TextField,
 } from "@material-ui/core";
+import { useState } from "react";
 import styles from "./CustomDialog.module.css";
 
 type Props = DialogProps & {
@@ -15,6 +15,8 @@ type Props = DialogProps & {
 
 const CustomDialog: React.FC<Props> = (props) => {
   const { link, ...rest } = props;
+  const [buttonClicked, setButtonClicked] = useState(false);
+
   return (
     <>
       <Dialog {...rest}>
@@ -36,23 +38,26 @@ const CustomDialog: React.FC<Props> = (props) => {
             }}
             InputProps={{
               readOnly: true,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Link
-                    className={styles.copyButton}
-                    onClick={(): void => {
-                      navigator.clipboard.writeText(link);
-                    }}
-                  >
-                    Kopieren
-                  </Link>
-                </InputAdornment>
-              ),
             }}
             variant="outlined"
             fullWidth={true}
             className={styles.linkField}
           />
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={(): void => {
+              navigator.clipboard.writeText(link);
+              setButtonClicked(true);
+              setTimeout(() => {
+                setButtonClicked(false);
+              }, 3000);
+            }}
+            className={styles.copyButton}
+            color={buttonClicked ? "secondary" : "primary"}
+          >
+            {buttonClicked ? "Kopiert" : "Link kopieren"}
+          </Button>
         </DialogContent>
       </Dialog>
     </>
