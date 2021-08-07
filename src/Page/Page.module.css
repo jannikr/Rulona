@@ -6,11 +6,6 @@
   background: rgba(0, 0, 0, .03);
 }
 
-.image {
-  width: 80%;
-  margin: 0 -5rem;
-}
-
 .dialogBox {
   max-width: 20em;
   display: flex;
@@ -24,6 +19,6 @@
   margin: 1.5rem 0;
 }
 
-.text {
-    flex-grow: 1;
+.flexGrow {
+  flex-grow: 1;
 }

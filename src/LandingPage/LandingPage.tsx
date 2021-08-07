@@ -13,6 +13,7 @@ import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import { RouteComponentProps } from "react-router-dom";
 import { deselectPlace, selectPlace } from "../store/actions";
+import TutorialContentPlace from "../Info/TutorialContentPlace";
 import Page from "../Page/Page";
 
 interface RouteProps {

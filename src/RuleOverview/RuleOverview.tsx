@@ -1,7 +1,5 @@
 import {
   Container,
-  Dialog,
-  DialogContent,
   Divider,
   Hidden,
   IconButton,
@@ -157,16 +155,9 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   if (!selectedPlace)
     return (
-      <>
-        <div className={classnames(styles.container, styles.center)}>
-          <TutorialDisplay />
-        </div>
-        <Hidden smUp={!selectedPlace}>
-          <Dialog open={true}>
-            <DialogContent>test</DialogContent>
-          </Dialog>
-        </Hidden>
-      </>
+      <div className={styles.container}>
+        <TutorialDisplay />
+      </div>
     );
 
   return (

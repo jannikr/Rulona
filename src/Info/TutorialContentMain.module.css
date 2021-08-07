@@ -1,0 +1,22 @@
+.dekstopHeading {
+    margin-top: 0;
+}
+
+.desktopBody {
+    margin-right: 2rem;
+}
+
+.desktopImage {
+    max-width: 20rem;
+}
+
+.mobileImage {
+    width: 80%;
+    margin: 0 -5rem;
+  }
+
+.mobileFlex {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
