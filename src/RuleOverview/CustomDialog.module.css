@@ -19,13 +19,6 @@
     color: #fff;
 }
 
-.copyButton {
-    margin-left: 1em;
-    min-width: 10em;
-    height: 100%;
-    color: #fff;
-}
-
 .clicked {
     background-color: #0A524D;
 }
