@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import classnames from "classnames";
+import _ from "lodash";
 import { useState } from "react";
 import styles from "./CustomDialog.module.css";
 
@@ -16,11 +17,12 @@ type Props = DialogProps & {
 };
 
 const CustomDialog: React.FC<Props> = (props) => {
-  const { link, ...rest } = props;
+  const { link, onClose, ...rest } = props;
   const [buttonClicked, setButtonClicked] = useState(false);
 
   return (
     <Dialog
+      onClose={onClose}
       {...rest}
       className={styles.dialog}
       fullWidth={true}
@@ -29,7 +31,7 @@ const CustomDialog: React.FC<Props> = (props) => {
       <DialogTitle>
         <div className={styles.row}>
           <b>Link teilen</b>
-          <Close className={styles.closeButton} />
+          <Close className={styles.closeButton} onClick={onClose || _.noop} />
         </div>
       </DialogTitle>
       <DialogContent className={classnames(styles.row, styles.dialogRow)}>
