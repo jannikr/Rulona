@@ -57,8 +57,10 @@ const CustomDialog: React.FC<Props> = (props) => {
               setButtonClicked(false);
             }, 3000);
           }}
-          className={styles.copyButton}
-          color={buttonClicked ? "primary" : "secondary"}
+          className={classnames(
+            styles.copyButton,
+            buttonClicked ? styles.clicked : styles.unclicked
+          )}
         >
           {buttonClicked ? "Kopiert" : "Link kopieren"}
         </Button>

@@ -19,6 +19,31 @@
     color: #fff;
 }
 
+.copyButton {
+    margin-left: 1em;
+    min-width: 10em;
+    height: 100%;
+    color: #fff;
+}
+
+.clicked {
+    background-color: #0A524D;
+}
+
+.clicked:hover {
+    background-color: #0A524D;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
+}
+
+.unclicked {
+    background-color: orangered;
+}
+
+.unclicked:hover {
+    background-color: orangered;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
+}
+
 .closeButton {
     color: gray;
     cursor: pointer;
