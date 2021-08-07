@@ -31,6 +31,11 @@ import {
   SetDestinationAction,
 } from "./types";
 
+export const setFirstVisit = (firstVisit: boolean): SetFirstVisitAction => ({
+  type: ActionType.SetFirstVisit,
+  firstVisit,
+});
+
 export const selectPlace = (place: Place): SelectPlaceAction => {
   return {
     type: ActionType.SelectPlace,
