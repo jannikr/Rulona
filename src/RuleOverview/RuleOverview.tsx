@@ -1,4 +1,13 @@
-import { Container, Divider, IconButton } from "@material-ui/core";
+import {
+  Container,
+  Dialog,
+  DialogContent,
+  Divider,
+  Hidden,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -26,6 +35,8 @@ import { Clear, Edit } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import classnames from "classnames";
+import { Link } from "react-router-dom";
+import TutorialDisplay from "./TutorialDisplay";
 import ShareDialog from "./ShareDialog";
 import ContentHeader from "../ContentHeader/ContentHeader";
 
@@ -144,7 +155,19 @@ const RuleOverview: React.FC<Props> = (props) => {
     setRulesPerFavouriteCategory(mapRulesToFavouriteCategory());
   }, [favouriteCategories, rules, mapRulesToFavouriteCategory]);
 
-  if (!selectedPlace) return <></>;
+  if (!selectedPlace)
+    return (
+      <>
+        <div className={classnames(styles.container, styles.center)}>
+          <TutorialDisplay />
+        </div>
+        <Hidden smUp={!selectedPlace}>
+          <Dialog open={true}>
+            <DialogContent>test</DialogContent>
+          </Dialog>
+        </Hidden>
+      </>
+    );
 
   return (
     <div className={styles.container}>

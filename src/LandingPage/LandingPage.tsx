@@ -1,3 +1,4 @@
+import { Dialog, DialogContent, Grid, Hidden } from "@material-ui/core";
 import React, { useEffect } from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import { connect } from "react-redux";

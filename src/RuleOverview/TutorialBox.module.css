@@ -1,0 +1,21 @@
+.box {
+    background-color: rgba(0, 0, 0, .03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 20rem;
+    padding: 1em 3em;
+    margin: 0.75rem 0;
+}
+  
+.heading {
+    margin-top: 0;
+}
+
+.text {
+    margin-right: 3rem;
+}
+
+.image {
+    max-width: 20rem;
+}
