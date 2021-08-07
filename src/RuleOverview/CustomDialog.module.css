@@ -4,6 +4,9 @@
 
 .dialogRow {
     margin-bottom: 1.5em;
+}
+
+.row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,4 +17,9 @@
     min-width: 10em;
     height: 100%;
     color: #fff;
+}
+
+.closeButton {
+    color: gray;
+    cursor: pointer;
 }

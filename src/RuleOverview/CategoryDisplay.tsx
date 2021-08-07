@@ -5,11 +5,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import CategoryStatus from "./CategoryStatus";
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from "../MaterialUIOverrides";
-import styles from "./RuleOverview.module.css";
+import styles from "./CategoryDisplay.module.css";
 import { Share } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import CustomDialog from "./CustomDialog";
@@ -63,7 +63,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className={styles.row}>
             <CategoryStatus status={findLowestStatus()} />
-            {category.name}
+            <span className={styles.categoryName}>{category.name}</span>
             {showShare && (
               <IconButton
                 className={styles.shareButton}

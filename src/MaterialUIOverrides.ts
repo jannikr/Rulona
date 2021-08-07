@@ -30,8 +30,9 @@ export const AccordionSummary = withStyles({
     },
   },
   content: {
+    margin: 0,
     "&$expanded": {
-      margin: "12px 0",
+      margin: 0,
     },
   },
   expanded: {},

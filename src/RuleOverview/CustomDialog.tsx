@@ -6,6 +6,8 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import classnames from "classnames";
 import { useState } from "react";
 import styles from "./CustomDialog.module.css";
 
@@ -18,49 +20,48 @@ const CustomDialog: React.FC<Props> = (props) => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   return (
-    <>
-      <Dialog {...rest}>
-        <DialogTitle>{link}</DialogTitle>
-      </Dialog>
-
-      <Dialog
-        {...rest}
-        className={styles.dialog}
-        fullWidth={true}
-        maxWidth={"sm"}
-      >
-        <DialogTitle>Link teilen</DialogTitle>
-        <DialogContent className={styles.dialogRow}>
-          <TextField
-            defaultValue={link}
-            onFocus={(event): void => {
-              event.target.select();
-            }}
-            InputProps={{
-              readOnly: true,
-            }}
-            variant="outlined"
-            fullWidth={true}
-            className={styles.linkField}
-          />
-          <Button
-            variant="contained"
-            disableElevation
-            onClick={(): void => {
-              navigator.clipboard.writeText(link);
-              setButtonClicked(true);
-              setTimeout(() => {
-                setButtonClicked(false);
-              }, 3000);
-            }}
-            className={styles.copyButton}
-            color={buttonClicked ? "secondary" : "primary"}
-          >
-            {buttonClicked ? "Kopiert" : "Link kopieren"}
-          </Button>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Dialog
+      {...rest}
+      className={styles.dialog}
+      fullWidth={true}
+      maxWidth={"sm"}
+    >
+      <DialogTitle>
+        <div className={styles.row}>
+          <b>Link teilen</b>
+          <Close className={styles.closeButton} />
+        </div>
+      </DialogTitle>
+      <DialogContent className={classnames(styles.row, styles.dialogRow)}>
+        <TextField
+          defaultValue={link}
+          onFocus={(event): void => {
+            event.target.select();
+          }}
+          InputProps={{
+            readOnly: true,
+          }}
+          variant="outlined"
+          fullWidth={true}
+          className={styles.linkField}
+        />
+        <Button
+          variant="contained"
+          disableElevation
+          onClick={(): void => {
+            navigator.clipboard.writeText(link);
+            setButtonClicked(true);
+            setTimeout(() => {
+              setButtonClicked(false);
+            }, 3000);
+          }}
+          className={styles.copyButton}
+          color={buttonClicked ? "primary" : "secondary"}
+        >
+          {buttonClicked ? "Kopiert" : "Link kopieren"}
+        </Button>
+      </DialogContent>
+    </Dialog>
   );
 };
 

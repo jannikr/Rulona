@@ -5,5 +5,9 @@
 }
   
 .shareButton {
-    margin-left: 0.2em;
+    margin-left: 0.2rem;
+}
+
+.categoryName {
+    margin: 1rem 0;
 }
