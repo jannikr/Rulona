@@ -7,7 +7,7 @@ const TutorialDisplay: React.FC = () => {
   return (
     <>
       <Box mt={5} className={styles.content}>
-        <Container className={styles.outerBox} maxWidth="md">
+        <Container className={styles.outerBox}>
           <img className={styles.logo} src="/images/Logo.svg" />
           <TutorialBox
             heading={"Finde Orte und Regeln"}
