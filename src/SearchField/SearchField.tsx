@@ -62,6 +62,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
 
     const onChangeWrapper = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
+        setShowBackArrow(true);
         selectIcon(e);
         onChange(e);
       },
