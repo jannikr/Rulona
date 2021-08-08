@@ -1,8 +1,10 @@
-import { Container } from "@material-ui/core";
+import { Container, IconButton } from "@material-ui/core";
+import { Share } from "@material-ui/icons";
 import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import PlaceResults from "../PlacesSearch/PlaceResults";
+import CustomDialog from "../RuleOverview/CustomDialog";
 import SearchField from "../SearchField/SearchField";
 import { fetchRestrictions, resetRestrictions } from "../store/actions";
 import { AppDispatch, SetRestrictionsAction } from "../store/types";
@@ -23,6 +25,7 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   const [currentField, setCurrentField] = useState<Field>();
   const [startPlace, setStartPlace] = useState<Place>();
   const [destinationPlace, setDestinationPlace] = useState<Place>();
+  const [showDialog, setShowDialog] = useState(false);
   const startRef = useRef<HTMLInputElement>();
   const destinationRef = useRef<HTMLInputElement>();
 
@@ -106,31 +109,51 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   }, [startPlace, destinationPlace, fetchRestrictions, resetRestrictions]);
 
   return (
-    <Container>
-      <SearchField
-        label="Start"
-        ref={startRef}
-        onChange={searchStart}
-        onFocus={focusStartSearch}
-        onBlur={unfocusStartSearch}
-      />
-      <SearchField
-        label="Ziel"
-        ref={destinationRef}
-        onChange={searchDestination}
-        onFocus={focusDestinationSearch}
-        onBlur={unfocusDestinationSearch}
-      />
-      {!_.isNil(searchTerm) ? (
-        <>
-          <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
-          <PlaceResults placeOnClick={placeOnClick} />
-        </>
-      ) : (
-        <></>
-      )}
-      {startPlace && destinationPlace ? <RouteRestrictions /> : <></>}
-    </Container>
+    <>
+      <Container>
+        <SearchField
+          label="Start"
+          ref={startRef}
+          onChange={searchStart}
+          onFocus={focusStartSearch}
+          onBlur={unfocusStartSearch}
+        />
+        <SearchField
+          label="Ziel"
+          ref={destinationRef}
+          onChange={searchDestination}
+          onFocus={focusDestinationSearch}
+          onBlur={unfocusDestinationSearch}
+        />
+        {!_.isNil(searchTerm) ? (
+          <>
+            <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
+            <PlaceResults placeOnClick={placeOnClick} />
+          </>
+        ) : (
+          <></>
+        )}
+        {startPlace && destinationPlace ? (
+          <>
+            <IconButton
+              onClick={(): void => {
+                setShowDialog(!showDialog);
+              }}
+            >
+              <Share />
+            </IconButton>
+            <RouteRestrictions />{" "}
+          </>
+        ) : (
+          <></>
+        )}
+      </Container>
+      <CustomDialog
+        link={`${window.location.href}/${startPlace?.id}/${destinationPlace?.id}`}
+        open={showDialog}
+        onClose={(): void => setShowDialog(false)}
+      ></CustomDialog>
+    </>
   );
 };
 
