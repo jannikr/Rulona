@@ -28,23 +28,23 @@ const LandingPage: React.FC<Props> = (props) => {
       ? places.find((place) => place.id === placeId)
       : undefined;
 
-    const tutorialSeenLocal = JSON.parse(
-      localStorage.getItem("tutorialSeen") || "[]"
-    );
-    if (`${tutorialSeenLocal}` === "true") {
-      setTutorialSeen(true);
-    }
-
     if (!place) deselectPlace();
     if (place) selectPlace(place);
   }, [placeId, places, selectPlace, deselectPlace]);
+
+  useEffect(() => {
+    const tutorialSeenLocal = JSON.parse(
+      localStorage.getItem("tutorialSeen") || "false"
+    );
+    setTutorialSeen(tutorialSeenLocal);
+  }, []);
 
   return (
     <>
       <Page mobileShowContent={!!selectedPlace}>
       <RuleOverview />
       </Page>
-          <Hidden mdUp={true}>
+          <Hidden mdUp>
               {!selectedPlace && !tutorialSeen && <TutorialDialog />}
           </Hidden>
           </>
