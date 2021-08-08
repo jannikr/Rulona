@@ -2,6 +2,7 @@ import { Container, Hidden } from "@material-ui/core";
 import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 import Info from "../Info/Info";
 import PlaceResults from "../PlacesSearch/PlaceResults";
 import SearchField from "../SearchField/SearchField";
@@ -12,6 +13,7 @@ import {
   resetRouteBoundary,
 } from "../store/actions";
 import {
+  AppState,
   AppDispatch,
   SetRestrictionsAction,
   SetRouteAction,
@@ -26,15 +28,23 @@ enum Field {
   Destination,
 }
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+interface RouteProps {
+  origin: string;
+  destination: string;
+}
+
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   const {
+    places,
     fetchRestrictions,
     resetRestrictions,
     resetRoute,
     resetRouteBoundary,
   } = props;
+  const params = useParams<RouteProps>();
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
   const [currentField, setCurrentField] = useState<Field>();
   const [startPlace, setStartPlace] = useState<Place>();
@@ -43,6 +53,13 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   const [restrictionsLoaded, setRestrictionsLoaded] = useState(false);
   const startRef = useRef<HTMLInputElement>();
   const destinationRef = useRef<HTMLInputElement>();
+
+  const getPlace = useCallback(
+    (id: string) => {
+      return places.find((place) => place.id === id);
+    },
+    [places]
+  );
 
   const search = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
@@ -95,30 +112,45 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     unfocusSearch(e);
   };
 
+  const selectPlace = useCallback(
+    (place: Place, field: Field | undefined): void => {
+      switch (field) {
+        case Field.Start: {
+          setInputValue(place.name, startRef);
+          setStartPlace(place);
+          startRef.current?.blur();
+          break;
+        }
+        case Field.Destination: {
+          setInputValue(place.name, destinationRef);
+          setDestinationPlace(place);
+          destinationRef.current?.blur();
+          break;
+        }
+      }
+      setSearchTerm(undefined);
+    },
+    [startRef, destinationRef, setStartPlace, setDestinationPlace]
+  );
+
   const placeOnClick = (place: Place): void => {
-    switch (currentField) {
-      case Field.Start: {
-        setInputValue(place.name, startRef);
-        setStartPlace(place);
-        startRef.current?.blur();
-        break;
-      }
-      case Field.Destination: {
-        setInputValue(place.name, destinationRef);
-        setDestinationPlace(place);
-        destinationRef.current?.blur();
-        break;
-      }
-    }
-    setSearchTerm(undefined);
+    selectPlace(place, currentField);
   };
 
   useEffect(() => {
+    const { origin, destination } = params;
+    const originPlace = getPlace(origin);
+    const destinationPlace = getPlace(destination);
+    if (originPlace) selectPlace(originPlace, Field.Start);
+    if (destinationPlace) selectPlace(destinationPlace, Field.Destination);
+  }, [params, getPlace, selectPlace]);
+
+  useEffect(() => {
+    setRestrictionsLoaded(false);
     if (!startPlace || !destinationPlace) {
       resetRestrictions();
       resetRoute();
       resetRouteBoundary();
-      setRestrictionsLoaded(false);
       return;
     }
     setLoading(true);
@@ -176,6 +208,12 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const mapStateToProps = (state: AppState) => {
+  const { places } = state;
+  return { places };
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   resetRestrictions: (): SetRestrictionsAction => dispatch(resetRestrictions()),
   resetRoute: (): SetRouteAction => dispatch(resetRoute()),
@@ -185,4 +223,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
     dispatch(fetchRestrictions(origin, destination)),
 });
 
-export default connect(null, mapDispatchToProps)(RouteSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(RouteSearch);
