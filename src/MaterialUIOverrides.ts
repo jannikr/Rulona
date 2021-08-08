@@ -2,6 +2,7 @@ import { withStyles } from "@material-ui/core";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
+import MuiDialogContent from "@material-ui/core/DialogContent";
 
 export const Accordion = withStyles({
   root: {
@@ -19,6 +20,15 @@ export const Accordion = withStyles({
   },
   expanded: {},
 })(MuiAccordion);
+
+export const DialogContent = withStyles({
+  root: {
+    padding: 0,
+    "&:first-child": {
+      padding: 0,
+    },
+  },
+})(MuiDialogContent);
 
 export const AccordionSummary = withStyles({
   root: {

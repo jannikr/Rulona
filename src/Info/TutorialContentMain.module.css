@@ -11,12 +11,19 @@
 }
 
 .mobileImage {
-    width: 80%;
-    margin: 0 -5rem;
-  }
+    max-height: 100%;
+    max-width: 100%;
+}
 
-.mobileFlex {
+.mobileImageOuter {
+    height: 40%;
+    width: 100%;
     display: flex;
     align-items: center;
-    flex-direction: column;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.mobileText {
+    padding: 0 2rem;
 }

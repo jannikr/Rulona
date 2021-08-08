@@ -1,4 +1,3 @@
-
 .dialogBox {
     max-width: 20em;
     display: flex;
@@ -6,12 +5,19 @@
     flex-direction: column;
     text-align: center;
     min-height: 34rem;
-  }
-  
-  .skipLink {
-    margin: 1.5rem 0;
-  }
-  
-  .flexGrow {
-    flex-grow: 1;
-  }
+    height: 34rem;
+}
+
+.skipLinkContainer {
+    height: 3.5rem;
+    color: grey;
+}
+
+.skipLink {
+    color: grey;
+}
+
+.nextButton {
+    margin-top: auto;
+    margin-bottom: 1.5rem;
+}
