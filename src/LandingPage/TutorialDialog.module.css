@@ -1,0 +1,17 @@
+
+.dialogBox {
+    max-width: 20em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    min-height: 34rem;
+  }
+  
+  .skipLink {
+    margin: 1.5rem 0;
+  }
+  
+  .flexGrow {
+    flex-grow: 1;
+  }
