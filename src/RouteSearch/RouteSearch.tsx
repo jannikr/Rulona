@@ -129,7 +129,14 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
       ) : (
         <></>
       )}
-      {startPlace && destinationPlace ? <RouteRestrictions /> : <></>}
+      {startPlace && destinationPlace ? (
+        <RouteRestrictions
+          startPlace={startPlace}
+          destinationPlace={destinationPlace}
+        />
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };

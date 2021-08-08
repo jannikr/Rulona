@@ -1,6 +1,6 @@
-import { Typography } from "@material-ui/core";
-import { ExpandMore, Warning } from "@material-ui/icons";
-import React from "react";
+import { IconButton, Typography } from "@material-ui/core";
+import { ExpandMore, Share, Warning } from "@material-ui/icons";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import RuleDisplay from "../RuleOverview/RuleDisplay";
 import { AppState } from "../store/types";
@@ -12,14 +12,30 @@ import {
 import classnames from "classnames";
 import styles from "./RouteRestrictions.module.css";
 import Info from "../Info/Info";
+import { Place } from "../types";
+import ShareDialog from "../RuleOverview/ShareDialog";
 
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = ReturnType<typeof mapStateToProps> & {
+  startPlace: Place;
+  destinationPlace: Place;
+};
 
 const RouteRestrictions: React.FC<Props> = (props) => {
-  const { places, restrictions } = props;
+  const { places, restrictions, startPlace, destinationPlace } = props;
+  const [showDialog, setShowDialog] = useState(false);
+
   return (
     <>
-      <h4>Regeln der Landkreise</h4>
+      <div className={styles.headingRow}>
+        <h4>Regeln der Landkreise</h4>
+        <IconButton
+          onClick={(): void => {
+            setShowDialog(!showDialog);
+          }}
+        >
+          <Share />
+        </IconButton>
+      </div>
       {restrictions.length === 0 && (
         <Info text="Es gibt keine einschränkenden Regeln für die gewählte Route." />
       )}
@@ -43,6 +59,13 @@ const RouteRestrictions: React.FC<Props> = (props) => {
           </AccordionDetails>
         </Accordion>
       ))}
+      <ShareDialog
+        link={`${window.location.href.split("route")[0]}route/${
+          startPlace.id
+        }/${destinationPlace.id}`}
+        open={showDialog}
+        onClose={(): void => setShowDialog(false)}
+      ></ShareDialog>
     </>
   );
 };

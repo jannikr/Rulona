@@ -14,7 +14,7 @@ const FavouriteCategoriesEditor: React.FC<Props> = (props) => {
   return (
     <div>
       <div className={styles.row}>
-        <span>{category.name}</span>
+        <span className={styles.categoryName}>{category.name}</span>
         <FavouriteCategory category={category} />
       </div>
       <Divider />

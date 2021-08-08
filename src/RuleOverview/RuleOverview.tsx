@@ -29,12 +29,13 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
-import { Clear, Edit } from "@material-ui/icons";
+import { Clear, Edit, Share } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
+import ShareDialog from "./ShareDialog";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -56,6 +57,8 @@ const RuleOverview: React.FC<Props> = (props) => {
   const [rulesPerCategory, setRulesPerCategory] = useState<RulesPerCategory>(
     []
   );
+
+  const [showDialog, setShowDialog] = useState(false);
 
   const [
     rulesPerFavouriteCategory,
@@ -166,6 +169,14 @@ const RuleOverview: React.FC<Props> = (props) => {
             {selectedPlace.name}
           </Typography>
           <div className={styles.icon}>
+            <IconButton
+              className={styles.shareButton}
+              onClick={(): void => {
+                setShowDialog(!showDialog);
+              }}
+            >
+              <Share />
+            </IconButton>
             <FavouritePlace place={selectedPlace} />
           </div>
         </Toolbar>
@@ -219,6 +230,11 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
         </Container>
       </Box>
+      <ShareDialog
+        link={`${window.location.href.split("#")[0]}`}
+        open={showDialog}
+        onClose={(): void => setShowDialog(false)}
+      ></ShareDialog>
     </div>
   );
 };
