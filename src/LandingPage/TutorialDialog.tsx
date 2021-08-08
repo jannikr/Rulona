@@ -1,4 +1,4 @@
-import { Button, Dialog, Hidden, Link } from "@material-ui/core";
+import { Button, Dialog, Link } from "@material-ui/core";
 import { useState } from "react";
 import TutorialContentPlace from "../Info/TutorialContentPlace";
 import TutorialContentRoute from "../Info/TutorialContentRoute";
@@ -22,41 +22,35 @@ const TutorialDialog: React.FC = () => {
   };
 
   return (
-    <Hidden mdUp={true}>
-      <Dialog open={open}>
-        <DialogContent className={styles.dialogBox}>
-          {firstPage ? (
-            <TutorialContentRulona />
-          ) : (
-            <>
-              {proceedable ? (
-                <TutorialContentPlace />
-              ) : (
-                <TutorialContentRoute />
-              )}
-            </>
+    <Dialog open={open}>
+      <DialogContent className={styles.dialogBox}>
+        {firstPage ? (
+          <TutorialContentRulona />
+        ) : (
+          <>
+            {proceedable ? <TutorialContentPlace /> : <TutorialContentRoute />}
+          </>
+        )}
+        <Button
+          variant="contained"
+          className={styles.nextButton}
+          color={"primary"}
+          onClick={onClick}
+        >
+          {proceedable ? "Weiter" : "Starten"}
+        </Button>
+        <div className={styles.skipLinkContainer}>
+          {proceedable && (
+            <Link
+              className={styles.skipLink}
+              onClick={(): void => setOpen(false)}
+            >
+              Überspringen
+            </Link>
           )}
-          <Button
-            variant="contained"
-            className={styles.nextButton}
-            color={"primary"}
-            onClick={onClick}
-          >
-            {proceedable ? "Weiter" : "Starten"}
-          </Button>
-          <div className={styles.skipLinkContainer}>
-            {proceedable && (
-              <Link
-                className={styles.skipLink}
-                onClick={(): void => setOpen(false)}
-              >
-                Überspringen
-              </Link>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
-    </Hidden>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

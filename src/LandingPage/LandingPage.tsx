@@ -32,9 +32,12 @@ const LandingPage: React.FC<Props> = (props) => {
   }, [placeId, places, selectPlace, deselectPlace]);
 
   return (
-    <Page mobileShowContent={!!selectedPlace}>
+    <>
+      <Page mobileShowContent={!!selectedPlace}>
       <RuleOverview />
-    </Page>
+      </Page>
+          <Hidden mdUp={true}>{!selectedPlace && <TutorialDialog />}</Hidden>
+          </>
   );
 };
 
