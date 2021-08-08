@@ -40,12 +40,7 @@ const TutorialDialog: React.FC = () => {
             {proceedable ? <TutorialContentPlace /> : <TutorialContentRoute />}
           </>
         )}
-        <Button
-          variant="contained"
-          className={styles.nextButton}
-          color={"primary"}
-          onClick={onClick}
-        >
+        <Button variant="contained" color={"primary"} onClick={onClick}>
           {proceedable ? "Weiter" : "Starten"}
         </Button>
         <div className={styles.skipLinkContainer}>

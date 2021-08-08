@@ -26,4 +26,5 @@
 
 .mobileText {
     padding: 0 2rem;
+    flex-grow: 1;
 }
