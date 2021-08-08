@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect } from "react";
+import { Hidden } from "@material-ui/core";
+import React, { useCallback, useEffect, useState } from "react";
+import styles from "./RoutePage.module.css";
 import {
   AppDispatch,
   AppState,
@@ -8,6 +10,10 @@ import {
 } from "../store/types";
 import { connect } from "react-redux";
 import Map from "./Map";
+import RouteRestrictions from "../RouteSearch/RouteRestrictions";
+import classnames from "classnames";
+import ContentHeader from "../ContentHeader/ContentHeader";
+import RouteShare from "./RouteShare";
 import { useParams } from "react-router-dom";
 import { resetRoute, setDestination, setOrigin } from "../store/actions";
 import { Place } from "../types";
@@ -22,8 +28,17 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 const RoutePage: React.FC<Props> = (props) => {
-  const { route, places, resetRoute, setOrigin, setDestination } = props;
+  const {
+    route,
+    places,
+    origin,
+    destination,
+    resetRoute,
+    setOrigin,
+    setDestination,
+  } = props;
   const params = useParams<RouteProps>();
+  const [restrictionsExpanded, setRestrictionsExpanded] = useState(false);
 
   const getPlace = useCallback(
     (id: string) => places.find((place) => place.id === id),
@@ -38,8 +53,32 @@ const RoutePage: React.FC<Props> = (props) => {
   }, [params, getPlace, setOrigin, setDestination, resetRoute]);
 
   return (
-    <Page mobileShowContent={!!route}>
-      <Map />
+    <Page mobileShowContent={!!route} contentClassName={styles.column}>
+      <Hidden mdUp>
+        <ContentHeader
+          backLink={`/route/${origin?.id}`}
+          heading={`${origin?.name} - ${destination?.name}`}
+          buttons={[<RouteShare />]}
+        />
+      </Hidden>
+      <div
+        className={classnames(
+          styles.map,
+          restrictionsExpanded ? styles.collapsed : styles.expanded
+        )}
+      >
+        <Map />
+      </div>
+      <Hidden mdUp>
+        <div
+          className={classnames(
+            styles.mobilePadding,
+            restrictionsExpanded ? styles.expanded : styles.collapsed
+          )}
+        >
+          <RouteRestrictions onExpand={setRestrictionsExpanded} />
+        </div>
+      </Hidden>
     </Page>
   );
 };
