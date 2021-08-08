@@ -52,8 +52,8 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     <>
       <Accordion
         id={`category-${category.id}`}
-        onChange={(): void => {
-          setExpand(!expand);
+        onChange={(e, expanded): void => {
+          setExpand(expanded);
         }}
         expanded={expand}
       >
