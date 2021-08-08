@@ -1,6 +1,6 @@
 import { Hidden } from "@material-ui/core";
 import classnames from "classnames";
-import styles from "./TutorialContentMain.module.css";
+import styles from "./TutorialContentBase.module.css";
 
 interface Props {
   heading: string;
@@ -11,7 +11,7 @@ interface Props {
   className2?: string;
 }
 
-const TutorialContentMain: React.FC<Props> = (props) => {
+const TutorialContentBase: React.FC<Props> = (props) => {
   const { heading, body, imageSrc, imageSrcSet, className, className2 } = props;
   return (
     <>
@@ -47,4 +47,4 @@ const TutorialContentMain: React.FC<Props> = (props) => {
   );
 };
 
-export default TutorialContentMain;
+export default TutorialContentBase;

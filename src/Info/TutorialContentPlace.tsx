@@ -1,8 +1,8 @@
-import TutorialContentMain from "./TutorialContentMain";
+import TutorialContentBase from "./TutorialContentBase";
 
 const TutorialContentPlace: React.FC = () => {
   return (
-    <TutorialContentMain
+    <TutorialContentBase
       heading="Finde Orte und Regeln"
       body="Finde deinen Wohnort und sehe auf einen Blick, welche Regeln und Vorschriften für dich gelten."
       imageSrc="/images/tutorialImage1_cpvsxd_c_scale,w_1400.png"

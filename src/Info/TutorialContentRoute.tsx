@@ -1,8 +1,8 @@
-import TutorialContentMain from "./TutorialContentMain";
+import TutorialContentBase from "./TutorialContentBase";
 
 const TutorialContentRoute: React.FC = () => {
   return (
-    <TutorialContentMain
+    <TutorialContentBase
       heading="Plane deine Route"
       body="Komme sorgenfrei und sicher an dein Ziel. Rulona warnt dich vor Risiko-Gebieten auf deiner geplanten Route."
       imageSrc="/images/tutorialImage2_rzmiur_c_scale,w_1400.png"
