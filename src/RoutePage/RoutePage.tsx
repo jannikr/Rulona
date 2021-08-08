@@ -1,7 +1,4 @@
-import { Grid, Hidden } from "@material-ui/core";
 import React, { useCallback, useEffect } from "react";
-import Sidebar from "../Sidebar/Sidebar";
-import styles from "../LandingPage/LandingPage.module.css";
 import {
   AppDispatch,
   AppState,
@@ -14,6 +11,7 @@ import Map from "./Map";
 import { useParams } from "react-router-dom";
 import { resetRoute, setDestination, setOrigin } from "../store/actions";
 import { Place } from "../types";
+import Page from "../Page/Page";
 
 interface RouteProps {
   origin: string;
@@ -40,18 +38,9 @@ const RoutePage: React.FC<Props> = (props) => {
   }, [params, getPlace, setOrigin, setDestination, resetRoute]);
 
   return (
-    <Grid container spacing={0} className={styles.container}>
-      <Hidden smDown={!!route}>
-        <Grid className={styles.sidebar} item xs={12} md={3}>
-          <Sidebar />
-        </Grid>
-      </Hidden>
-      <Hidden smDown={!route}>
-        <Grid item xs={12} md={9}>
-          <Map />
-        </Grid>
-      </Hidden>
-    </Grid>
+    <Page mobileShowContent={!!route}>
+      <Map />
+    </Page>
   );
 };
 
