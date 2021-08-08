@@ -25,9 +25,6 @@ const reducer = (
     case ActionType.SetCategories: {
       return { ...state, categories: action.categories };
     }
-    case ActionType.SetFirstVisit: {
-      return { ...state, firstVisit: action.firstVisit };
-    }
     case ActionType.SelectPlace: {
       if (!action.place) return { ...state, selectedPlace: undefined };
       if (state.selectedPlace?.id === action.place.id) return state;

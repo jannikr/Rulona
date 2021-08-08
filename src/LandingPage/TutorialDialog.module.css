@@ -14,6 +14,7 @@
 
 .skipLink {
     color: grey;
+    cursor: pointer;
 }
 
 .nextButton {

@@ -1,5 +1,5 @@
 import { Grid, Hidden } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import { connect } from "react-redux";
 import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
@@ -21,11 +21,19 @@ type Props = RouteComponentProps<RouteProps> &
 const LandingPage: React.FC<Props> = (props) => {
   const { match, selectedPlace, places, selectPlace, deselectPlace } = props;
   const { placeId } = match.params;
+  const [tutorialSeen, setTutorialSeen] = useState(false);
 
   useEffect(() => {
     const place = placeId
       ? places.find((place) => place.id === placeId)
       : undefined;
+
+    const tutorialSeenLocal = JSON.parse(
+      localStorage.getItem("tutorialSeen") || "[]"
+    );
+    if (`${tutorialSeenLocal}` === "true") {
+      setTutorialSeen(true);
+    }
 
     if (!place) deselectPlace();
     if (place) selectPlace(place);
@@ -36,7 +44,9 @@ const LandingPage: React.FC<Props> = (props) => {
       <Page mobileShowContent={!!selectedPlace}>
       <RuleOverview />
       </Page>
-          <Hidden mdUp={true}>{!selectedPlace && <TutorialDialog />}</Hidden>
+          <Hidden mdUp={true}>
+              {!selectedPlace && !tutorialSeen && <TutorialDialog />}
+          </Hidden>
           </>
   );
 };

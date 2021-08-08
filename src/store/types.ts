@@ -53,11 +53,6 @@ export interface SetPlacesAction {
   places: Place[];
 }
 
-export interface SetFirstVisitAction {
-  type: ActionType.SetFirstVisit;
-  firstVisit: boolean;
-}
-
 export interface SetCategoriesAction {
   type: ActionType.SetCategories;
   categories: Category[];

@@ -11,18 +11,27 @@ const TutorialDialog: React.FC = () => {
   const [firstPage, setFirstpage] = useState(true);
   const [open, setOpen] = useState(true);
 
+  const closeTutorial = (): void => {
+    setOpen(false);
+    localStorage.setItem("tutorialSeen", "true");
+  };
+
   const onClick = (): void => {
     if (firstPage) {
       setFirstpage(false);
     } else if (proceedable) {
       setProceedable(false);
     } else {
-      setOpen(false);
+      closeTutorial();
     }
   };
 
+  const handleClose = (): void => {
+    setOpen(false);
+  };
+
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogContent className={styles.dialogBox}>
         {firstPage ? (
           <TutorialContentRulona />
@@ -41,10 +50,7 @@ const TutorialDialog: React.FC = () => {
         </Button>
         <div className={styles.skipLinkContainer}>
           {proceedable && (
-            <Link
-              className={styles.skipLink}
-              onClick={(): void => setOpen(false)}
-            >
+            <Link className={styles.skipLink} onClick={closeTutorial}>
               Überspringen
             </Link>
           )}
