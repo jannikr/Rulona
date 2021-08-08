@@ -21,10 +21,6 @@
   max-height: 100vh;
 }
 
-.center {
-  justify-content: center;
-}
-
 .content {
   overflow-x: auto;
 }
