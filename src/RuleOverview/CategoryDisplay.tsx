@@ -22,7 +22,6 @@ interface Props {
 
 const CategoryDisplay: React.FC<Props> = (props) => {
   const { category, rules } = props;
-  const [showShare, setShowShare] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [expand, setExpand] = useState(false);
   const location = useLocation();
@@ -44,7 +43,6 @@ const CategoryDisplay: React.FC<Props> = (props) => {
       const anchorEl = document.getElementById("category-" + anchorId);
       if (anchorEl) {
         setExpand(true);
-        setShowShare(true);
         anchorEl.scrollIntoView();
       }
     }
@@ -54,8 +52,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
     <>
       <Accordion
         id={`category-${category.id}`}
-        onChange={(_, expanded): void => {
-          setShowShare(expanded);
+        onChange={(): void => {
           setExpand(!expand);
         }}
         expanded={expand}
@@ -64,7 +61,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
           <div className={styles.row}>
             <CategoryStatus status={findLowestStatus()} />
             <span className={styles.categoryName}>{category.name}</span>
-            {showShare && (
+            {expand && (
               <IconButton
                 className={styles.shareButton}
                 onClick={(e): void => {
