@@ -1,5 +1,13 @@
 import { ThunkDispatch } from "redux-thunk";
-import { Category, Place, PlaceInfo, RestrictedPlace, Rule } from "../types";
+import {
+  Category,
+  Place,
+  PlaceInfo,
+  Polygon,
+  RestrictedPlace,
+  RouteBoundary,
+  Rule,
+} from "../types";
 
 export type AppDispatch = ThunkDispatch<AppState, void, AppAction>;
 
@@ -19,6 +27,8 @@ export enum ActionType {
   DeleteFavouriteCategory = "DeleteFavouriteCategory",
   SetFavouriteCategories = "SetFavouriteCategories",
   SetRestrictions = "SetRestrictions",
+  SetRoute = "SetRoute",
+  SetRouteBoundary = "SetRouteBoundary",
 }
 
 export interface AppState {
@@ -31,6 +41,8 @@ export interface AppState {
   lastSearchedPlaces: Place[];
   favouriteCategories: Category[];
   restrictions: RestrictedPlace[];
+  route: Polygon | undefined;
+  routeBoundary: RouteBoundary | undefined;
 }
 
 export interface SetPlacesAction {
@@ -102,6 +114,16 @@ export interface SetRestrictionsAction {
   restrictions: RestrictedPlace[];
 }
 
+export interface SetRouteAction {
+  type: ActionType.SetRoute;
+  route: Polygon | undefined;
+}
+
+export interface SetRouteBoundaryAction {
+  type: ActionType.SetRouteBoundary;
+  routeBoundary: RouteBoundary | undefined;
+}
+
 export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
@@ -116,4 +138,6 @@ export type AppAction =
   | AddFavouriteCategoryAction
   | DeleteFavouriteCategoryAction
   | SetFavouriteCategoriesAction
-  | SetRestrictionsAction;
+  | SetRestrictionsAction
+  | SetRouteAction
+  | SetRouteBoundaryAction;

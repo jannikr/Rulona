@@ -1,5 +1,14 @@
 import { dynamicConstants } from "../constants";
-import { Category, Place, PlaceInfo, RestrictedPlace, Rule } from "../types";
+import {
+  Category,
+  Place,
+  PlaceInfo,
+  Polygon,
+  RestrictedPlace,
+  RouteBoundary,
+  RoutingResponse,
+  Rule,
+} from "../types";
 import {
   ActionType,
   AppDispatch,
@@ -17,6 +26,8 @@ import {
   AppState,
   SetLastSearchedPlacesAction,
   SetRestrictionsAction,
+  SetRouteAction,
+  SetRouteBoundaryAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -249,36 +260,43 @@ export const resetRestrictions = (): SetRestrictionsAction => ({
   restrictions: [],
 });
 
-export const fetchRestrictions = (start: Place, destination: Place) => {
-  return async (dispatch: AppDispatch): Promise<SetRestrictionsAction> => {
-    //TODO: actually fetch Restrictions
-    const restrictions: RestrictedPlace[] = [
-      {
-        placeId: start.id,
-        denyingRules: [
-          {
-            id: 1,
-            categoryId: 0,
-            status: 0,
-            text:
-              "sample rule 1 askjdhaskjdhkjasdhajsd hlasdhlashd asldhasldhasld asdlhas dlashdlash dlaskdh asld asldas dhlas dlasdh asldhas ldhasdlas hdlasdh lasd hlasd halsdh lasdh alsdhas ldkhasl dkhas ldhas dl",
-            timestamp: Date.now().toString(),
-          },
-        ],
+export const setRoute = (route: Polygon): SetRouteAction => ({
+  type: ActionType.SetRoute,
+  route,
+});
+
+export const resetRoute = (): SetRouteAction => ({
+  type: ActionType.SetRoute,
+  route: undefined,
+});
+
+export const setRouteBoundary = (
+  routeBoundary: RouteBoundary
+): SetRouteBoundaryAction => ({
+  type: ActionType.SetRouteBoundary,
+  routeBoundary,
+});
+
+export const resetRouteBoundary = (): SetRouteBoundaryAction => ({
+  type: ActionType.SetRouteBoundary,
+  routeBoundary: undefined,
+});
+
+export const fetchRestrictions = (origin: Place, destination: Place) => {
+  return async (dispatch: AppDispatch): Promise<void> => {
+    const response = await fetch(`${dynamicConstants.API_URL}/routing`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      {
-        placeId: destination.id,
-        denyingRules: [
-          {
-            id: 2,
-            categoryId: 0,
-            status: 0,
-            text: "sample rule 2",
-            timestamp: Date.now().toString(),
-          },
-        ],
-      },
-    ];
-    return dispatch(setRestrictions(restrictions));
+      body: JSON.stringify({
+        origin: origin.id,
+        destination: destination.id,
+      }),
+    });
+    const body: RoutingResponse = await response.json();
+    dispatch(setRestrictions(body.restrictedPlaces));
+    dispatch(setRoute(body.route));
+    dispatch(setRouteBoundary(body.routeBoundary));
   };
 };

@@ -1,11 +1,22 @@
-import { Container } from "@material-ui/core";
+import { Container, Hidden } from "@material-ui/core";
 import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import Info from "../Info/Info";
 import PlaceResults from "../PlacesSearch/PlaceResults";
 import SearchField from "../SearchField/SearchField";
-import { fetchRestrictions, resetRestrictions } from "../store/actions";
-import { AppDispatch, SetRestrictionsAction } from "../store/types";
+import {
+  fetchRestrictions,
+  resetRestrictions,
+  resetRoute,
+  resetRouteBoundary,
+} from "../store/actions";
+import {
+  AppDispatch,
+  SetRestrictionsAction,
+  SetRouteAction,
+  SetRouteBoundaryAction,
+} from "../store/types";
 import { Place } from "../types";
 import { setInputValue } from "../utils";
 import RouteRestrictions from "./RouteRestrictions";
@@ -18,11 +29,18 @@ enum Field {
 type Props = ReturnType<typeof mapDispatchToProps>;
 
 const RouteSearch: React.FC<Props> = (props): JSX.Element => {
-  const { fetchRestrictions, resetRestrictions } = props;
+  const {
+    fetchRestrictions,
+    resetRestrictions,
+    resetRoute,
+    resetRouteBoundary,
+  } = props;
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
   const [currentField, setCurrentField] = useState<Field>();
   const [startPlace, setStartPlace] = useState<Place>();
   const [destinationPlace, setDestinationPlace] = useState<Place>();
+  const [loading, setLoading] = useState(false);
+  const [restrictionsLoaded, setRestrictionsLoaded] = useState(false);
   const startRef = useRef<HTMLInputElement>();
   const destinationRef = useRef<HTMLInputElement>();
 
@@ -100,10 +118,26 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   useEffect(() => {
     if (!startPlace || !destinationPlace) {
       resetRestrictions();
+      resetRoute();
+      resetRouteBoundary();
+      setRestrictionsLoaded(false);
       return;
     }
-    fetchRestrictions(startPlace, destinationPlace);
-  }, [startPlace, destinationPlace, fetchRestrictions, resetRestrictions]);
+    setLoading(true);
+    fetchRestrictions(startPlace, destinationPlace).then(() => {
+      setRestrictionsLoaded(true);
+      setLoading(false);
+    });
+  }, [
+    startPlace,
+    destinationPlace,
+    fetchRestrictions,
+    resetRestrictions,
+    resetRoute,
+    resetRouteBoundary,
+    setLoading,
+    setRestrictionsLoaded,
+  ]);
 
   return (
     <Container>
@@ -129,14 +163,17 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
       ) : (
         <></>
       )}
-      {startPlace && destinationPlace ? (
-        <RouteRestrictions
-          startPlace={startPlace}
-          destinationPlace={destinationPlace}
-        />
-      ) : (
-        <></>
-      )}
+      <Hidden smDown>
+        {restrictionsLoaded ? (
+          <RouteRestrictions
+            startPlace={startPlace}
+            destinationPlace={destinationPlace}
+          />
+        ) : (
+          <></>
+        )}
+      </Hidden>
+      {loading ? <Info text="Lade Route..." /> : <></>}
     </Container>
   );
 };
@@ -144,11 +181,11 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   resetRestrictions: (): SetRestrictionsAction => dispatch(resetRestrictions()),
-  fetchRestrictions: (
-    start: Place,
-    destination: Place
-  ): Promise<SetRestrictionsAction> =>
-    dispatch(fetchRestrictions(start, destination)),
+  resetRoute: (): SetRouteAction => dispatch(resetRoute()),
+  resetRouteBoundary: (): SetRouteBoundaryAction =>
+    dispatch(resetRouteBoundary()),
+  fetchRestrictions: (origin: Place, destination: Place): Promise<void> =>
+    dispatch(fetchRestrictions(origin, destination)),
 });
 
 export default connect(null, mapDispatchToProps)(RouteSearch);

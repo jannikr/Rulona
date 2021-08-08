@@ -40,6 +40,40 @@ export type RulesPerCategory = [Category, Rule[]][];
 export interface RestrictedPlace {
   placeId: string;
   denyingRules: Rule[];
+  polygon?: MultiPolygonWrapper | PolygonWrapper;
+}
+
+export interface Coordinate {
+  lat: number;
+  lng: number;
+}
+
+export type Polyline = Coordinate[];
+export type Polygon = Polyline[];
+
+export enum PolygonType {
+  Polygon = "Polygon",
+  MultiPolygon = "MultiPolygon",
+}
+export interface PolygonWrapper {
+  type: PolygonType.Polygon;
+  coordinates: Polygon;
+}
+
+export interface MultiPolygonWrapper {
+  type: PolygonType.MultiPolygon;
+  coordinates: Polygon[];
+}
+
+export interface RoutingResponse {
+  restrictedPlaces: RestrictedPlace[];
+  route: Polyline[];
+  routeBoundary: RouteBoundary;
+}
+
+export interface RouteBoundary {
+  northeast: Coordinate;
+  southwest: Coordinate;
 }
 
 export enum SidebarHeading {

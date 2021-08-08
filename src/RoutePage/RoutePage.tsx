@@ -1,37 +1,35 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Hidden } from "@material-ui/core";
 import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import styles from "../LandingPage/LandingPage.module.css";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
-import { MAPS_API_KEY } from "../constants";
+import { AppState } from "../store/types";
+import { connect } from "react-redux";
+import Map from "./Map";
 
-const RoutePage: React.FC = () => {
-  const containerStyle = {
-    width: "100%",
-    height: "100%",
-  };
+type Props = ReturnType<typeof mapStateToProps>;
 
-  const germanyCenter = {
-    lat: 51.1657,
-    lng: 10.4515,
-  };
-
+const RoutePage: React.FC<Props> = (props) => {
+  const { route } = props;
   return (
     <Grid container spacing={0} className={styles.container}>
-      <Grid className={styles.sidebar} item md={3}>
-        <Sidebar />
-      </Grid>
-      <Grid item md={9}>
-        <LoadScript googleMapsApiKey={MAPS_API_KEY || ""}>
-          <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={germanyCenter}
-            zoom={7}
-          />
-        </LoadScript>
-      </Grid>
+      <Hidden smDown={!!route}>
+        <Grid className={styles.sidebar} item xs={12} md={3}>
+          <Sidebar />
+        </Grid>
+      </Hidden>
+      <Hidden smDown={!route}>
+        <Grid item xs={12} md={9}>
+          <Map />
+        </Grid>
+      </Hidden>
     </Grid>
   );
 };
 
-export default RoutePage;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const mapStateToProps = (state: AppState) => {
+  const { route } = state;
+  return { route };
+};
+
+export default connect(mapStateToProps)(RoutePage);

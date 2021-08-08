@@ -16,8 +16,8 @@ import { Place } from "../types";
 import ShareDialog from "../RuleOverview/ShareDialog";
 
 type Props = ReturnType<typeof mapStateToProps> & {
-  startPlace: Place;
-  destinationPlace: Place;
+  startPlace?: Place;
+  destinationPlace?: Place;
 };
 
 const RouteRestrictions: React.FC<Props> = (props) => {
@@ -51,7 +51,7 @@ const RouteRestrictions: React.FC<Props> = (props) => {
             {places.find((place) => place.id === restriction.placeId)?.name}
           </AccordionSummary>
           <AccordionDetails className={styles.detail}>
-            <Typography>
+            <Typography component="div">
               {restriction.denyingRules.map((rule) => (
                 <RuleDisplay key={rule.id} rule={rule} />
               ))}
@@ -61,8 +61,8 @@ const RouteRestrictions: React.FC<Props> = (props) => {
       ))}
       <ShareDialog
         link={`${window.location.href.split("route")[0]}route/${
-          startPlace.id
-        }/${destinationPlace.id}`}
+          startPlace?.id
+        }/${destinationPlace?.id}`}
         open={showDialog}
         onClose={(): void => setShowDialog(false)}
       ></ShareDialog>

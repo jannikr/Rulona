@@ -75,7 +75,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          <Typography component="div">
             {rules.map((rule) => (
               <RuleDisplay key={rule.id} rule={rule} />
             ))}
