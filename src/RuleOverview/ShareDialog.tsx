@@ -10,13 +10,13 @@ import { Close } from "@material-ui/icons";
 import classnames from "classnames";
 import _ from "lodash";
 import { useState } from "react";
-import styles from "./CustomDialog.module.css";
+import styles from "./ShareDialog.module.css";
 
 type Props = DialogProps & {
   link: string;
 };
 
-const CustomDialog: React.FC<Props> = (props) => {
+const ShareDialog: React.FC<Props> = (props) => {
   const { link, onClose, ...rest } = props;
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -71,4 +71,4 @@ const CustomDialog: React.FC<Props> = (props) => {
   );
 };
 
-export default CustomDialog;
+export default ShareDialog;

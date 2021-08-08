@@ -12,7 +12,7 @@ import {
 import styles from "./CategoryDisplay.module.css";
 import { Share } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
-import CustomDialog from "./CustomDialog";
+import ShareDialog from "./ShareDialog";
 import { useLocation } from "react-router-dom";
 
 interface Props {
@@ -82,11 +82,11 @@ const CategoryDisplay: React.FC<Props> = (props) => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <CustomDialog
+      <ShareDialog
         link={`${window.location.href.split("#")[0]}#category-${category.id}`}
         open={showDialog}
         onClose={(): void => setShowDialog(false)}
-      ></CustomDialog>
+      ></ShareDialog>
     </>
   );
 };

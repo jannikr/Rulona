@@ -35,7 +35,7 @@ import Box from "@material-ui/core/Box";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-import CustomDialog from "./CustomDialog";
+import ShareDialog from "./ShareDialog";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -230,11 +230,11 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
         </Container>
       </Box>
-      <CustomDialog
+      <ShareDialog
         link={`${window.location.href.split("#")[0]}`}
         open={showDialog}
         onClose={(): void => setShowDialog(false)}
-      ></CustomDialog>
+      ></ShareDialog>
     </div>
   );
 };

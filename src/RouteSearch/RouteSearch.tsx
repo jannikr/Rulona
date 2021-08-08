@@ -106,40 +106,38 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   }, [startPlace, destinationPlace, fetchRestrictions, resetRestrictions]);
 
   return (
-    <>
-      <Container>
-        <SearchField
-          label="Start"
-          ref={startRef}
-          onChange={searchStart}
-          onFocus={focusStartSearch}
-          onBlur={unfocusStartSearch}
+    <Container>
+      <SearchField
+        label="Start"
+        ref={startRef}
+        onChange={searchStart}
+        onFocus={focusStartSearch}
+        onBlur={unfocusStartSearch}
+      />
+      <SearchField
+        label="Ziel"
+        ref={destinationRef}
+        onChange={searchDestination}
+        onFocus={focusDestinationSearch}
+        onBlur={unfocusDestinationSearch}
+      />
+      {!_.isNil(searchTerm) ? (
+        <>
+          <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
+          <PlaceResults placeOnClick={placeOnClick} />
+        </>
+      ) : (
+        <></>
+      )}
+      {startPlace && destinationPlace ? (
+        <RouteRestrictions
+          startPlace={startPlace}
+          destinationPlace={destinationPlace}
         />
-        <SearchField
-          label="Ziel"
-          ref={destinationRef}
-          onChange={searchDestination}
-          onFocus={focusDestinationSearch}
-          onBlur={unfocusDestinationSearch}
-        />
-        {!_.isNil(searchTerm) ? (
-          <>
-            <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
-            <PlaceResults placeOnClick={placeOnClick} />
-          </>
-        ) : (
-          <></>
-        )}
-        {startPlace && destinationPlace ? (
-          <RouteRestrictions
-            startPlace={startPlace}
-            destinationPlace={destinationPlace}
-          />
-        ) : (
-          <></>
-        )}
-      </Container>
-    </>
+      ) : (
+        <></>
+      )}
+    </Container>
   );
 };
 

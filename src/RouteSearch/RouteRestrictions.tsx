@@ -13,7 +13,7 @@ import classnames from "classnames";
 import styles from "./RouteRestrictions.module.css";
 import Info from "../Info/Info";
 import { Place } from "../types";
-import CustomDialog from "../RuleOverview/CustomDialog";
+import ShareDialog from "../RuleOverview/ShareDialog";
 
 type Props = ReturnType<typeof mapStateToProps> & {
   startPlace: Place;
@@ -59,11 +59,11 @@ const RouteRestrictions: React.FC<Props> = (props) => {
           </AccordionDetails>
         </Accordion>
       ))}
-      <CustomDialog
-        link={`${window.location.href}/${startPlace?.id}/${destinationPlace?.id}`}
+      <ShareDialog
+        link={`${window.location.href}/${startPlace.id}/${destinationPlace.id}`}
         open={showDialog}
         onClose={(): void => setShowDialog(false)}
-      ></CustomDialog>
+      ></ShareDialog>
     </>
   );
 };
