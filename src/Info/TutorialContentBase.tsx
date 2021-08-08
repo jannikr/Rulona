@@ -7,12 +7,19 @@ interface Props {
   body: string;
   imageSrc: string;
   imageSrcSet?: string;
-  className?: string;
-  className2?: string;
+  mobileContainerClassName?: string;
+  mobileImageClassName?: string;
 }
 
 const TutorialContentBase: React.FC<Props> = (props) => {
-  const { heading, body, imageSrc, imageSrcSet, className, className2 } = props;
+  const {
+    heading,
+    body,
+    imageSrc,
+    imageSrcSet,
+    mobileContainerClassName,
+    mobileImageClassName,
+  } = props;
   return (
     <>
       <Hidden smDown>
@@ -29,10 +36,15 @@ const TutorialContentBase: React.FC<Props> = (props) => {
         />
       </Hidden>
       <Hidden mdUp>
-        <div className={classnames(styles.mobileImageOuter, className)}>
+        <div
+          className={classnames(
+            styles.mobileImageOuter,
+            mobileContainerClassName
+          )}
+        >
           <img
             sizes="(max-width: 1400px) 100vw, 1400px"
-            className={classnames(styles.mobileImage, className2)}
+            className={classnames(styles.mobileImage, mobileImageClassName)}
             srcSet={imageSrcSet}
             src={imageSrc}
             alt=""

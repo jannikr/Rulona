@@ -7,8 +7,8 @@ const TutorialContentRulona: React.FC = () => {
       heading="Rules of Corona"
       body="Alle aktuellen Corona-Regeln in einer App."
       imageSrc="/images/LogoWhite.svg"
-      className={styles.backgroundColor}
-      className2={styles.logo}
+      mobileContainerClassName={styles.backgroundColor}
+      mobileImageClassName={styles.logo}
     />
   );
 };
