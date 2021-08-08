@@ -27,7 +27,8 @@ import {
   SetLastSearchedPlacesAction,
   SetRestrictionsAction,
   SetRouteAction,
-  SetRouteBoundaryAction,
+  SetOriginAction,
+  SetDestinationAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -260,26 +261,37 @@ export const resetRestrictions = (): SetRestrictionsAction => ({
   restrictions: [],
 });
 
-export const setRoute = (route: Polygon): SetRouteAction => ({
+export const setRoute = (
+  origin: Place,
+  destination: Place,
+  route: Polygon,
+  routeBoundary: RouteBoundary
+): SetRouteAction => ({
   type: ActionType.SetRoute,
+  origin,
+  destination,
   route,
+  routeBoundary,
 });
 
 export const resetRoute = (): SetRouteAction => ({
   type: ActionType.SetRoute,
+  origin: undefined,
+  destination: undefined,
   route: undefined,
-});
-
-export const setRouteBoundary = (
-  routeBoundary: RouteBoundary
-): SetRouteBoundaryAction => ({
-  type: ActionType.SetRouteBoundary,
-  routeBoundary,
-});
-
-export const resetRouteBoundary = (): SetRouteBoundaryAction => ({
-  type: ActionType.SetRouteBoundary,
   routeBoundary: undefined,
+});
+
+export const setOrigin = (origin: Place | undefined): SetOriginAction => ({
+  type: ActionType.SetOrigin,
+  origin,
+});
+
+export const setDestination = (
+  destination: Place | undefined
+): SetDestinationAction => ({
+  type: ActionType.SetDestination,
+  destination,
 });
 
 export const fetchRestrictions = (origin: Place, destination: Place) => {
@@ -296,7 +308,6 @@ export const fetchRestrictions = (origin: Place, destination: Place) => {
     });
     const body: RoutingResponse = await response.json();
     dispatch(setRestrictions(body.restrictedPlaces));
-    dispatch(setRoute(body.route));
-    dispatch(setRouteBoundary(body.routeBoundary));
+    dispatch(setRoute(origin, destination, body.route, body.routeBoundary));
   };
 };

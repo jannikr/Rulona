@@ -9,6 +9,8 @@ export const initialState: AppState = {
   favouriteCategories: [],
   restrictions: [],
   route: undefined,
+  origin: undefined,
+  destination: undefined,
   routeBoundary: undefined,
 };
 
@@ -100,13 +102,16 @@ const reducer = (
       return {
         ...state,
         route: action.route,
-      };
-    }
-    case ActionType.SetRouteBoundary: {
-      return {
-        ...state,
+        origin: action.origin,
+        destination: action.destination,
         routeBoundary: action.routeBoundary,
       };
+    }
+    case ActionType.SetOrigin: {
+      return { ...state, origin: action.origin };
+    }
+    case ActionType.SetDestination: {
+      return { ...state, destination: action.destination };
     }
     default:
       return state;

@@ -12,22 +12,18 @@ import {
 import classnames from "classnames";
 import styles from "./RouteRestrictions.module.css";
 import Info from "../Info/Info";
-import { Place } from "../types";
-import ShareDialog from "../RuleOverview/ShareDialog";
+import RouteShare from "../RoutePage/RouteShare";
 
-type Props = ReturnType<typeof mapStateToProps> & {
-  startPlace?: Place;
-  destinationPlace?: Place;
-};
+type Props = ReturnType<typeof mapStateToProps>;
 
 const RouteRestrictions: React.FC<Props> = (props) => {
-  const { places, restrictions, startPlace, destinationPlace } = props;
+  const { places, restrictions } = props;
 
   return (
     <>
       <div className={styles.headingRow}>
         <h4>Regeln der Landkreise</h4>
-        <ShareDialog path={`route/${startPlace?.id}/${destinationPlace?.id}`} />
+        <RouteShare />
       </div>
       {restrictions.length === 0 && (
         <Info text="Es gibt keine einschränkenden Regeln für die gewählte Route." />
