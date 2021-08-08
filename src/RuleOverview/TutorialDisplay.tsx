@@ -9,7 +9,7 @@ const TutorialDisplay: React.FC = () => {
     <>
       <Box mt={8} className={styles.content}>
         <Container className={styles.outerBox}>
-          <img className={styles.logo} src="/images/Logo.svg" />
+          <img className={styles.logo} src="/images/Logo.svg" alt="" />
           <Box className={styles.box}>
             <TutorialContentPlace />
           </Box>
