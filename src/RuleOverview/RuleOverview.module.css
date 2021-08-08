@@ -1,20 +1,7 @@
-.rulename {
-  flex-grow: 1;
-}
-
-.toolbar {
-  background-color: #0a524d;
-  color: white;
-}
-
 .headline {
   text-align: left;
   color: black;
   font-size: medium;
-}
-
-.icon * {
-  color: lightgray;
 }
 
 .row {
@@ -26,10 +13,6 @@
 .headlinemargin {
   margin-top: 10%;
   margin-bottom: 5%;
-}
-
-.backArrow {
-  color: white;
 }
 
 .container {
