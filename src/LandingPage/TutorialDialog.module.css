@@ -13,11 +13,11 @@
 }
 
 .skipLink {
-    color: grey;
+    color: grey !important;
     cursor: pointer;
 }
 
 .nextButton {
-    margin-top: auto;
-    margin-bottom: 1.5rem;
+    margin-top: auto !important;
+    margin-bottom: 1.5rem !important;
 }

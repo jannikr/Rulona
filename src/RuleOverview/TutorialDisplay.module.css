@@ -1,8 +1,8 @@
 .outerBox {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
     flex-direction: column;
-    max-width: 55rem;
+    max-width: 55rem !important;
 }
 
 .content {
