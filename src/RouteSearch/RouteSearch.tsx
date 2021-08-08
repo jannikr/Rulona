@@ -127,6 +127,22 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     selectPlace(place, currentField);
   };
 
+  const updateHistory = useCallback(() => {
+    //both undefined is excluded on purpose, because of initial page load
+    if (origin && !destination) {
+      history.push(`/route/${origin?.id}`);
+      return;
+    }
+    if (!origin && destination) {
+      history.push(`/route/undefined/${destination.id}`);
+      return;
+    }
+    if (origin && destination) {
+      history.push(`/route/${origin.id}/${destination.id}`);
+      return;
+    }
+  }, [history, origin, destination]);
+
   useEffect(() => {
     if (origin) selectPlace(origin, Field.Start);
   }, [origin, selectPlace]);
@@ -137,11 +153,11 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
 
   useEffect(() => {
     setRestrictionsLoaded(false);
+    updateHistory();
     if (!origin || !destination) {
       resetRestrictions();
       return;
     }
-    history.push(`/route/${origin.id}/${destination.id}`);
     setLoading(true);
     fetchRestrictions(origin, destination).then(() => {
       setRestrictionsLoaded(true);
@@ -151,6 +167,7 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     history,
     origin,
     destination,
+    updateHistory,
     fetchRestrictions,
     resetRestrictions,
     resetRoute,
