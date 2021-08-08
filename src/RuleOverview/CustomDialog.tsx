@@ -52,10 +52,12 @@ const CustomDialog: React.FC<Props> = (props) => {
           disableElevation
           onClick={(): void => {
             navigator.clipboard.writeText(link);
-            setButtonClicked(true);
-            setTimeout(() => {
-              setButtonClicked(false);
-            }, 3000);
+            if (!buttonClicked) {
+              setButtonClicked(true);
+              setTimeout(() => {
+                setButtonClicked(false);
+              }, 3000);
+            }
           }}
           className={classnames(
             styles.copyButton,
