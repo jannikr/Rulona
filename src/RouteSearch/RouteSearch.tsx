@@ -52,15 +52,14 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     setSearchTerm(e.target.value);
   };
 
-  const unfocusSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
+  const unfocusSearch = (_: React.FocusEvent<HTMLInputElement>): void => {
     setCurrentField(undefined);
-    if (e.target.value === "") {
-      setSearchTerm(undefined);
-    }
+    setSearchTerm(undefined);
   };
 
   const searchStart = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setStartPlace(undefined);
       search(e);
     },
     [search]
@@ -68,6 +67,7 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
 
   const searchDestination = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setDestinationPlace(undefined);
       search(e);
     },
     [search]
@@ -75,7 +75,6 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
 
   const focusStartSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
     setCurrentField(Field.Start);
-    setStartPlace(undefined);
     focusSearch(e);
   };
 
@@ -87,7 +86,6 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     e: React.FocusEvent<HTMLInputElement>
   ): void => {
     setCurrentField(Field.Destination);
-    setDestinationPlace(undefined);
     focusSearch(e);
   };
 
@@ -155,25 +153,24 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
         onFocus={focusDestinationSearch}
         onBlur={unfocusDestinationSearch}
       />
-      {!_.isNil(searchTerm) ? (
+      {_.isNil(searchTerm) && (!startPlace || !destinationPlace) && (
+        <Info text="Bitte einen Start- und Ziel-Ort auswählen." />
+      )}
+      {!_.isNil(searchTerm) && (
         <>
           <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
           <PlaceResults placeOnClick={placeOnClick} />
         </>
-      ) : (
-        <></>
       )}
+      {loading && <Info text="Lade Route..." />}
       <Hidden smDown>
-        {restrictionsLoaded ? (
+        {_.isNil(searchTerm) && restrictionsLoaded && !loading && (
           <RouteRestrictions
             startPlace={startPlace}
             destinationPlace={destinationPlace}
           />
-        ) : (
-          <></>
         )}
       </Hidden>
-      {loading ? <Info text="Lade Route..." /> : <></>}
     </Container>
   );
 };
