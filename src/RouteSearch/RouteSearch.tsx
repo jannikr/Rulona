@@ -1,10 +1,8 @@
-import { Container, IconButton } from "@material-ui/core";
-import { Share } from "@material-ui/icons";
+import { Container } from "@material-ui/core";
 import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import PlaceResults from "../PlacesSearch/PlaceResults";
-import CustomDialog from "../RuleOverview/CustomDialog";
 import SearchField from "../SearchField/SearchField";
 import { fetchRestrictions, resetRestrictions } from "../store/actions";
 import { AppDispatch, SetRestrictionsAction } from "../store/types";
@@ -25,7 +23,6 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
   const [currentField, setCurrentField] = useState<Field>();
   const [startPlace, setStartPlace] = useState<Place>();
   const [destinationPlace, setDestinationPlace] = useState<Place>();
-  const [showDialog, setShowDialog] = useState(false);
   const startRef = useRef<HTMLInputElement>();
   const destinationRef = useRef<HTMLInputElement>();
 
@@ -134,25 +131,14 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
           <></>
         )}
         {startPlace && destinationPlace ? (
-          <>
-            <IconButton
-              onClick={(): void => {
-                setShowDialog(!showDialog);
-              }}
-            >
-              <Share />
-            </IconButton>
-            <RouteRestrictions />{" "}
-          </>
+          <RouteRestrictions
+            startPlace={startPlace}
+            destinationPlace={destinationPlace}
+          />
         ) : (
           <></>
         )}
       </Container>
-      <CustomDialog
-        link={`${window.location.href}/${startPlace?.id}/${destinationPlace?.id}`}
-        open={showDialog}
-        onClose={(): void => setShowDialog(false)}
-      ></CustomDialog>
     </>
   );
 };

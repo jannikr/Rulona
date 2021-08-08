@@ -21,7 +21,7 @@ const App: React.FC = (): JSX.Element => {
         />
         <Route
           exact
-          path={["/route", "/route/:start/:end"]}
+          path={["/route", "/route/:start/:destination"]}
           component={RoutePage}
         />
       </Switch>
