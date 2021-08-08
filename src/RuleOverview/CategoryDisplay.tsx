@@ -10,8 +10,6 @@ import {
   AccordionSummary,
 } from "../MaterialUIOverrides";
 import styles from "./CategoryDisplay.module.css";
-import { Share } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
 import ShareDialog from "./ShareDialog";
 import { useLocation } from "react-router-dom";
 
@@ -22,7 +20,6 @@ interface Props {
 
 const CategoryDisplay: React.FC<Props> = (props) => {
   const { category, rules } = props;
-  const [showDialog, setShowDialog] = useState(false);
   const [expand, setExpand] = useState(false);
   const location = useLocation();
 
@@ -62,15 +59,9 @@ const CategoryDisplay: React.FC<Props> = (props) => {
             <CategoryStatus status={findLowestStatus()} />
             <span className={styles.categoryName}>{category.name}</span>
             {expand && (
-              <IconButton
-                className={styles.shareButton}
-                onClick={(e): void => {
-                  e.stopPropagation();
-                  setShowDialog(!showDialog);
-                }}
-              >
-                <Share />
-              </IconButton>
+              <ShareDialog
+                path={`${window.location.pathname}#category-${category.id}`}
+              />
             )}
           </div>
         </AccordionSummary>
@@ -82,11 +73,6 @@ const CategoryDisplay: React.FC<Props> = (props) => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <ShareDialog
-        link={`${window.location.href.split("#")[0]}#category-${category.id}`}
-        open={showDialog}
-        onClose={(): void => setShowDialog(false)}
-      ></ShareDialog>
     </>
   );
 };
