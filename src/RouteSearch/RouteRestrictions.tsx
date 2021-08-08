@@ -60,7 +60,9 @@ const RouteRestrictions: React.FC<Props> = (props) => {
         </Accordion>
       ))}
       <ShareDialog
-        link={`${window.location.href}/${startPlace.id}/${destinationPlace.id}`}
+        link={`${window.location.href.split("route")[0]}route/${
+          startPlace.id
+        }/${destinationPlace.id}`}
         open={showDialog}
         onClose={(): void => setShowDialog(false)}
       ></ShareDialog>
