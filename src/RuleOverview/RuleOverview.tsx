@@ -28,6 +28,7 @@ import Box from "@material-ui/core/Box";
 import classnames from "classnames";
 import ShareDialog from "./ShareDialog";
 import ContentHeader from "../ContentHeader/ContentHeader";
+import PlaceToRoute from "../Button/PlaceToRoute";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -153,8 +154,9 @@ const RuleOverview: React.FC<Props> = (props) => {
           heading={selectedPlace.name}
           backLink="/rules"
           buttons={[
-            <ShareDialog path={`${window.location.pathname}`} />,
             <FavouritePlace place={selectedPlace} />,
+            <PlaceToRoute place={selectedPlace} />,
+            <ShareDialog path={`${window.location.pathname}`} />,
           ]}
         />
       </Box>
