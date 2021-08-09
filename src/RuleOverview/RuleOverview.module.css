@@ -24,3 +24,17 @@
 .content {
   overflow-x: auto;
 }
+
+.closeFavouriteText {
+  cursor: pointer;
+  letter-spacing: 0.05rem;
+  font-weight: bold;
+  color: orangered;
+  text-transform: uppercase;
+}
+
+.favouriteSwitch {
+  min-height: 3rem;
+  display:flex;
+  align-items: center;
+}

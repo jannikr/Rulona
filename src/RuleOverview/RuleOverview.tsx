@@ -22,7 +22,7 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
-import { Clear, Edit } from "@material-ui/icons";
+import { Edit } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import classnames from "classnames";
@@ -177,9 +177,18 @@ const RuleOverview: React.FC<Props> = (props) => {
             <div>
               <div className={classnames(styles.row, styles.headlinemargin)}>
                 <h2 className={styles.headline}>Meine Kategorien</h2>
-                <IconButton onClick={toggleFavouriteCategorySwitch}>
-                  {showFavouriteCategory ? <Clear /> : <Edit />}
-                </IconButton>
+                <div
+                  onClick={toggleFavouriteCategorySwitch}
+                  className={styles.favouriteSwitch}
+                >
+                  {showFavouriteCategory ? (
+                    <div className={styles.closeFavouriteText}>Fertig</div>
+                  ) : (
+                    <IconButton>
+                      <Edit />
+                    </IconButton>
+                  )}
+                </div>
               </div>
               {!showFavouriteCategory && (
                 <div>
