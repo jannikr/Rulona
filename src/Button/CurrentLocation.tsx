@@ -1,27 +1,41 @@
 import { MyLocation } from "@material-ui/icons";
-import React, { useCallback } from "react";
+import React, { useCallback, MouseEvent } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { AppState } from "../store/types";
+import {
+  AppState,
+  SetDestinationAction,
+  SetOriginAction,
+} from "../store/types";
+import { Place } from "../types";
 import styles from "./CurrentLocation.module.css";
 
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = ReturnType<typeof mapStateToProps> & {
+  setOrigin?: (origin: Place | undefined) => SetOriginAction;
+  setDestination?: (destination: Place | undefined) => SetDestinationAction;
+};
 
 const CurrentLocation: React.FC<Props> = (props) => {
-  const { places } = props;
+  const { places, setOrigin, setDestination } = props;
   const history = useHistory();
 
   const selectFromPlaces = useCallback(
     (location: string): boolean => {
       for (const place of places) {
         if (place.name === location) {
-          history.push(`/rules/${place.id}`);
+          if (setOrigin) {
+            setOrigin(place);
+          } else if (setDestination) {
+            setDestination(place);
+          } else {
+            history.push(`/rules/${place.id}`);
+          }
           return true;
         }
       }
       return false;
     },
-    [places, history]
+    [places, history, setOrigin, setDestination]
   );
 
   const getLocation = useCallback(() => {
@@ -52,8 +66,16 @@ const CurrentLocation: React.FC<Props> = (props) => {
     });
   }, [selectFromPlaces]);
 
+  const onMouseDown = (e: MouseEvent): void => {
+    e.preventDefault();
+  };
+
   return (
-    <div className={styles.lineSpacing} onClick={getLocation}>
+    <div
+      className={styles.lineSpacing}
+      onMouseDown={onMouseDown}
+      onClick={getLocation}
+    >
       <span className={styles.icon}>
         <MyLocation />
       </span>

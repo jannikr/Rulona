@@ -3,6 +3,7 @@ import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import CurrentLocation from "../Button/CurrentLocation";
 import Info from "../Info/Info";
 import PlaceResults from "../PlacesSearch/PlaceResults";
 import SearchField from "../SearchField/SearchField";
@@ -196,6 +197,12 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
       )}
       {!_.isNil(searchTerm) && (
         <>
+          {currentField === Field.Start && (
+            <CurrentLocation setOrigin={setOrigin} />
+          )}
+          {currentField === Field.Destination && (
+            <CurrentLocation setDestination={setDestination} />
+          )}
           <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
           <PlaceResults placeOnClick={placeOnClick} />
         </>
