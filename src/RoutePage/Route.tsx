@@ -26,20 +26,8 @@ const Route: React.FC<Props> = (props) => {
 
   return (
     <>
-      {route?.map((line, index) => (
-        <Polyline
-          key={`route-${index}-${line[0].lat}-${line[0].lng}`}
-          path={line}
-          options={outerOptions}
-        />
-      ))}
-      {route?.map((line, index) => (
-        <Polyline
-          key={`route-${index}-${line[0].lat}-${line[0].lng}`}
-          path={line}
-          options={innerOptions}
-        />
-      ))}
+      <Polyline path={route} options={outerOptions} />
+      <Polyline path={route} options={innerOptions} />
     </>
   );
 };
