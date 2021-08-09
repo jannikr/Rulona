@@ -136,17 +136,15 @@ const RuleOverview: React.FC<Props> = (props) => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
 
-  const clearSearch = (): void => {
-    if (showSearch) {
-      setFilteredCategories([]);
-      setFilteredRules([]);
-      setSearchWord("");
-      setShowCategories(true);
-    }
-  };
+  const clearSearch = useCallback((): void => {
+    setFilteredCategories([]);
+    setFilteredRules([]);
+    setSearchWord("");
+    setShowCategories(true);
+  }, []);
 
   const showSearchToggle = (): void => {
-    clearSearch();
+    if (showSearch) clearSearch();
     setShowSearch(!showSearch);
   };
 
@@ -207,7 +205,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     clearSearch();
     fetchRules(selectedPlace);
     fetchPlaceInfo(selectedPlace);
-  }, [selectedPlace, reset, fetchRules, fetchPlaceInfo]);
+  }, [selectedPlace, reset, fetchRules, fetchPlaceInfo, clearSearch]);
 
   useEffect(() => {
     fetchCategories();
