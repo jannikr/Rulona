@@ -12,6 +12,7 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  showSearchSwitch?: () => void;
 }
 
 enum Icon {
@@ -22,7 +23,7 @@ enum Icon {
 
 const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
   (props, ref) => {
-    const { label, onChange, onFocus, onBlur } = props;
+    const { label, onChange, onFocus, onBlur, showSearchSwitch } = props;
     const localInputRef = useRef<HTMLInputElement>();
     const [showBackArrow, setShowBackArrow] = useState(false);
 
@@ -96,6 +97,10 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
             className={classnames(styles.button, styles.backArrow)}
             onMouseDown={preventDefault}
             onClick={(): void => {
+              if (showSearchSwitch) {
+                showSearchSwitch();
+                return;
+              }
               if (!localInputRef.current) return;
               setInputValue("", localInputRef);
               // needs focus to properly blur, if not currently focused

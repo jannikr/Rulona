@@ -140,6 +140,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     if (showSearch) {
       setFilteredCategories([]);
       setFilteredRules([]);
+      setSearchWord("");
       setShowCategories(true);
     }
     setShowSearch(!showSearch);
@@ -269,6 +270,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                   onChange={search}
                   onFocus={onFocus}
                   onBlur={onFocus}
+                  showSearchSwitch={showSearchSwitch}
                 />
               )}
               {showCategories ? (
