@@ -1,6 +1,7 @@
 import { Hidden } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./RoutePage.module.css";
+import commonStyles from "../common.module.css";
 import {
   AppDispatch,
   AppState,
@@ -53,7 +54,10 @@ const RoutePage: React.FC<Props> = (props) => {
   }, [params, getPlace, setOrigin, setDestination, resetRoute]);
 
   return (
-    <Page mobileShowContent={!!route} contentClassName={styles.column}>
+    <Page
+      mobileShowContent={!!route}
+      contentClassName={classnames(commonStyles.column, styles.column)}
+    >
       <Hidden mdUp>
         <ContentHeader
           backLink={`/route/${origin?.id}`}

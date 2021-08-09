@@ -13,7 +13,7 @@ const Route: React.FC<Props> = (props) => {
   const outerOptions = {
     strokeColor: "#185ABC",
     strokeOpacity: 1,
-    strokeWeight: 7,
+    strokeWeight: 5,
     zIndex: !_.isNil(zIndex) ? zIndex : 0,
   };
 
@@ -26,20 +26,8 @@ const Route: React.FC<Props> = (props) => {
 
   return (
     <>
-      {route?.map((line, index) => (
-        <Polyline
-          key={`route-${index}-${line[0].lat}-${line[0].lng}`}
-          path={line}
-          options={outerOptions}
-        />
-      ))}
-      {route?.map((line, index) => (
-        <Polyline
-          key={`route-${index}-${line[0].lat}-${line[0].lng}`}
-          path={line}
-          options={innerOptions}
-        />
-      ))}
+      <Polyline path={route} options={outerOptions} />
+      <Polyline path={route} options={innerOptions} />
     </>
   );
 };

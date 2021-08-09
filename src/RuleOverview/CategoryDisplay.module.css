@@ -1,13 +1,13 @@
 .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-  
+
 .shareButton {
-    margin-left: 0.2rem !important;
+  margin-left: 0.2rem !important;
 }
 
 .categoryName {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }

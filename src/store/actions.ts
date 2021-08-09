@@ -1,9 +1,10 @@
+import _ from "lodash";
 import { dynamicConstants } from "../constants";
 import {
   Category,
   Place,
   PlaceInfo,
-  Polygon,
+  Polyline,
   RestrictedPlace,
   RouteBoundary,
   RoutingResponse,
@@ -264,7 +265,7 @@ export const resetRestrictions = (): SetRestrictionsAction => ({
 export const setRoute = (
   origin: Place,
   destination: Place,
-  route: Polygon,
+  route: Polyline,
   routeBoundary: RouteBoundary
 ): SetRouteAction => ({
   type: ActionType.SetRoute,
@@ -307,7 +308,8 @@ export const fetchRestrictions = (origin: Place, destination: Place) => {
       }),
     });
     const body: RoutingResponse = await response.json();
+    const route = _.flatten(body.route);
     dispatch(setRestrictions(body.restrictedPlaces));
-    dispatch(setRoute(origin, destination, body.route, body.routeBoundary));
+    dispatch(setRoute(origin, destination, route, body.routeBoundary));
   };
 };

@@ -3,6 +3,7 @@ import classnames from "classnames";
 import React from "react";
 import { RuleStatus } from "../types";
 import styles from "./CategoryStatus.module.css";
+import commonStyles from "../common.module.css";
 
 interface Props {
   status: RuleStatus;
@@ -13,25 +14,23 @@ const CategoryStatus: React.FC<Props> = (props) => {
   let color = "";
   switch (status) {
     case 0: {
-      color = styles.redLens;
+      color = commonStyles.red;
       break;
     }
     case 1: {
-      color = styles.yellowLens;
+      color = commonStyles.yellow;
       break;
     }
     case 2: {
-      color = styles.greenLens;
+      color = commonStyles.green;
       break;
     }
     case -1: {
-      color = styles.grayLens;
+      color = commonStyles.grey;
       break;
     }
   }
-  return (
-    <Lens className={classnames(styles.spacing, color)} fontSize="small" />
-  );
+  return <Lens className={classnames(styles.lens, color)} />;
 };
 
 export default CategoryStatus;

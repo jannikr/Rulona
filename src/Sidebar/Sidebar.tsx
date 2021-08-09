@@ -3,8 +3,10 @@ import React, { HTMLProps } from "react";
 import PlacesSearch from "../PlacesSearch/PlacesSearch";
 import RouteSearch from "../RouteSearch/RouteSearch";
 import styles from "./Sidebar.module.css";
+import commonStyles from "../common.module.css";
 import Box from "@material-ui/core/Box";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import classnames from "classnames";
 
 interface TabPanelProps extends HTMLProps<HTMLDivElement> {
   index: number;
@@ -15,7 +17,11 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
   const { children, index, value } = props;
 
   return (
-    <div role="tabpanel" hidden={value !== index} className={styles.content}>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      className={commonStyles.scrollVert}
+    >
       {value === index && children}
     </div>
   );
@@ -35,10 +41,15 @@ const Sidebar: React.FC<RouteComponentProps> = (props) => {
   };
 
   return (
-    <div className={styles.sidebar}>
+    <div className={classnames(commonStyles.column, styles.sidebar)}>
       <div className={styles.tabHeader}>
         <Box boxShadow={3}>
-          <Tabs value={value} onChange={handleChange} variant="fullWidth">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            classes={{ indicator: styles.indicator }}
+          >
             <Tab component={Link} label="Orte" to="/rules" />
             <Tab component={Link} label="Route" to="/route" />
           </Tabs>

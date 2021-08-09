@@ -1,6 +1,7 @@
 import { InputAdornment, TextField } from "@material-ui/core";
 import React, { useCallback, useState, MouseEvent, useRef } from "react";
 import styles from "./SearchField.module.css";
+import commonStyles from "../common.module.css";
 import SearchIcon from "@material-ui/icons/Search";
 import { ArrowBackIos, Cancel } from "@material-ui/icons";
 import classnames from "classnames";
@@ -42,12 +43,12 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
     };
 
     const icons = new Map([
-      [Icon.Default, <SearchIcon className={styles.searchIconColor} />],
+      [Icon.Default, <SearchIcon />],
       [Icon.Empty, <></>],
       [
         Icon.Clear,
         <Cancel
-          className={classnames(styles.searchIconColor, styles.button)}
+          className={styles.button}
           onMouseDown={preventDefault}
           onClick={(): void => {
             if (!localInputRef.current) return;
@@ -99,7 +100,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
     );
 
     return (
-      <div className={styles.row}>
+      <div className={classnames(commonStyles.row, styles.row)}>
         {showBackArrow ? (
           <ArrowBackIos
             className={classnames(styles.button, styles.backArrow)}
@@ -121,6 +122,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
         )}
         <TextField
           variant="outlined"
+          color="secondary"
           fullWidth
           autoFocus={autoFocus}
           label={label}
@@ -131,7 +133,9 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
           onBlur={onBlurWrapper}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">{icons.get(icon)}</InputAdornment>
+              <InputAdornment position="end" className={commonStyles.greyDark}>
+                {icons.get(icon)}
+              </InputAdornment>
             ),
           }}
         />

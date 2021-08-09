@@ -12,6 +12,7 @@ import classnames from "classnames";
 import _ from "lodash";
 import { useState } from "react";
 import styles from "./ShareDialog.module.css";
+import commonStyles from "../common.module.css";
 
 type Props = Omit<DialogProps, "open" | "onClose"> & {
   open?: boolean;
@@ -22,7 +23,7 @@ const ShareDialog: React.FC<Props> = (props) => {
   const { path, ...rest } = props;
   const link = new URL(path, window.location.origin).toString();
   const [showDialog, setShowDialog] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   const onClose = (): void => {
     setShowDialog(false);
@@ -48,12 +49,19 @@ const ShareDialog: React.FC<Props> = (props) => {
         {...rest}
       >
         <DialogTitle>
-          <div className={styles.row}>
+          <div className={commonStyles.row}>
             <b>Link teilen</b>
-            <Close className={styles.closeButton} onClick={onClose || _.noop} />
+            <IconButton
+              onClick={onClose || _.noop}
+              className={commonStyles.grey}
+            >
+              <Close />
+            </IconButton>
           </div>
         </DialogTitle>
-        <DialogContent className={classnames(styles.row, styles.dialogRow)}>
+        <DialogContent
+          className={classnames(commonStyles.row, styles.dialogRow)}
+        >
           <TextField
             defaultValue={link}
             onFocus={(event): void => {
@@ -68,23 +76,21 @@ const ShareDialog: React.FC<Props> = (props) => {
           />
           <Button
             variant="contained"
+            color={clicked ? "primary" : "secondary"}
             disableElevation
             onClick={(e): void => {
               e.stopPropagation();
               navigator.clipboard.writeText(link);
-              if (!buttonClicked) {
-                setButtonClicked(true);
+              if (!clicked) {
+                setClicked(true);
                 setTimeout(() => {
-                  setButtonClicked(false);
+                  setClicked(false);
                 }, 3000);
               }
             }}
-            className={classnames(
-              styles.copyButton,
-              buttonClicked ? styles.clicked : styles.unclicked
-            )}
+            className={styles.copyButton}
           >
-            {buttonClicked ? "Kopiert" : "Link kopieren"}
+            {clicked ? "Kopiert" : "Link kopieren"}
           </Button>
         </DialogContent>
       </Dialog>

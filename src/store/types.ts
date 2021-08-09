@@ -3,7 +3,7 @@ import {
   Category,
   Place,
   PlaceInfo,
-  Polygon,
+  Polyline,
   RestrictedPlace,
   RouteBoundary,
   Rule,
@@ -44,7 +44,7 @@ export interface AppState {
   restrictions: RestrictedPlace[];
   origin: Place | undefined;
   destination: Place | undefined;
-  route: Polygon | undefined;
+  route: Polyline | undefined;
   routeBoundary: RouteBoundary | undefined;
 }
 
@@ -122,7 +122,7 @@ export type SetRouteAction =
       type: ActionType.SetRoute;
       origin: Place;
       destination: Place;
-      route: Polygon;
+      route: Polyline;
       routeBoundary: RouteBoundary;
     }
   | {

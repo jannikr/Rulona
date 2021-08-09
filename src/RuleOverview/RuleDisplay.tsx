@@ -5,6 +5,8 @@ import { Rule } from "../types";
 import Highlighter from "./Higlighter";
 import ReactDOMServer from "react-dom/server";
 import styles from "./RuleDisplay.module.css";
+import commonStyles from "../common.module.css";
+import classnames from "classnames";
 
 interface Props {
   rule: Rule;
@@ -20,11 +22,11 @@ const RuleDisplay: React.FC<Props> = (props) => {
   return (
     <div>
       <ReactMarkdown
-        className={styles.content}
+        className={commonStyles.black}
         rehypePlugins={[rehypeRaw]}
         children={staticRender}
       />
-      <h2 className={styles.timestamp}>
+      <h2 className={classnames(styles.timestamp, commonStyles.greyDark)}>
         Zuletzt aktualisiert &nbsp;
         {rule.timestamp.slice(6, 9)}.{rule.timestamp.slice(4, 6)}.
         {rule.timestamp.slice(0, 4)}

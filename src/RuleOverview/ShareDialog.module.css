@@ -1,43 +1,16 @@
 .linkField {
-    background-color: rgba(0, 0, 0, .03);
+  max-width: 40ch;
+  background-color: var(--color-bg-grey);
 }
 
 .dialogRow {
-    margin-bottom: 1.5em;
-}
-
-.row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  margin-bottom: 1.5em;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .copyButton {
-    margin-left: 1em !important;
-    min-width: 10em !important;
-    height: 100%;
-    color: #fff !important;
-}
-
-.clicked {
-    background-color: #0A524D !important;
-}
-
-.clicked:hover {
-    background-color: #0A524D;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
-}
-
-.unclicked {
-    background-color: orangered !important;
-}
-
-.unclicked:hover {
-    background-color: orangered;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
-}
-
-.closeButton {
-    color: gray;
-    cursor: pointer;
+  flex-grow: 1;
+  min-width: 10em !important;
 }

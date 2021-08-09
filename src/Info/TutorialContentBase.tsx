@@ -1,6 +1,7 @@
 import { Hidden } from "@material-ui/core";
 import classnames from "classnames";
 import styles from "./TutorialContentBase.module.css";
+import commonStyles from "../common.module.css";
 
 interface Props {
   heading: string;
@@ -38,6 +39,7 @@ const TutorialContentBase: React.FC<Props> = (props) => {
       <Hidden mdUp>
         <div
           className={classnames(
+            commonStyles.row,
             styles.mobileImageOuter,
             mobileContainerClassName
           )}

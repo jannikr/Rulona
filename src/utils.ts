@@ -13,3 +13,5 @@ export const setInputValue = (
   prototypeValueSetter?.call(ref.current, value);
   ref.current.dispatchEvent(new Event("input", { bubbles: true }));
 };
+
+export const rootStyles = getComputedStyle(document.documentElement);
