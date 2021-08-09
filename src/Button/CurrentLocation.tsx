@@ -24,10 +24,8 @@ const CurrentLocation: React.FC<Props> = (props) => {
       for (const place of places) {
         if (place.name === location) {
           if (setOrigin) {
-            console.log("origin");
             setOrigin(place);
           } else if (setDestination) {
-            console.log("destination");
             setDestination(place);
           } else {
             history.push(`/rules/${place.id}`);
