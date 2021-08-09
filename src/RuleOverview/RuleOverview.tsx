@@ -177,14 +177,16 @@ const RuleOverview: React.FC<Props> = (props) => {
             <div>
               <div className={classnames(styles.row, styles.headlinemargin)}>
                 <h2 className={styles.headline}>Meine Kategorien</h2>
-                <div
-                  onClick={toggleFavouriteCategorySwitch}
-                  className={styles.favouriteSwitch}
-                >
+                <div className={styles.favouriteSwitch}>
                   {showFavouriteCategory ? (
-                    <Button color="secondary">Fertig</Button>
+                    <Button
+                      color="secondary"
+                      onClick={toggleFavouriteCategorySwitch}
+                    >
+                      Fertig
+                    </Button>
                   ) : (
-                    <IconButton>
+                    <IconButton onClick={toggleFavouriteCategorySwitch}>
                       <Edit />
                     </IconButton>
                   )}
