@@ -35,7 +35,7 @@ const CurrentLocation: React.FC<Props> = (props) => {
       }
       return false;
     },
-    [places, history]
+    [places, history, setOrigin, setDestination]
   );
 
   const getLocation = useCallback(() => {
