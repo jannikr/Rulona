@@ -141,16 +141,14 @@ const RuleOverview: React.FC<Props> = (props) => {
     setFilteredCategories([]);
     setFilteredRules([]);
     setSearchWord("");
-    setShowSearch(false);
     setShowCategories(true);
   }, []);
 
   const showSearchToggle = (): void => {
     if (showSearch) {
       clearSearch();
-    } else {
-      setShowSearch(true);
     }
+    setShowSearch(!showSearch);
   };
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -208,6 +206,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     reset();
     if (!selectedPlace) return;
     clearSearch();
+    setShowSearch(false);
     fetchRules(selectedPlace);
     fetchPlaceInfo(selectedPlace);
   }, [selectedPlace, reset, fetchRules, fetchPlaceInfo, clearSearch]);
