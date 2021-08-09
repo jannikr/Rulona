@@ -136,13 +136,17 @@ const RuleOverview: React.FC<Props> = (props) => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
 
-  const showSearchSwitch = (): void => {
+  const clearSearch = (): void => {
     if (showSearch) {
       setFilteredCategories([]);
       setFilteredRules([]);
       setSearchWord("");
       setShowCategories(true);
     }
+  };
+
+  const showSearchToggle = (): void => {
+    clearSearch();
     setShowSearch(!showSearch);
   };
 
@@ -200,6 +204,7 @@ const RuleOverview: React.FC<Props> = (props) => {
   useEffect(() => {
     reset();
     if (!selectedPlace) return;
+    clearSearch();
     fetchRules(selectedPlace);
     fetchPlaceInfo(selectedPlace);
   }, [selectedPlace, reset, fetchRules, fetchPlaceInfo]);
@@ -228,10 +233,6 @@ const RuleOverview: React.FC<Props> = (props) => {
     setSearchWord(searchWord);
   }, [searchWord]);
 
-  const onFocus = (): void => {
-    console.log("hallo");
-  };
-
   if (!selectedPlace)
     return (
       <div className={styles.container}>
@@ -249,7 +250,7 @@ const RuleOverview: React.FC<Props> = (props) => {
             <FavouritePlace place={selectedPlace} />,
             <PlaceToRoute place={selectedPlace} />,
             <ShareDialog path={`${window.location.pathname}`} />,
-            <IconButton onClick={showSearchSwitch}>
+            <IconButton onClick={showSearchToggle}>
               {showSearch ? <Clear /> : <Search />}
             </IconButton>,
           ]}
@@ -265,13 +266,13 @@ const RuleOverview: React.FC<Props> = (props) => {
           {rules.length !== 0 && (
             <div>
               {showSearch && (
-                <SearchField
-                  label="Suche nach Regeln oder Kategorien"
-                  onChange={search}
-                  onFocus={onFocus}
-                  onBlur={onFocus}
-                  showSearchSwitch={showSearchSwitch}
-                />
+                <div className={styles.ruleSearchField}>
+                  <SearchField
+                    label="Suche"
+                    onChange={search}
+                    showSearchSwitch={showSearchToggle}
+                  />
+                </div>
               )}
               {showCategories ? (
                 <>

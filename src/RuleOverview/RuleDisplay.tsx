@@ -15,14 +15,14 @@ const RuleDisplay: React.FC<Props> = (props) => {
   const { rule, searchWord } = props;
 
   const components = <Highlighter text={rule.text} searchWord={searchWord} />;
-  const test = ReactDOMServer.renderToStaticMarkup(components);
+  const staticRender = ReactDOMServer.renderToStaticMarkup(components);
 
   return (
     <div>
       <ReactMarkdown
         className={styles.content}
         rehypePlugins={[rehypeRaw]}
-        children={test}
+        children={staticRender}
       />
       <h2 className={styles.timestamp}>
         Zuletzt aktualisiert &nbsp;

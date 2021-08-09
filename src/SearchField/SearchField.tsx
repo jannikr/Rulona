@@ -10,8 +10,8 @@ import { setInputValue } from "../utils";
 interface Props {
   label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   showSearchSwitch?: () => void;
 }
 
@@ -76,7 +76,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
           setIcon(Icon.Default);
           setShowBackArrow(false);
         }
-        onBlur(e);
+        if (onBlur) onBlur(e);
       },
       [onBlur]
     );
@@ -85,7 +85,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
       (e: React.FocusEvent<HTMLInputElement>) => {
         setShowBackArrow(true);
         selectIcon(e);
-        onFocus(e);
+        if (onFocus) onFocus(e);
       },
       [onFocus, selectIcon]
     );
