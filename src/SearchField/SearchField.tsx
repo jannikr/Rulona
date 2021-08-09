@@ -13,6 +13,7 @@ interface Props {
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   showSearchSwitch?: () => void;
+  autoFocus?: boolean;
 }
 
 enum Icon {
@@ -23,7 +24,14 @@ enum Icon {
 
 const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
   (props, ref) => {
-    const { label, onChange, onFocus, onBlur, showSearchSwitch } = props;
+    const {
+      label,
+      onChange,
+      onFocus,
+      onBlur,
+      showSearchSwitch,
+      autoFocus,
+    } = props;
     const localInputRef = useRef<HTMLInputElement>();
     const [showBackArrow, setShowBackArrow] = useState(false);
 
@@ -114,6 +122,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
         <TextField
           variant="outlined"
           fullWidth
+          autoFocus={autoFocus}
           label={label}
           className={styles.searchInput}
           inputRef={mergeRefs([localInputRef, ref])}

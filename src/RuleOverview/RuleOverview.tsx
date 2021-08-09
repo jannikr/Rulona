@@ -269,6 +269,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                     label="Suche"
                     onChange={search}
                     showSearchSwitch={showSearchToggle}
+                    autoFocus={true}
                   />
                 </div>
               )}
