@@ -1,11 +1,26 @@
-import { Container } from "@material-ui/core";
+import { Container, Hidden } from "@material-ui/core";
 import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Info from "../Info/Info";
 import PlaceResults from "../PlacesSearch/PlaceResults";
 import SearchField from "../SearchField/SearchField";
-import { fetchRestrictions, resetRestrictions } from "../store/actions";
-import { AppDispatch, SetRestrictionsAction } from "../store/types";
+import {
+  fetchRestrictions,
+  resetRestrictions,
+  resetRoute,
+  setDestination,
+  setOrigin,
+} from "../store/actions";
+import {
+  AppState,
+  AppDispatch,
+  SetRestrictionsAction,
+  SetRouteAction,
+  SetOriginAction,
+  SetDestinationAction,
+} from "../store/types";
 import { Place } from "../types";
 import { setInputValue } from "../utils";
 import RouteRestrictions from "./RouteRestrictions";
@@ -15,14 +30,24 @@ enum Field {
   Destination,
 }
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 const RouteSearch: React.FC<Props> = (props): JSX.Element => {
-  const { fetchRestrictions, resetRestrictions } = props;
+  const {
+    origin,
+    destination,
+    fetchRestrictions,
+    resetRestrictions,
+    resetRoute,
+    setOrigin,
+    setDestination,
+  } = props;
+  const history = useHistory();
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
   const [currentField, setCurrentField] = useState<Field>();
-  const [startPlace, setStartPlace] = useState<Place>();
-  const [destinationPlace, setDestinationPlace] = useState<Place>();
+  const [loading, setLoading] = useState(false);
+  const [restrictionsLoaded, setRestrictionsLoaded] = useState(false);
   const startRef = useRef<HTMLInputElement>();
   const destinationRef = useRef<HTMLInputElement>();
 
@@ -34,30 +59,29 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     setSearchTerm(e.target.value);
   };
 
-  const unfocusSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
+  const unfocusSearch = (_: React.FocusEvent<HTMLInputElement>): void => {
     setCurrentField(undefined);
-    if (e.target.value === "") {
-      setSearchTerm(undefined);
-    }
+    setSearchTerm(undefined);
   };
 
   const searchStart = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setOrigin(undefined);
       search(e);
     },
-    [search]
+    [search, setOrigin]
   );
 
   const searchDestination = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
+      setDestination(undefined);
       search(e);
     },
-    [search]
+    [search, setDestination]
   );
 
   const focusStartSearch = (e: React.FocusEvent<HTMLInputElement>): void => {
     setCurrentField(Field.Start);
-    setStartPlace(undefined);
     focusSearch(e);
   };
 
@@ -69,7 +93,6 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     e: React.FocusEvent<HTMLInputElement>
   ): void => {
     setCurrentField(Field.Destination);
-    setDestinationPlace(undefined);
     focusSearch(e);
   };
 
@@ -79,31 +102,78 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
     unfocusSearch(e);
   };
 
+  const selectPlace = useCallback(
+    (place: Place, field: Field | undefined): void => {
+      switch (field) {
+        case Field.Start: {
+          setInputValue(place.name, startRef);
+          setOrigin(place);
+          startRef.current?.blur();
+          break;
+        }
+        case Field.Destination: {
+          setInputValue(place.name, destinationRef);
+          setDestination(place);
+          destinationRef.current?.blur();
+          break;
+        }
+      }
+      setSearchTerm(undefined);
+    },
+    [startRef, destinationRef, setOrigin, setDestination]
+  );
+
   const placeOnClick = (place: Place): void => {
-    switch (currentField) {
-      case Field.Start: {
-        setInputValue(place.name, startRef);
-        setStartPlace(place);
-        startRef.current?.blur();
-        break;
-      }
-      case Field.Destination: {
-        setInputValue(place.name, destinationRef);
-        setDestinationPlace(place);
-        destinationRef.current?.blur();
-        break;
-      }
-    }
-    setSearchTerm(undefined);
+    selectPlace(place, currentField);
   };
 
+  const updateHistory = useCallback(() => {
+    //both undefined is excluded on purpose, because of initial page load
+    if (origin && !destination) {
+      history.push(`/route/${origin?.id}`);
+      return;
+    }
+    if (!origin && destination) {
+      history.push(`/route/undefined/${destination.id}`);
+      return;
+    }
+    if (origin && destination) {
+      history.push(`/route/${origin.id}/${destination.id}`);
+      return;
+    }
+  }, [history, origin, destination]);
+
   useEffect(() => {
-    if (!startPlace || !destinationPlace) {
+    if (origin) selectPlace(origin, Field.Start);
+  }, [origin, selectPlace]);
+
+  useEffect(() => {
+    if (destination) selectPlace(destination, Field.Destination);
+  }, [destination, selectPlace]);
+
+  useEffect(() => {
+    setRestrictionsLoaded(false);
+    updateHistory();
+    if (!origin || !destination) {
       resetRestrictions();
       return;
     }
-    fetchRestrictions(startPlace, destinationPlace);
-  }, [startPlace, destinationPlace, fetchRestrictions, resetRestrictions]);
+    setLoading(true);
+    fetchRestrictions(origin, destination).then(() => {
+      setRestrictionsLoaded(true);
+      setLoading(false);
+    });
+  }, [
+    history,
+    origin,
+    destination,
+    updateHistory,
+    fetchRestrictions,
+    resetRestrictions,
+    resetRoute,
+    setLoading,
+    setRestrictionsLoaded,
+  ]);
 
   return (
     <Container>
@@ -121,34 +191,41 @@ const RouteSearch: React.FC<Props> = (props): JSX.Element => {
         onFocus={focusDestinationSearch}
         onBlur={unfocusDestinationSearch}
       />
-      {!_.isNil(searchTerm) ? (
+      {_.isNil(searchTerm) && (!origin || !destination) && (
+        <Info text="Bitte einen Start- und Ziel-Ort auswählen." />
+      )}
+      {!_.isNil(searchTerm) && (
         <>
           <PlaceResults searchTerm={searchTerm} placeOnClick={placeOnClick} />
           <PlaceResults placeOnClick={placeOnClick} />
         </>
-      ) : (
-        <></>
       )}
-      {startPlace && destinationPlace ? (
-        <RouteRestrictions
-          startPlace={startPlace}
-          destinationPlace={destinationPlace}
-        />
-      ) : (
-        <></>
-      )}
+      {loading && <Info text="Lade Route..." />}
+      <Hidden smDown>
+        {_.isNil(searchTerm) && restrictionsLoaded && !loading && (
+          <RouteRestrictions />
+        )}
+      </Hidden>
     </Container>
   );
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const mapStateToProps = (state: AppState) => {
+  const { origin, destination } = state;
+  return { origin, destination };
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   resetRestrictions: (): SetRestrictionsAction => dispatch(resetRestrictions()),
-  fetchRestrictions: (
-    start: Place,
-    destination: Place
-  ): Promise<SetRestrictionsAction> =>
-    dispatch(fetchRestrictions(start, destination)),
+  resetRoute: (): SetRouteAction => dispatch(resetRoute()),
+  setOrigin: (origin: Place | undefined): SetOriginAction =>
+    dispatch(setOrigin(origin)),
+  setDestination: (destination: Place | undefined): SetDestinationAction =>
+    dispatch(setDestination(destination)),
+  fetchRestrictions: (origin: Place, destination: Place): Promise<void> =>
+    dispatch(fetchRestrictions(origin, destination)),
 });
 
-export default connect(null, mapDispatchToProps)(RouteSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(RouteSearch);

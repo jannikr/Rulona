@@ -1,5 +1,13 @@
 import { ThunkDispatch } from "redux-thunk";
-import { Category, Place, PlaceInfo, RestrictedPlace, Rule } from "../types";
+import {
+  Category,
+  Place,
+  PlaceInfo,
+  Polygon,
+  RestrictedPlace,
+  RouteBoundary,
+  Rule,
+} from "../types";
 
 export type AppDispatch = ThunkDispatch<AppState, void, AppAction>;
 
@@ -19,6 +27,9 @@ export enum ActionType {
   DeleteFavouriteCategory = "DeleteFavouriteCategory",
   SetFavouriteCategories = "SetFavouriteCategories",
   SetRestrictions = "SetRestrictions",
+  SetRoute = "SetRoute",
+  SetOrigin = "SetOrigin",
+  SetDestination = "SetDestination",
 }
 
 export interface AppState {
@@ -31,6 +42,10 @@ export interface AppState {
   lastSearchedPlaces: Place[];
   favouriteCategories: Category[];
   restrictions: RestrictedPlace[];
+  origin: Place | undefined;
+  destination: Place | undefined;
+  route: Polygon | undefined;
+  routeBoundary: RouteBoundary | undefined;
 }
 
 export interface SetPlacesAction {
@@ -102,6 +117,32 @@ export interface SetRestrictionsAction {
   restrictions: RestrictedPlace[];
 }
 
+export type SetRouteAction =
+  | {
+      type: ActionType.SetRoute;
+      origin: Place;
+      destination: Place;
+      route: Polygon;
+      routeBoundary: RouteBoundary;
+    }
+  | {
+      type: ActionType.SetRoute;
+      origin: undefined;
+      destination: undefined;
+      route: undefined;
+      routeBoundary: undefined;
+    };
+
+export interface SetOriginAction {
+  type: ActionType.SetOrigin;
+  origin: Place | undefined;
+}
+
+export interface SetDestinationAction {
+  type: ActionType.SetDestination;
+  destination: Place | undefined;
+}
+
 export type AppAction =
   | SetPlacesAction
   | SetCategoriesAction
@@ -116,4 +157,7 @@ export type AppAction =
   | AddFavouriteCategoryAction
   | DeleteFavouriteCategoryAction
   | SetFavouriteCategoriesAction
-  | SetRestrictionsAction;
+  | SetRestrictionsAction
+  | SetRouteAction
+  | SetOriginAction
+  | SetDestinationAction;

@@ -1,0 +1,16 @@
+.toolbar {
+  background-color: #0a524d;
+  color: white;
+}
+
+.heading {
+  flex-grow: 1;
+}
+
+.icons * {
+  color: lightgray;
+}
+
+.backArrow {
+  color: white;
+}

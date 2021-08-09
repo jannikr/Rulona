@@ -1,13 +1,11 @@
-import { Grid, Hidden } from "@material-ui/core";
 import React, { useEffect } from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
-import Sidebar from "../Sidebar/Sidebar";
-import styles from "./LandingPage.module.css";
 import { connect } from "react-redux";
 import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import { RouteComponentProps } from "react-router-dom";
 import { deselectPlace, selectPlace } from "../store/actions";
+import Page from "../Page/Page";
 
 interface RouteProps {
   placeId?: string;
@@ -32,18 +30,9 @@ const LandingPage: React.FC<Props> = (props) => {
   }, [placeId, places, selectPlace, deselectPlace]);
 
   return (
-    <Grid container spacing={0} className={styles.container}>
-      <Hidden smDown={!!selectedPlace}>
-        <Grid className={styles.sidebar} item xs={12} md={3}>
-          <Sidebar />
-        </Grid>
-      </Hidden>
-      <Hidden smDown={!selectedPlace}>
-        <Grid item xs={12} md={9}>
-          <RuleOverview />
-        </Grid>
-      </Hidden>
-    </Grid>
+    <Page mobileShowContent={!!selectedPlace}>
+      <RuleOverview />
+    </Page>
   );
 };
 

@@ -1,6 +1,11 @@
-import { IconButton, Typography } from "@material-ui/core";
-import { ExpandMore, Share, Warning } from "@material-ui/icons";
-import React, { useState } from "react";
+import { IconButton, Hidden, Typography } from "@material-ui/core";
+import {
+  ExpandMore,
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+  Warning,
+} from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import RuleDisplay from "../RuleOverview/RuleDisplay";
 import { AppState } from "../store/types";
@@ -12,60 +17,58 @@ import {
 import classnames from "classnames";
 import styles from "./RouteRestrictions.module.css";
 import Info from "../Info/Info";
-import { Place } from "../types";
-import ShareDialog from "../RuleOverview/ShareDialog";
+import RouteShare from "../RoutePage/RouteShare";
 
 type Props = ReturnType<typeof mapStateToProps> & {
-  startPlace: Place;
-  destinationPlace: Place;
+  onExpand?: (expanded: boolean) => void;
 };
 
 const RouteRestrictions: React.FC<Props> = (props) => {
-  const { places, restrictions, startPlace, destinationPlace } = props;
-  const [showDialog, setShowDialog] = useState(false);
+  const { places, restrictions, onExpand } = props;
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    onExpand?.(expanded);
+  }, [expanded, onExpand]);
 
   return (
     <>
       <div className={styles.headingRow}>
-        <h4>Regeln der Landkreise</h4>
-        <IconButton
-          onClick={(): void => {
-            setShowDialog(!showDialog);
-          }}
-        >
-          <Share />
-        </IconButton>
+        <Hidden mdUp>
+          <IconButton onClick={(): void => setExpanded(!expanded)}>
+            {expanded ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          </IconButton>
+        </Hidden>
+        <h4 className={styles.heading}>Regeln der Landkreise</h4>
+        <Hidden smDown>
+          <RouteShare />
+        </Hidden>
       </div>
       {restrictions.length === 0 && (
         <Info text="Es gibt keine einschränkenden Regeln für die gewählte Route." />
       )}
-      {restrictions.map((restriction) => (
-        <Accordion key={restriction.placeId} className={styles.accordion}>
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            className={styles.summary}
-          >
-            <Warning
-              className={classnames(styles.iconSpacing, styles.warning)}
-            />
-            {places.find((place) => place.id === restriction.placeId)?.name}
-          </AccordionSummary>
-          <AccordionDetails className={styles.detail}>
-            <Typography>
-              {restriction.denyingRules.map((rule) => (
-                <RuleDisplay key={rule.id} rule={rule} />
-              ))}
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      ))}
-      <ShareDialog
-        link={`${window.location.href.split("route")[0]}route/${
-          startPlace.id
-        }/${destinationPlace.id}`}
-        open={showDialog}
-        onClose={(): void => setShowDialog(false)}
-      ></ShareDialog>
+      <Hidden smDown={!expanded}>
+        {restrictions.map((restriction) => (
+          <Accordion key={restriction.placeId} className={styles.accordion}>
+            <AccordionSummary
+              expandIcon={<ExpandMore />}
+              className={styles.summary}
+            >
+              <Warning
+                className={classnames(styles.iconSpacing, styles.warning)}
+              />
+              {places.find((place) => place.id === restriction.placeId)?.name}
+            </AccordionSummary>
+            <AccordionDetails className={styles.detail}>
+              <Typography component="div">
+                {restriction.denyingRules.map((rule) => (
+                  <RuleDisplay key={rule.id} rule={rule} />
+                ))}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+      </Hidden>
     </>
   );
 };

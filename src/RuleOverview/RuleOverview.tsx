@@ -1,11 +1,4 @@
-import {
-  Container,
-  Divider,
-  Hidden,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+import { Container, Divider, IconButton } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -29,13 +22,12 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
-import { Clear, Edit, Share } from "@material-ui/icons";
+import { Clear, Edit } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import classnames from "classnames";
-import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
+import ContentHeader from "../ContentHeader/ContentHeader";
 
 type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -57,8 +49,6 @@ const RuleOverview: React.FC<Props> = (props) => {
   const [rulesPerCategory, setRulesPerCategory] = useState<RulesPerCategory>(
     []
   );
-
-  const [showDialog, setShowDialog] = useState(false);
 
   const [
     rulesPerFavouriteCategory,
@@ -159,27 +149,14 @@ const RuleOverview: React.FC<Props> = (props) => {
   return (
     <div className={styles.container}>
       <Box boxShadow={3}>
-        <Toolbar variant="dense" className={styles.toolbar}>
-          <Hidden mdUp>
-            <Link to="/rules" className={styles.backArrow}>
-              <ArrowBackIosIcon fontSize="small" />
-            </Link>
-          </Hidden>
-          <Typography className={styles.rulename}>
-            {selectedPlace.name}
-          </Typography>
-          <div className={styles.icon}>
-            <IconButton
-              className={styles.shareButton}
-              onClick={(): void => {
-                setShowDialog(!showDialog);
-              }}
-            >
-              <Share />
-            </IconButton>
-            <FavouritePlace place={selectedPlace} />
-          </div>
-        </Toolbar>
+        <ContentHeader
+          heading={selectedPlace.name}
+          backLink="/rules"
+          buttons={[
+            <ShareDialog path={`${window.location.pathname}`} />,
+            <FavouritePlace place={selectedPlace} />,
+          ]}
+        />
       </Box>
       <Divider />
       <Box mt={5} className={styles.content}>
@@ -230,11 +207,6 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
         </Container>
       </Box>
-      <ShareDialog
-        link={`${window.location.href.split("#")[0]}`}
-        open={showDialog}
-        onClose={(): void => setShowDialog(false)}
-      ></ShareDialog>
     </div>
   );
 };

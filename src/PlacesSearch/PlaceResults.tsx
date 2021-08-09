@@ -6,14 +6,12 @@ import {
   addLastSearchedPlace,
   fetchFavouritePlaces,
   fetchLastSearchedPlaces,
-  fetchPlaces,
 } from "../store/actions";
 import {
   AppDispatch,
   AppState,
   SetFavouritePlacesAction,
   SetLastSearchedPlacesAction,
-  SetPlacesAction,
 } from "../store/types";
 import { Place, SidebarHeading } from "../types";
 import PlaceContainer from "./PlaceContainer";
@@ -33,7 +31,6 @@ const PlaceResults: React.FC<Props> = (props) => {
     places,
     favouritePlaces,
     lastSearchedPlaces,
-    fetchPlaces,
     fetchFavouritePlaces,
     fetchLastSearchedPlaces,
     addLastSearchedPlace,
@@ -69,10 +66,6 @@ const PlaceResults: React.FC<Props> = (props) => {
     },
     [placeOnClick, isSearchHeading, addLastSearchedPlace]
   );
-
-  useEffect(() => {
-    if (places.length === 0) fetchPlaces();
-  }, [places, fetchPlaces]);
 
   useEffect(() => {
     setExamplePlaces(places.filter((place) => place.example));
@@ -130,7 +123,6 @@ const mapStateToProps = (state: AppState) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  fetchPlaces: (): Promise<SetPlacesAction> => dispatch(fetchPlaces()),
   fetchFavouritePlaces: (): SetFavouritePlacesAction =>
     dispatch(fetchFavouritePlaces()),
   fetchLastSearchedPlaces: (): SetLastSearchedPlacesAction =>
