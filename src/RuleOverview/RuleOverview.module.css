@@ -19,6 +19,10 @@
   align-items: center;
 }
 
+.content {
+  padding-top: 2.5rem;
+}
+
 .highlight {
     background-color: lightblue;
 }
