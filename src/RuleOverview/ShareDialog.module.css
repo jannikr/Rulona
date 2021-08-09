@@ -1,12 +1,16 @@
 .linkField {
+  max-width: 40ch;
   background-color: var(--color-bg-grey);
 }
 
 .dialogRow {
   margin-bottom: 1.5em;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .copyButton {
-  margin-left: 1em !important;
+  flex-grow: 1;
   min-width: 10em !important;
 }
