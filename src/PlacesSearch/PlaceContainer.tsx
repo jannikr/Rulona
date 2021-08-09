@@ -19,19 +19,17 @@ const PlaceContainer: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <div className={styles.lineSpacing}>
+      <div
+        className={styles.lineSpacing}
+        onMouseDown={onMouseDown}
+        onClick={(): void => {
+          onClick && onClick(place);
+        }}
+      >
         <span className={styles.placeInfo}>
           <PlaceTrend trend={place.trend} />
         </span>
-        <span
-          className={styles.name}
-          onMouseDown={onMouseDown}
-          onClick={(): void => {
-            onClick && onClick(place);
-          }}
-        >
-          {place.name}
-        </span>
+        <span className={styles.name}>{place.name}</span>
         <span className={styles.icon}>
           <FavouritePlace place={place} />
         </span>
