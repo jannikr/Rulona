@@ -140,12 +140,16 @@ const RuleOverview: React.FC<Props> = (props) => {
     setFilteredCategories([]);
     setFilteredRules([]);
     setSearchWord("");
+    setShowSearch(false);
     setShowCategories(true);
   }, []);
 
   const showSearchToggle = (): void => {
-    if (showSearch) clearSearch();
-    setShowSearch(!showSearch);
+    if (showSearch) {
+      clearSearch();
+    } else {
+      setShowSearch(true);
+    }
   };
 
   const search = (e: React.ChangeEvent<HTMLInputElement>): void => {
