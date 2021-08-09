@@ -13,7 +13,7 @@ const Route: React.FC<Props> = (props) => {
   const outerOptions = {
     strokeColor: "#185ABC",
     strokeOpacity: 1,
-    strokeWeight: 7,
+    strokeWeight: 5,
     zIndex: !_.isNil(zIndex) ? zIndex : 0,
   };
 
