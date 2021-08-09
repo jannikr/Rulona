@@ -11,8 +11,10 @@ import { setInputValue } from "../utils";
 interface Props {
   label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onClose?: () => void;
+  autoFocus?: boolean;
 }
 
 enum Icon {
@@ -23,7 +25,7 @@ enum Icon {
 
 const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
   (props, ref) => {
-    const { label, onChange, onFocus, onBlur } = props;
+    const { label, onChange, onFocus, onBlur, onClose, autoFocus } = props;
     const localInputRef = useRef<HTMLInputElement>();
     const [showBackArrow, setShowBackArrow] = useState(false);
 
@@ -76,7 +78,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
           setIcon(Icon.Default);
           setShowBackArrow(false);
         }
-        onBlur(e);
+        if (onBlur) onBlur(e);
       },
       [onBlur]
     );
@@ -85,7 +87,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
       (e: React.FocusEvent<HTMLInputElement>) => {
         setShowBackArrow(true);
         selectIcon(e);
-        onFocus(e);
+        if (onFocus) onFocus(e);
       },
       [onFocus, selectIcon]
     );
@@ -102,6 +104,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
               // needs focus to properly blur, if not currently focused
               localInputRef.current.focus();
               localInputRef.current.blur();
+              onClose && onClose();
             }}
           />
         ) : (
@@ -111,6 +114,7 @@ const SearchField = React.forwardRef<HTMLInputElement | undefined, Props>(
           variant="outlined"
           color="secondary"
           fullWidth
+          autoFocus={autoFocus}
           label={label}
           className={styles.searchInput}
           inputRef={mergeRefs([localInputRef, ref])}

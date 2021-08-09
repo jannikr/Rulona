@@ -12,14 +12,16 @@ import {
 import styles from "./CategoryDisplay.module.css";
 import ShareDialog from "./ShareDialog";
 import { useLocation } from "react-router-dom";
+import Highlighter from "./Higlighter";
 
 interface Props {
   category: Category;
   rules: Rule[];
+  searchWord?: string;
 }
 
 const CategoryDisplay: React.FC<Props> = (props) => {
-  const { category, rules } = props;
+  const { category, rules, searchWord } = props;
   const [expand, setExpand] = useState(false);
   const location = useLocation();
 
@@ -57,7 +59,9 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className={styles.row}>
             <CategoryStatus status={findLowestStatus()} />
-            <span className={styles.categoryName}>{category.name}</span>
+            <span className={styles.categoryName}>
+              <Highlighter text={category.name} searchWord={searchWord} />
+            </span>
             {expand && (
               <ShareDialog
                 path={`${window.location.pathname}#category-${category.id}`}
@@ -68,7 +72,7 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <AccordionDetails>
           <Typography component="div">
             {rules.map((rule) => (
-              <RuleDisplay key={rule.id} rule={rule} />
+              <RuleDisplay key={rule.id} rule={rule} searchWord={searchWord} />
             ))}
           </Typography>
         </AccordionDetails>
