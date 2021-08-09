@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import { Hidden } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import { connect } from "react-redux";
 import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
@@ -6,6 +7,7 @@ import { Place } from "../types";
 import { RouteComponentProps } from "react-router-dom";
 import { deselectPlace, selectPlace } from "../store/actions";
 import Page from "../Page/Page";
+import TutorialDialog from "./TutorialDialog";
 
 interface RouteProps {
   placeId?: string;
@@ -19,6 +21,7 @@ type Props = RouteComponentProps<RouteProps> &
 const LandingPage: React.FC<Props> = (props) => {
   const { match, selectedPlace, places, selectPlace, deselectPlace } = props;
   const { placeId } = match.params;
+  const [tutorialSeen, setTutorialSeen] = useState(false);
 
   useEffect(() => {
     const place = placeId
@@ -29,10 +32,22 @@ const LandingPage: React.FC<Props> = (props) => {
     if (place) selectPlace(place);
   }, [placeId, places, selectPlace, deselectPlace]);
 
+  useEffect(() => {
+    const tutorialSeenLocal = JSON.parse(
+      localStorage.getItem("tutorialSeen") || "false"
+    );
+    setTutorialSeen(tutorialSeenLocal);
+  }, []);
+
   return (
-    <Page mobileShowContent={!!selectedPlace}>
-      <RuleOverview />
-    </Page>
+    <>
+      <Page mobileShowContent={!!selectedPlace}>
+        <RuleOverview />
+      </Page>
+      <Hidden mdUp>
+        {!selectedPlace && !tutorialSeen && <TutorialDialog />}
+      </Hidden>
+    </>
   );
 };
 

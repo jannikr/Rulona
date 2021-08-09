@@ -26,6 +26,7 @@ import { Clear, Edit } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import classnames from "classnames";
+import TutorialDisplay from "./TutorialDisplay";
 import ShareDialog from "./ShareDialog";
 import ContentHeader from "../ContentHeader/ContentHeader";
 import PlaceToRoute from "../Button/PlaceToRoute";
@@ -145,7 +146,12 @@ const RuleOverview: React.FC<Props> = (props) => {
     setRulesPerFavouriteCategory(mapRulesToFavouriteCategory());
   }, [favouriteCategories, rules, mapRulesToFavouriteCategory]);
 
-  if (!selectedPlace) return <></>;
+  if (!selectedPlace)
+    return (
+      <div className={styles.container}>
+        <TutorialDisplay />
+      </div>
+    );
 
   return (
     <div className={styles.container}>
