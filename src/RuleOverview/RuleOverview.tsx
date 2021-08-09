@@ -338,6 +338,14 @@ const RuleOverview: React.FC<Props> = (props) => {
                 </>
               ) : (
                 <>
+                  <div
+                    className={classnames(
+                      commonStyles.row,
+                      styles.headlinemargin
+                    )}
+                  >
+                    <h2 className={styles.headline}>Suchergebnisse</h2>
+                  </div>
                   {rulesPerFilteredCategory
                     .sort((a, b) => a[0].name.localeCompare(b[0].name))
                     .map(toCategoryDisplay)}
