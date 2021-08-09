@@ -18,14 +18,14 @@ const PlaceContainer: React.FC<Props> = (props) => {
   };
 
   return (
-    <div>
-      <div
-        className={styles.lineSpacing}
-        onMouseDown={onMouseDown}
-        onClick={(): void => {
-          onClick && onClick(place);
-        }}
-      >
+    <div
+      className={styles.clickable}
+      onMouseDown={onMouseDown}
+      onClick={(): void => {
+        onClick && onClick(place);
+      }}
+    >
+      <div className={styles.lineSpacing}>
         <span className={styles.placeInfo}>
           <PlaceTrend trend={place.trend} />
         </span>
