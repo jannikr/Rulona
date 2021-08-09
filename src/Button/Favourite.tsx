@@ -34,7 +34,8 @@ const Favourite = <T,>(props: Props<T>): JSX.Element => {
   return (
     <IconButton
       onMouseDown={onMouseDown}
-      onClick={(): void => {
+      onClick={(e): void => {
+        e.stopPropagation();
         onClick(element);
       }}
     >
