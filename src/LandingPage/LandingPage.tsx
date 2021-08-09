@@ -1,4 +1,4 @@
-import { Grid, Hidden } from "@material-ui/core";
+import { Hidden } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import RuleOverview from "../RuleOverview/RuleOverview";
 import { connect } from "react-redux";
@@ -6,8 +6,8 @@ import { AppDispatch, AppState, SelectPlaceAction } from "../store/types";
 import { Place } from "../types";
 import { RouteComponentProps } from "react-router-dom";
 import { deselectPlace, selectPlace } from "../store/actions";
-import TutorialContentPlace from "../Info/TutorialContentPlace";
 import Page from "../Page/Page";
+import TutorialDialog from "./TutorialDialog";
 
 interface RouteProps {
   placeId?: string;
@@ -42,12 +42,12 @@ const LandingPage: React.FC<Props> = (props) => {
   return (
     <>
       <Page mobileShowContent={!!selectedPlace}>
-      <RuleOverview />
+        <RuleOverview />
       </Page>
-          <Hidden mdUp>
-              {!selectedPlace && !tutorialSeen && <TutorialDialog />}
-          </Hidden>
-          </>
+      <Hidden mdUp>
+        {!selectedPlace && !tutorialSeen && <TutorialDialog />}
+      </Hidden>
+    </>
   );
 };
 
