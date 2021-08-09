@@ -1,9 +1,7 @@
 .dialogBox {
   max-width: 20rem;
   height: 34rem;
-  display: flex;
   align-items: center;
-  flex-direction: column;
   text-align: center;
   gap: 0.5rem;
 }
@@ -14,6 +12,6 @@
 }
 
 .skipLink {
-    color: grey !important;
-    cursor: pointer;
+  color: var(--color-grey-dark) !important;
+  cursor: pointer;
 }

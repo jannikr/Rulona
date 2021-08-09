@@ -1,0 +1,44 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollVert {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.red {
+  color: var(--color-red);
+}
+
+.yellow {
+  color: var(--color-yellow);
+}
+
+.green {
+  color: var(--color-green);
+}
+
+.grey {
+  color: var(--color-grey);
+}
+
+.greyDark {
+  color: var(--color-grey-dark);
+}
+
+.white {
+  color: var(--color-white);
+}
+
+.black {
+  color: var(--color-black);
+}

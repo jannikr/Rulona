@@ -16,6 +16,7 @@ import {
 } from "../MaterialUIOverrides";
 import classnames from "classnames";
 import styles from "./RouteRestrictions.module.css";
+import commonStyles from "../common.module.css";
 import Info from "../Info/Info";
 import RouteShare from "../RoutePage/RouteShare";
 
@@ -33,7 +34,7 @@ const RouteRestrictions: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className={styles.headingRow}>
+      <div className={commonStyles.row}>
         <Hidden mdUp>
           <IconButton onClick={(): void => setExpanded(!expanded)}>
             {expanded ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
@@ -55,7 +56,7 @@ const RouteRestrictions: React.FC<Props> = (props) => {
               className={styles.summary}
             >
               <Warning
-                className={classnames(styles.iconSpacing, styles.warning)}
+                className={classnames(styles.iconSpacing, commonStyles.red)}
               />
               {places.find((place) => place.id === restriction.placeId)?.name}
             </AccordionSummary>

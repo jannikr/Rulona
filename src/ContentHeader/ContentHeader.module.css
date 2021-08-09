@@ -1,6 +1,6 @@
 .toolbar {
-  background-color: #0a524d;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .heading {
@@ -8,9 +8,5 @@
 }
 
 .icons * {
-  color: lightgray;
-}
-
-.backArrow {
-  color: white;
+  color: var(--color-grey);
 }

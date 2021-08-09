@@ -102,15 +102,27 @@ const PlaceResults: React.FC<Props> = (props) => {
   return (
     <>
       <h4 className={styles.heading}>{heading}</h4>
-      <Divider />
-      {results.map((place) => (
-        <PlaceContainer key={place.id} place={place} onClick={onClickWrapper} />
-      ))}
-      {results.length === 0 && isSearchHeading() ? (
-        <Info text="Keine Ergebnisse gefunden." />
-      ) : (
-        <></>
-      )}
+      <div className={styles.results}>
+        <Divider />
+        {results.map((place) => (
+          <>
+            <PlaceContainer
+              key={place.id}
+              place={place}
+              className={styles.result}
+              onClick={onClickWrapper}
+            />
+            <Divider />
+          </>
+        ))}
+        {results.length === 0 && isSearchHeading() ? (
+          <div className={styles.result}>
+            <Info text="Keine Ergebnisse gefunden." />
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </>
   );
 };

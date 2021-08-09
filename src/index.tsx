@@ -7,14 +7,16 @@ import "./index.css";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { rootStyles } from "./utils";
+import { ColorVariables } from "./types";
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#0A524D",
+      main: rootStyles.getPropertyValue(ColorVariables.Primary),
     },
     secondary: {
-      main: "#FFF",
+      main: rootStyles.getPropertyValue(ColorVariables.Secondary),
     },
   },
 });

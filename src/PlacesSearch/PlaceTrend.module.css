@@ -1,16 +1,17 @@
-.arrowUp {
-  margin-right: 10px;
-  color: #b00020;
+.arrow {
+  margin-right: 0.5rem;
 }
 
-.arrowDown {
-  margin-right: 10px;
-  color: #00a907;
+.up {
+  color: var(--color-red);
+}
+
+.down {
+  color: var(--color-green);
   transform: scaleX(-1);
 }
 
-.arrowNeutral {
-  margin-right: 10px;
+.neutral {
   transform: rotate(45deg);
-  color: gray;
+  color: var(--color-grey-dark);
 }

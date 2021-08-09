@@ -22,6 +22,7 @@ import CategoryDisplay from "./CategoryDisplay";
 import PlaceInfoDisplay from "./PlaceInfoDisplay";
 import FavouritePlace from "../Button/FavouritePlace";
 import styles from "./RuleOverview.module.css";
+import commonStyles from "../common.module.css";
 import { Edit } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
@@ -154,7 +155,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     );
 
   return (
-    <div className={styles.container}>
+    <div className={classnames(commonStyles.column, styles.container)}>
       <Box boxShadow={3}>
         <ContentHeader
           heading={selectedPlace.name}
@@ -167,7 +168,7 @@ const RuleOverview: React.FC<Props> = (props) => {
         />
       </Box>
       <Divider />
-      <Box mt={5} className={styles.content}>
+      <Box mt={5} className={commonStyles.scrollVert}>
         <Container maxWidth="sm">
           <PlaceInfoDisplay placeInfo={placeInfo} />
           {rules.length === 0 && (
@@ -175,7 +176,9 @@ const RuleOverview: React.FC<Props> = (props) => {
           )}
           {rules.length !== 0 && (
             <div>
-              <div className={classnames(styles.row, styles.headlinemargin)}>
+              <div
+                className={classnames(commonStyles.row, styles.headlinemargin)}
+              >
                 <h2 className={styles.headline}>Meine Kategorien</h2>
                 <div className={styles.favouriteSwitch}>
                   {showFavouriteCategory ? (
@@ -198,7 +201,10 @@ const RuleOverview: React.FC<Props> = (props) => {
                     .sort(byCategoryName)
                     .map(toCategoryDisplay)}
                   <div
-                    className={classnames(styles.row, styles.headlinemargin)}
+                    className={classnames(
+                      commonStyles.row,
+                      styles.headlinemargin
+                    )}
                   >
                     <h2 className={styles.headline}>
                       Alle Regeln für {selectedPlace.name}
@@ -213,7 +219,10 @@ const RuleOverview: React.FC<Props> = (props) => {
                     .sort(byName)
                     .map(toFavouriteCategoriesEditor)}
                   <div
-                    className={classnames(styles.row, styles.headlinemargin)}
+                    className={classnames(
+                      commonStyles.row,
+                      styles.headlinemargin
+                    )}
                   >
                     <h2 className={styles.headline}>Alle Kategorien</h2>
                   </div>
