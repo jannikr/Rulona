@@ -1,10 +1,12 @@
 import { Button, Dialog, Link } from "@material-ui/core";
+import classnames from "classnames";
 import { useState } from "react";
 import TutorialContentPlace from "../Info/TutorialContentPlace";
 import TutorialContentRoute from "../Info/TutorialContentRoute";
 import TutorialContentRulona from "../Info/TutorialContentRulona";
 import { DialogContent } from "../MaterialUIOverrides";
 import styles from "./TutorialDialog.module.css";
+import commonStyles from "../common.module.css";
 
 const TutorialDialog: React.FC = () => {
   const [proceedable, setProceedable] = useState(true);
@@ -32,7 +34,9 @@ const TutorialDialog: React.FC = () => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogContent className={styles.dialogBox}>
+      <DialogContent
+        className={classnames(commonStyles.column, styles.dialogBox)}
+      >
         {firstPage ? (
           <TutorialContentRulona />
         ) : (
@@ -40,7 +44,7 @@ const TutorialDialog: React.FC = () => {
             {proceedable ? <TutorialContentPlace /> : <TutorialContentRoute />}
           </>
         )}
-        <Button variant="contained" color={"primary"} onClick={onClick}>
+        <Button variant="contained" color="primary" onClick={onClick}>
           {proceedable ? "Weiter" : "Starten"}
         </Button>
         <div className={styles.skipLinkContainer}>

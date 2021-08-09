@@ -7,7 +7,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { MAPS_API_KEY } from "../constants";
 import { AppState } from "../store/types";
-import { Coordinate, Polygon, PolygonType } from "../types";
+import { ColorVariables, Coordinate, Polygon, PolygonType } from "../types";
+import { rootStyles } from "../utils";
 import Route from "./Route";
 
 type Props = ReturnType<typeof mapStateToProps>;
@@ -31,11 +32,10 @@ const Map: React.FC<Props> = (props) => {
   );
 
   const defaultZoom = 7;
-
   const boundaryOptions = {
-    fillColor: "red",
+    fillColor: rootStyles.getPropertyValue(ColorVariables.Red),
     fillOpacity: 0.1,
-    strokeColor: "red",
+    strokeColor: rootStyles.getPropertyValue(ColorVariables.Red),
     strokeOpacity: 1,
     strokeWeight: 2,
     clickable: false,

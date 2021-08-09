@@ -1,9 +1,5 @@
 .searchInput {
-  background: #fff;
-}
-
-.searchIconColor {
-  color: gray;
+  background: var(--color-white);
 }
 
 .button {
@@ -11,8 +7,6 @@
 }
 
 .row {
-  display: flex;
-  align-items: center;
   margin-top: 1em;
 }
 

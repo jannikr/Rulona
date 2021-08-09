@@ -1,19 +1,12 @@
 .tabHeader {
-  background: #0A524D;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 .indicator {
-  background: white !important;
+  background: var(--color-white) !important;
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
   max-height: 100vh;
-}
-
-.content {
-  overflow-y: auto;
-  overflow-x: hidden;
 }

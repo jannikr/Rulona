@@ -1,13 +1,7 @@
 .headline {
   text-align: left;
-  color: black;
+  color: var(--color-black);
   font-size: medium;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .headlinemargin {
@@ -16,13 +10,7 @@
 }
 
 .container {
-  display:flex;
-  flex-direction: column;
   max-height: 100vh;
-}
-
-.content {
-  overflow-x: auto;
 }
 
 .favouriteSwitch {

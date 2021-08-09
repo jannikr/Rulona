@@ -1,5 +1,5 @@
 .backgroundColor {
-    background-color: #0A524D;
+    background-color: var(--color-primary);
 }
 
 .logo {

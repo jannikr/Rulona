@@ -1,3 +1,10 @@
+export enum ColorVariables {
+  Primary = "--color-primary",
+  Secondary = "--color-secondary",
+  Red = "--color-red",
+  BgGrey = "--color-bg-grey",
+}
+
 export interface DynamicConstants {
   API_URL: string;
 }

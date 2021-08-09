@@ -3,23 +3,8 @@ import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-
-export const Accordion = withStyles({
-  root: {
-    borderBottom: "1px solid rgba(0, 0, 0, .125)",
-    boxShadow: "none",
-    "&:not(:last-child)": {
-      borderBottom: 0,
-    },
-    "&:before": {
-      display: "none",
-    },
-    "&$expanded": {
-      margin: "auto",
-    },
-  },
-  expanded: {},
-})(MuiAccordion);
+import { rootStyles } from "./utils";
+import { ColorVariables } from "./types";
 
 export const DialogContent = withStyles({
   root: {
@@ -29,6 +14,19 @@ export const DialogContent = withStyles({
     },
   },
 })(MuiDialogContent);
+
+export const Accordion = withStyles({
+  root: {
+    boxShadow: "none",
+    "&:before": {
+      display: "none",
+    },
+    "&$expanded": {
+      margin: "auto",
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
 
 export const AccordionSummary = withStyles({
   root: {
@@ -51,6 +49,6 @@ export const AccordionSummary = withStyles({
 export const AccordionDetails = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: "rgba(0, 0, 0, .03)",
+    backgroundColor: rootStyles.getPropertyValue(ColorVariables.BgGrey),
   },
 }))(MuiAccordionDetails);
