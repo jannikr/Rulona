@@ -59,9 +59,9 @@ const CategoryDisplay: React.FC<Props> = (props) => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className={styles.row}>
             <CategoryStatus status={findLowestStatus()} />
-            <div className={styles.categoryName}>
+            <span className={styles.categoryName}>
               <Highlighter text={category.name} searchWord={searchWord} />
-            </div>
+            </span>
             {expand && (
               <ShareDialog
                 path={`${window.location.pathname}#category-${category.id}`}
