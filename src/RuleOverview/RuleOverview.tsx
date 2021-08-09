@@ -144,7 +144,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     setShowCategories(true);
   }, []);
 
-  const showSearchToggle = (): void => {
+  const toggleShowSearch = (): void => {
     if (showSearch) {
       clearSearch();
     }
@@ -248,7 +248,7 @@ const RuleOverview: React.FC<Props> = (props) => {
             <FavouritePlace place={selectedPlace} />,
             <PlaceToRoute place={selectedPlace} />,
             <ShareDialog path={`${window.location.pathname}`} />,
-            <IconButton onClick={showSearchToggle}>
+            <IconButton onClick={toggleShowSearch}>
               {showSearch ? <Clear /> : <Search />}
             </IconButton>,
           ]}
@@ -268,7 +268,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                   <SearchField
                     label="Suche"
                     onChange={search}
-                    showSearchSwitch={showSearchToggle}
+                    onClose={toggleShowSearch}
                     autoFocus={true}
                   />
                 </div>
