@@ -231,10 +231,6 @@ const RuleOverview: React.FC<Props> = (props) => {
     setRulesPerFilteredCategory(mapRulesToFilteredCategory());
   }, [filteredCategories, filteredRules, mapRulesToFilteredCategory]);
 
-  useEffect(() => {
-    setSearchWord(searchWord);
-  }, [searchWord]);
-
   if (!selectedPlace)
     return (
       <div className={styles.container}>
