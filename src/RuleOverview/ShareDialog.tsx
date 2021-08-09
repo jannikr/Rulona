@@ -40,6 +40,7 @@ const ShareDialog: React.FC<Props> = (props) => {
       </IconButton>
       <Dialog
         open={showDialog}
+        onClick={(e): void => e.stopPropagation()}
         onClose={onClose}
         className={styles.dialog}
         fullWidth={true}
