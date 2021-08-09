@@ -1,4 +1,4 @@
-import { Container, Divider, IconButton } from "@material-ui/core";
+import { Button, Container, Divider, IconButton } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -182,7 +182,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                   className={styles.favouriteSwitch}
                 >
                   {showFavouriteCategory ? (
-                    <div className={styles.closeFavouriteText}>Fertig</div>
+                    <Button color="secondary">Fertig</Button>
                   ) : (
                     <IconButton>
                       <Edit />
