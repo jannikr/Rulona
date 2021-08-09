@@ -168,7 +168,7 @@ const RuleOverview: React.FC<Props> = (props) => {
         />
       </Box>
       <Divider />
-      <Box mt={5} className={commonStyles.scrollVert}>
+      <Box className={classnames(commonStyles.scrollVert, styles.content)}>
         <Container maxWidth="sm">
           <PlaceInfoDisplay placeInfo={placeInfo} />
           {rules.length === 0 && (
