@@ -116,7 +116,9 @@ const PlaceResults: React.FC<Props> = (props) => {
           </>
         ))}
         {results.length === 0 && isSearchHeading() ? (
-          <Info text="Keine Ergebnisse gefunden." />
+          <div className={styles.result}>
+            <Info text="Keine Ergebnisse gefunden." />
+          </div>
         ) : (
           <></>
         )}
