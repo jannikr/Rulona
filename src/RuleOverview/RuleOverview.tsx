@@ -1,10 +1,4 @@
-import {
-  Container,
-  Divider,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+import { Container, Divider, IconButton } from "@material-ui/core";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
@@ -32,6 +26,10 @@ import { Clear, Edit, Search } from "@material-ui/icons";
 import FavouriteCategoriesEditor from "./FavouriteCategoriesEditor";
 import Box from "@material-ui/core/Box";
 import classnames from "classnames";
+import TutorialDisplay from "./TutorialDisplay";
+import ShareDialog from "./ShareDialog";
+import ContentHeader from "../ContentHeader/ContentHeader";
+import PlaceToRoute from "../Button/PlaceToRoute";
 import SearchField from "../SearchField/SearchField";
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -134,7 +132,7 @@ const RuleOverview: React.FC<Props> = (props) => {
     return Array.from(rulesPerCategory);
   }, [filteredRules, categories, filteredCategories, rules]);
 
-  const showFavouriteCategorySwitch = (): void => {
+  const toggleFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
   };
 
@@ -187,6 +185,17 @@ const RuleOverview: React.FC<Props> = (props) => {
     []
   );
 
+  const byName = useCallback(
+    (a: Category, b: Category): number => a.name.localeCompare(b.name),
+    []
+  );
+
+  const byCategoryName = useCallback(
+    (a: [Category, Rule[]], b: [Category, Rule[]]): number =>
+      a[0].name.localeCompare(b[0].name),
+    []
+  );
+
   useEffect(() => {
     reset();
     if (!selectedPlace) return;
@@ -218,49 +227,64 @@ const RuleOverview: React.FC<Props> = (props) => {
     setSearchWord(searchWord);
   }, [searchWord]);
 
-  if (!selectedPlace) return <></>;
+  const onFocus = (): void => {
+    console.log("hallo");
+  };
+
+  if (!selectedPlace)
+    return (
+      <div className={styles.container}>
+        <TutorialDisplay />
+      </div>
+    );
 
   return (
-    <div>
+    <div className={styles.container}>
       <Box boxShadow={3}>
-        <Toolbar variant="dense" className={styles.toolbar}>
-          <Typography className={styles.rulename}>
-            {selectedPlace.name}
-          </Typography>
-          <div className={styles.icon}>
+        <ContentHeader
+          heading={selectedPlace.name}
+          backLink="/rules"
+          buttons={[
+            <FavouritePlace place={selectedPlace} />,
+            <PlaceToRoute place={selectedPlace} />,
+            <ShareDialog path={`${window.location.pathname}`} />,
             <IconButton onClick={showSearchSwitch}>
               {showSearch ? <Clear /> : <Search />}
-            </IconButton>
-          </div>
-          <div className={styles.icon}>
-            <FavouritePlace place={selectedPlace} />
-          </div>
-        </Toolbar>
+            </IconButton>,
+          ]}
+        />
       </Box>
       <Divider />
-      <Box mt={5}>
+      <Box mt={5} className={styles.content}>
         <Container maxWidth="sm">
           <PlaceInfoDisplay placeInfo={placeInfo} />
           {rules.length === 0 && (
             <p>Es gibt aktuell keine Regeln für {selectedPlace.name}.</p>
           )}
           {rules.length !== 0 && (
-            <>
-              {showSearch && <SearchField onChange={search} />}
+            <div>
+              {showSearch && (
+                <SearchField
+                  label="Suche nach Regeln oder Kategorien"
+                  onChange={search}
+                  onFocus={onFocus}
+                  onBlur={onFocus}
+                />
+              )}
               {showCategories ? (
                 <>
                   <div
                     className={classnames(styles.row, styles.headlinemargin)}
                   >
                     <h2 className={styles.headline}>Meine Kategorien</h2>
-                    <IconButton onClick={showFavouriteCategorySwitch}>
+                    <IconButton onClick={toggleFavouriteCategorySwitch}>
                       {showFavouriteCategory ? <Clear /> : <Edit />}
                     </IconButton>
                   </div>
                   {!showFavouriteCategory && (
                     <div>
                       {rulesPerFavouriteCategory
-                        .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                        .sort(byCategoryName)
                         .map(toCategoryDisplay)}
                       <div
                         className={classnames(
@@ -273,14 +297,14 @@ const RuleOverview: React.FC<Props> = (props) => {
                         </h2>
                       </div>
                       {rulesPerCategory
-                        .sort((a, b) => a[0].name.localeCompare(b[0].name))
+                        .sort(byCategoryName)
                         .map(toCategoryDisplay)}
                     </div>
                   )}
                   {showFavouriteCategory && (
                     <div>
                       {favouriteCategories
-                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .sort(byName)
                         .map(toFavouriteCategoriesEditor)}
                       <div
                         className={classnames(
@@ -291,7 +315,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                         <h2 className={styles.headline}>Alle Kategorien</h2>
                       </div>
                       {getNonFavouriteCategories()
-                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .sort(byName)
                         .map(toFavouriteCategoriesEditor)}
                     </div>
                   )}
@@ -303,7 +327,7 @@ const RuleOverview: React.FC<Props> = (props) => {
                     .map(toCategoryDisplay)}
                 </>
               )}
-            </>
+            </div>
           )}
         </Container>
       </Box>
@@ -322,7 +346,7 @@ const mapStateToProps = (state: AppState) => {
   } = state;
   return { rules, categories, favouriteCategories, selectedPlace, placeInfo };
 };
-//
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   reset: (): void => {

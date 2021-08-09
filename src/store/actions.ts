@@ -1,5 +1,14 @@
 import { dynamicConstants } from "../constants";
-import { Category, Place, PlaceInfo, Rule } from "../types";
+import {
+  Category,
+  Place,
+  PlaceInfo,
+  Polygon,
+  RestrictedPlace,
+  RouteBoundary,
+  RoutingResponse,
+  Rule,
+} from "../types";
 import {
   ActionType,
   AppDispatch,
@@ -16,6 +25,10 @@ import {
   SetFavouriteCategoriesAction,
   AppState,
   SetLastSearchedPlacesAction,
+  SetRestrictionsAction,
+  SetRouteAction,
+  SetOriginAction,
+  SetDestinationAction,
 } from "./types";
 
 export const selectPlace = (place: Place): SelectPlaceAction => {
@@ -24,6 +37,11 @@ export const selectPlace = (place: Place): SelectPlaceAction => {
     place,
   };
 };
+
+export const deselectPlace = (): SelectPlaceAction => ({
+  type: ActionType.SelectPlace,
+  place: undefined,
+});
 
 export const setPlaces = (places: Place[]): SetPlacesAction => {
   return {
@@ -228,5 +246,68 @@ export const fetchFavouriteCategories = () => {
       (item) => favCategoriesIds.indexOf(item.id) !== -1
     );
     return dispatch(setFavouriteCategories(favouriteCategories));
+  };
+};
+
+export const setRestrictions = (
+  restrictions: RestrictedPlace[]
+): SetRestrictionsAction => ({
+  type: ActionType.SetRestrictions,
+  restrictions,
+});
+
+export const resetRestrictions = (): SetRestrictionsAction => ({
+  type: ActionType.SetRestrictions,
+  restrictions: [],
+});
+
+export const setRoute = (
+  origin: Place,
+  destination: Place,
+  route: Polygon,
+  routeBoundary: RouteBoundary
+): SetRouteAction => ({
+  type: ActionType.SetRoute,
+  origin,
+  destination,
+  route,
+  routeBoundary,
+});
+
+export const resetRoute = (): SetRouteAction => ({
+  type: ActionType.SetRoute,
+  origin: undefined,
+  destination: undefined,
+  route: undefined,
+  routeBoundary: undefined,
+});
+
+export const setOrigin = (origin: Place | undefined): SetOriginAction => ({
+  type: ActionType.SetOrigin,
+  origin,
+});
+
+export const setDestination = (
+  destination: Place | undefined
+): SetDestinationAction => ({
+  type: ActionType.SetDestination,
+  destination,
+});
+
+export const fetchRestrictions = (origin: Place, destination: Place) => {
+  return async (dispatch: AppDispatch): Promise<void> => {
+    const response = await fetch(`${dynamicConstants.API_URL}/routing`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        origin: origin.id,
+        destination: destination.id,
+      }),
+    });
+    const body: RoutingResponse = await response.json();
+    dispatch(setRestrictions(body.restrictedPlaces));
+    dispatch(setRoute(origin, destination, body.route, body.routeBoundary));
   };
 };

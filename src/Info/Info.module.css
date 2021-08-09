@@ -1,0 +1,9 @@
+.container {
+  margin-top: 1rem;
+  padding: 1em;
+  box-sizing: border-box;
+  border: 1px solid #0A524D;
+  border-radius: 4px;
+  background: rgba(72, 118, 115, 0.1);
+  font-weight: 500;
+}

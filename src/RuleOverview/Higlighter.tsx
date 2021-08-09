@@ -3,7 +3,7 @@ import styles from "./RuleOverview.module.css";
 
 interface Props {
   text: string;
-  searchWord: string;
+  searchWord?: string;
 }
 
 const Highlighter: React.FC<Props> = (props) => {
@@ -15,7 +15,7 @@ const Highlighter: React.FC<Props> = (props) => {
   );
   const parts = text.split(regex);
 
-  if (!searchWord.trim()) {
+  if (!searchWord || !searchWord.trim()) {
     return <span>{text}</span>;
   }
 

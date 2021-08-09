@@ -7,6 +7,11 @@ export const initialState: AppState = {
   favouritePlaces: [],
   lastSearchedPlaces: [],
   favouriteCategories: [],
+  restrictions: [],
+  route: undefined,
+  origin: undefined,
+  destination: undefined,
+  routeBoundary: undefined,
 };
 
 const reducer = (
@@ -21,6 +26,8 @@ const reducer = (
       return { ...state, categories: action.categories };
     }
     case ActionType.SelectPlace: {
+      if (!action.place) return { ...state, selectedPlace: undefined };
+      if (state.selectedPlace?.id === action.place.id) return state;
       return { ...state, selectedPlace: action.place };
     }
     case ActionType.SetRules: {
@@ -66,7 +73,6 @@ const reducer = (
     case ActionType.SetFavouriteCategories: {
       return { ...state, favouriteCategories: action.favouriteCategories };
     }
-
     case ActionType.AddFavouriteCategory: {
       const idAlreadyExists =
         state.favouriteCategories.indexOf(action.category) !== -1;
@@ -76,7 +82,6 @@ const reducer = (
         favouriteCategories: [...state.favouriteCategories, action.category],
       };
     }
-
     case ActionType.DeleteFavouriteCategory: {
       return {
         ...state,
@@ -87,7 +92,27 @@ const reducer = (
         }),
       };
     }
-
+    case ActionType.SetRestrictions: {
+      return {
+        ...state,
+        restrictions: action.restrictions,
+      };
+    }
+    case ActionType.SetRoute: {
+      return {
+        ...state,
+        route: action.route,
+        origin: action.origin,
+        destination: action.destination,
+        routeBoundary: action.routeBoundary,
+      };
+    }
+    case ActionType.SetOrigin: {
+      return { ...state, origin: action.origin };
+    }
+    case ActionType.SetDestination: {
+      return { ...state, destination: action.destination };
+    }
     default:
       return state;
   }

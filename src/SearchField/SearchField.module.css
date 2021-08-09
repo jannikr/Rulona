@@ -1,5 +1,22 @@
 .searchInput {
-  margin-top: 1em;
-  width: 100%;
   background: #fff;
+}
+
+.searchIconColor {
+  color: gray;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.backArrow {
+  margin-right: 0.5em;
+  transform: scale(0.8);
 }

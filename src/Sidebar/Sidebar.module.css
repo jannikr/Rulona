@@ -3,11 +3,17 @@
   color: white;
 }
 
-.tabContent {
-  background: #FAFAFA;
-}
-
 .indicator {
   background: white !important;
 }
 
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+}
+
+.content {
+  overflow-y: auto;
+  overflow-x: hidden;
+}

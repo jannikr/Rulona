@@ -8,7 +8,7 @@ import styles from "./RuleDisplay.module.css";
 
 interface Props {
   rule: Rule;
-  searchWord: string;
+  searchWord?: string;
 }
 
 const RuleDisplay: React.FC<Props> = (props) => {
