@@ -114,11 +114,17 @@ const RuleOverview: React.FC<Props> = (props) => {
 
   const mapRulesToFilteredCategory = useCallback((): RulesPerCategory => {
     const rulesPerCategory = new Map<Category, Rule[]>();
-    for (const category of filteredCategories) {
-      rulesPerCategory.get(category) || rulesPerCategory.set(category, []);
-    }
     for (const rule of filteredRules) {
       const category = categories.find(
+        (category) => category.id === rule.categoryId
+      );
+      if (!category) continue;
+      if (!filteredCategories.includes(category)) {
+        filteredCategories.push(category);
+      }
+    }
+    for (const rule of rules) {
+      const category = filteredCategories.find(
         (category) => category.id === rule.categoryId
       );
       if (!category) continue;
@@ -126,7 +132,7 @@ const RuleOverview: React.FC<Props> = (props) => {
       rulesPerCategory.get(category)?.push(rule);
     }
     return Array.from(rulesPerCategory);
-  }, [filteredRules, categories, filteredCategories]);
+  }, [filteredRules, categories, filteredCategories, rules]);
 
   const showFavouriteCategorySwitch = (): void => {
     setShowFavouriteCategory(!showFavouriteCategory);
